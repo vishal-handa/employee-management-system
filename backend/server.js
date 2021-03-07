@@ -1,15 +1,21 @@
 "use strict";
 
 const express = require("express");
-const morgan = require("morgan");
 const bodyParser = require("body-parser");
+const morgan = require("morgan");
+
+const { handleAdminLogin } = require("./handlers");
+
+const PORT = 8000;
 
 express()
   .use(morgan("tiny"))
   .use(bodyParser.json())
-
+  .use(bodyParser.urlencoded({ extended: true }))
   .use(express.static("public"))
 
-  // .get()
+  // REST endpoints:
 
-  .listen(8000, () => console.log(`Listening on port 8000`));
+  .post("/adminlogin", handleAdminLogin)
+
+  .listen(PORT, () => console.info(`Listening on port ${PORT}`));
