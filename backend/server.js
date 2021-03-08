@@ -4,7 +4,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 
-const { handleAdminLogin } = require("./handlers");
+const { handleAdminLogin, handleUserLogin } = require("./handlers");
 
 const PORT = 8000;
 
@@ -17,5 +17,6 @@ express()
   // REST endpoints:
 
   .post("/adminlogin", handleAdminLogin)
+  .post("/userlogin", handleUserLogin)
 
   .listen(PORT, () => console.info(`Listening on port ${PORT}`));

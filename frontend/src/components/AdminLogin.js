@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useHistory } from "react-router-dom";
+import BGImage from "./images/bg.jpg";
 
 const AdminLogin = () => {
-  const [empID, setEmpID] = useState("");
+  const [adminName, setAdminName] = useState("");
   const [password, setPassword] = useState("");
+  let history = useHistory();
+  let bool = false;
   const handleSubmit = (ev) => {
     ev.preventDefault();
     fetch("/adminlogin", {
@@ -12,10 +16,18 @@ const AdminLogin = () => {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ userName: empID, password: password }),
+      body: JSON.stringify({ userName: adminName, password: password }),
     })
       .then((res) => res.json())
-      .then((res) => console.log(res));
+      .then((res) => {
+        if (res.status === 200) {
+          history.push("/adminHome");
+        } else if (res.status === 404) {
+          bool = true;
+          // console.log(res.status, bool);
+        }
+      })
+      .catch((err) => console.log(err));
   };
   return (
     <Wrapper>
@@ -27,8 +39,8 @@ const AdminLogin = () => {
           type="text"
           placeholder="Admin Name"
           name="admin"
-          value={empID}
-          onChange={(ev) => setEmpID(ev.target.value)}
+          value={adminName}
+          onChange={(ev) => setAdminName(ev.target.value)}
           required
         />
 
@@ -43,6 +55,9 @@ const AdminLogin = () => {
           onChange={(ev) => setPassword(ev.target.value)}
           required
         />
+        {bool === false ? null : (
+          <p>{"Employee name or password incorrect. Please try again."}</p>
+        )}
         <Button type="submit">Login</Button>
       </Form>
     </Wrapper>
@@ -55,6 +70,9 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  background-image: url(${BGImage});
+  background-repeat: no-repeat;
+  background-size: cover;
 `;
 
 const Form = styled.form`

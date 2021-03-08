@@ -1,14 +1,49 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { useHistory } from "react-router-dom";
+import BGImage from "./images/bg.jpg";
 
 const UserLogin = () => {
+  const [empID, setEmpID] = useState("");
+  const [password, setPassword] = useState("");
+  let history = useHistory();
+  let bool = false;
+  const handleSubmit = (ev) => {
+    ev.preventDefault();
+    fetch("/userlogin", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ _id: empID, password: password }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.status === 200) {
+          history.push("/userHome");
+        } else if (res.status === 404) {
+          bool = true;
+          console.log(res.status, bool);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <Wrapper>
-      <Form>
+      <Form onSubmit={(ev) => handleSubmit(ev)}>
         <Label htmlFor="empID">
           <b>Employee ID</b>
         </Label>
-        <Input type="text" placeholder="Employee ID" name="empID" required />
+        <Input
+          type="text"
+          placeholder="Employee ID"
+          name="empID"
+          value={empID}
+          onChange={(ev) => setEmpID(ev.target.value)}
+          required
+        />
 
         <Label htmlFor="psw">
           <b>Password</b>
@@ -17,6 +52,8 @@ const UserLogin = () => {
           type="password"
           placeholder="Enter Password"
           name="psw"
+          value={password}
+          onChange={(ev) => setPassword(ev.target.value)}
           required
         />
         <Button type="submit">Login</Button>
@@ -31,6 +68,9 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  background-image: url(${BGImage});
+  background-repeat: no-repeat;
+  background-size: cover;
 `;
 
 const Form = styled.form`

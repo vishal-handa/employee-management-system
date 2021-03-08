@@ -5,7 +5,8 @@ import styled from "styled-components";
 
 import UserLogin from "./UserLogin";
 import AdminLogin from "./AdminLogin";
-import BGImage from "./images/bg.jpg";
+import AdminHome from "./admin/AdminHome";
+import UserHome from "./users/UserHome";
 
 const App = () => {
   return (
@@ -19,6 +20,12 @@ const App = () => {
           <Route path="/admin">
             <AdminLogin />
           </Route>
+          <Route path="/adminHome">
+            <AdminHome />
+          </Route>
+          <Route path="/userHome">
+            <UserHome />
+          </Route>
         </Switch>
       </Router>
     </Wrapper>
@@ -28,9 +35,6 @@ const App = () => {
 const Wrapper = styled.div`
   height: 100vh;
   width: 100vw;
-  background-image: url(${BGImage});
-  background-repeat: no-repeat;
-  background-size: cover;
 `;
 
 export default App;
