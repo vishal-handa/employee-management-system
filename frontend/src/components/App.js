@@ -7,6 +7,7 @@ import UserLogin from "./UserLogin";
 import AdminLogin from "./AdminLogin";
 import AdminHome from "./admin/AdminHome";
 import UserHome from "./users/UserHome";
+import Shifts from "./users/Shifts";
 
 const App = () => {
   return (
@@ -25,6 +26,9 @@ const App = () => {
           </Route>
           <Route path="/userHome">
             <UserHome />
+          </Route>
+          <Route path="/user-shifts">
+            <Shifts />
           </Route>
         </Switch>
       </Router>

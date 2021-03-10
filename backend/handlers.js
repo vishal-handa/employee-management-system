@@ -10,7 +10,7 @@ const options = {
 
 const handleAdminLogin = async (req, res) => {
   const { userName, password } = req.body;
-  console.log(userName, password);
+  // console.log(userName, password);
   const client = await MongoClient(MONGO_URI, options);
   try {
     await client.connect();
@@ -35,7 +35,7 @@ const handleAdminLogin = async (req, res) => {
 
 const handleUserLogin = async (req, res) => {
   const { _id, password } = req.body;
-  console.log(_id, password);
+  // console.log(_id, password);
   const client = await MongoClient(MONGO_URI, options);
   try {
     await client.connect();

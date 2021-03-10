@@ -22,9 +22,10 @@ const UserLogin = () => {
       .then((res) => {
         if (res.status === 200) {
           history.push("/userHome");
+          console.log(res, bool);
         } else if (res.status === 404) {
           bool = true;
-          console.log(res.status, bool);
+          console.log(res, bool);
         }
       })
       .catch((err) => console.log(err));
