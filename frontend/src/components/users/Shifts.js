@@ -19,8 +19,8 @@ const Shifts = () => {
         showMultiDayTimes
         defaultDate={moment().toDate()}
         defaultView="month"
-        startAccessor="start"
-        endAccessor="end"
+        startAccessor="startShift"
+        endAccessor="endShift"
         style={{ height: 500, width: "95%" }}
         eventPropGetter={(event) => {
           const eventData = events.find((ot) => ot.id === event.id);

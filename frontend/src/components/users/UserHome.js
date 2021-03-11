@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import Menu from "./Menu";
+import { useSelector } from "react-redux";
 
 const UserHome = () => {
   return (

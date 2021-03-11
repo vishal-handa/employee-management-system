@@ -2,11 +2,14 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import BGImage from "./images/bg.jpg";
+import { useDispatch } from "react-redux";
+import { setLogIn, receiveUserProfile } from "../actions";
 
 const UserLogin = () => {
   const [empID, setEmpID] = useState("");
   const [password, setPassword] = useState("");
   let history = useHistory();
+  const dispatch = useDispatch();
   let bool = false;
   const handleSubmit = (ev) => {
     ev.preventDefault();
@@ -21,6 +24,8 @@ const UserLogin = () => {
       .then((res) => res.json())
       .then((res) => {
         if (res.status === 200) {
+          dispatch(setLogIn());
+          dispatch(receiveUserProfile(res.data));
           history.push("/userHome");
           console.log(res, bool);
         } else if (res.status === 404) {
