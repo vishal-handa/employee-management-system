@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import BGImage from "./images/bg.jpg";
+import { setLogIn, receiveAdminProfile } from "../actions";
 
 const AdminLogin = () => {
   const [adminName, setAdminName] = useState("");
   const [password, setPassword] = useState("");
   let history = useHistory();
   let bool = false;
+  const dispatch = useDispatch();
   const handleSubmit = (ev) => {
     ev.preventDefault();
     fetch("/adminlogin", {
@@ -21,10 +24,12 @@ const AdminLogin = () => {
       .then((res) => res.json())
       .then((res) => {
         if (res.status === 200) {
+          dispatch(setLogIn());
+          dispatch(receiveAdminProfile(res.data));
           history.push("/adminHome");
         } else if (res.status === 404) {
           bool = true;
-          // console.log(res.status, bool);
+          console.log(res, bool);
         }
       })
       .catch((err) => console.log(err));

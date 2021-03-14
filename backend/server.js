@@ -4,7 +4,11 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 
-const { handleAdminLogin, handleUserLogin } = require("./handlers");
+const {
+  handleAdminLogin,
+  handleUserLogin,
+  getEmployeeList,
+} = require("./handlers");
 
 const PORT = 8000;
 
@@ -18,5 +22,6 @@ express()
 
   .post("/adminlogin", handleAdminLogin)
   .post("/userlogin", handleUserLogin)
+  .get("/employee-list", getEmployeeList)
 
   .listen(PORT, () => console.info(`Listening on port ${PORT}`));

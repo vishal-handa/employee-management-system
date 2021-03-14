@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import GlobalStyles from "./GlobalStyles";
 import styled from "styled-components";
@@ -8,6 +8,8 @@ import AdminLogin from "./AdminLogin";
 import AdminHome from "./admin/AdminHome";
 import UserHome from "./users/UserHome";
 import Shifts from "./users/Shifts";
+import EditShifts from "./users/EditShifts";
+import EmployeeList from "./admin/EmployeeList";
 
 const App = () => {
   return (
@@ -29,6 +31,12 @@ const App = () => {
           </Route>
           <Route path="/user-shifts">
             <Shifts />
+          </Route>
+          <Route path="/edit-shifts">
+            <EditShifts />
+          </Route>
+          <Route path="/employee-list">
+            <EmployeeList />
           </Route>
         </Switch>
       </Router>

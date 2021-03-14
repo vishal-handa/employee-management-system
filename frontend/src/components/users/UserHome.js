@@ -4,10 +4,17 @@ import Menu from "./Menu";
 import { useSelector } from "react-redux";
 
 const UserHome = () => {
+  const userState = useSelector((state) => state.user.user);
+  console.log(userState);
   return (
     <Wrapper>
       <Menu />
-      {"USER HOME"}
+      <div>
+        <p>{`Welcome ${userState.fname} !`}</p>
+        <p>
+          Please click on the icons to view your upcoming shifts and edit them.
+        </p>
+      </div>
     </Wrapper>
   );
 };
