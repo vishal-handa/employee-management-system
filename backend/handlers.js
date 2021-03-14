@@ -70,7 +70,7 @@ const getEmployeeList = async (req, res) => {
         result
           ? res.status(200).json({ status: 200, data: result })
           : console.log(err);
-        console.log(result);
+        // console.log(result);
         client.close();
       });
   } catch (err) {
@@ -79,8 +79,14 @@ const getEmployeeList = async (req, res) => {
   }
 };
 
+const AddNewEmployee = (req, res) => {
+  console.log(req.body);
+  res.status(200);
+};
+
 module.exports = {
   handleAdminLogin,
   handleUserLogin,
   getEmployeeList,
+  AddNewEmployee,
 };

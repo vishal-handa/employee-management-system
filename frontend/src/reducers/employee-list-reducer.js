@@ -7,7 +7,7 @@ const initialState = {
 export default function employeeListReducer(state = initialState, action) {
   switch (action.type) {
     case "RECEIVE_EMPLOYEE_LIST": {
-      console.log(action);
+      // console.log(action);
       return {
         ...state,
         employees: action.list,
