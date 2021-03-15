@@ -8,12 +8,18 @@ const AddEmployeeModal = ({ showModal, setShowModal }) => {
   const [lName, setLName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [status, setStatus] = useState();
 
   const modalRef = useRef();
-
+  console.log(status);
   const closeModal = (e) => {
     if (modalRef.current === e.target) {
       setShowModal(false);
+      setEmpID("");
+      setFName("");
+      setLName("");
+      setEmail("");
+      setPhone("");
     }
   };
 
@@ -21,8 +27,14 @@ const AddEmployeeModal = ({ showModal, setShowModal }) => {
     (e) => {
       if (e.key === "Escape" && showModal) {
         setShowModal(false);
+        setEmpID("");
+        setFName("");
+        setLName("");
+        setEmail("");
+        setPhone("");
       }
     },
+
     [setShowModal, showModal]
   );
 
@@ -42,8 +54,20 @@ const AddEmployeeModal = ({ showModal, setShowModal }) => {
         phoneNumber: phone,
       }),
     })
-      .then((res) => res.json)
-      .then((res) => console.log(res));
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.status === 406) {
+          setStatus(406);
+        } else if (res.status === 200) {
+          setStatus(200);
+          setShowModal(false);
+          window.location.reload();
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        setStatus(406);
+      });
   };
 
   useEffect(() => {
@@ -66,6 +90,7 @@ const AddEmployeeModal = ({ showModal, setShowModal }) => {
               <Div>
                 <label htmlFor="empID">Employee ID</label>
                 <Input
+                  className={status === 406 ? "showError" : null}
                   type="text"
                   placeholder="Enter Employee ID"
                   name="empID"
@@ -118,11 +143,17 @@ const AddEmployeeModal = ({ showModal, setShowModal }) => {
                   type="text"
                   placeholder="Enter phone number"
                   name="phone-num"
+                  maxLength="10"
                   value={phone}
                   onChange={(ev) => setPhone(ev.target.value)}
                   required
                 />
               </Div>
+              {status === 406 && (
+                <Message>
+                  Employee ID already taken. Please insert a new ID
+                </Message>
+              )}
               <SubmitButton type="submit">Submit</SubmitButton>
             </Form>
           </ModalWrapper>
@@ -210,6 +241,9 @@ const Input = styled.input`
   outline: none;
   box-sizing: border-box;
   text-align: left;
+  &.showError {
+    border: 2px solid red;
+  }
 `;
 
 const SubmitButton = styled.button`
@@ -227,6 +261,12 @@ const SubmitButton = styled.button`
     color: black;
     border: 2px solid #4caf50;
   }
+`;
+
+const Message = styled.p`
+  font-size: 12px;
+  padding: 5px;
+  color: red;
 `;
 
 export default AddEmployeeModal;

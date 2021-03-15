@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { receieveEmployeeList } from "../../actions";
 import Menu from "./Menu";
 import AddEmployeeModal from "./AddEmployeeModal";
+import moment from "moment";
 
 const EmployeeList = () => {
   const [showModal, setShowModal] = useState(false);
@@ -30,6 +31,8 @@ const EmployeeList = () => {
               <th>Name</th>
               <th>Date of Joining (dd/mm/yyyy)</th>
               <th>Employement Status</th>
+              <th>Email</th>
+              <th>Phone Number</th>
               <th></th>
             </tr>
           </thead>
@@ -41,10 +44,17 @@ const EmployeeList = () => {
                   <td>
                     {elem.fname} {elem.lname}
                   </td>
-                  <td>{elem.joinDate}</td>
+                  <td>
+                    {moment(parseInt(elem.joinDate)).format("DD/MM/YYYY")}
+                  </td>
                   <td>{elem.currentStatus}</td>
+                  <td>{elem.email}</td>
+                  <td>{elem.phoneNumber}</td>
                   <td>
                     <button>Delete Employee</button>
+                  </td>
+                  <td>
+                    <button>Edit Information</button>
                   </td>
                 </tr>
               );
@@ -61,7 +71,7 @@ const Wrapper = styled.div`
   display: flex;
   table {
     border-collapse: collapse;
-    width: 100%;
+    max-width: 100%;
     margin: 10px;
   }
 
@@ -70,6 +80,7 @@ const Wrapper = styled.div`
     border-bottom: 1px solid #dddddd;
     text-align: left;
     padding: 8px;
+    font-size: 16px;
   }
 
   tr {

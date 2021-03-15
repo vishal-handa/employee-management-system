@@ -79,9 +79,33 @@ const getEmployeeList = async (req, res) => {
   }
 };
 
-const AddNewEmployee = (req, res) => {
-  console.log(req.body);
-  res.status(200);
+const AddNewEmployee = async (req, res) => {
+  const response = req.body;
+  const _id = response._id;
+  const client = await MongoClient(MONGO_URI, options);
+  await client.connect();
+  try {
+    const db = client.db("employee_system");
+    const idCheck = await db.collection("all_employees").findOne({ _id });
+    if (idCheck) {
+      res.status(406).json({
+        status: 406,
+        message: "Employee ID already exists. Please provide a new one.",
+      });
+    } else {
+      await await db.collection("all_employees").insertOne({
+        ...response,
+        currentStatus: "Active",
+        joinDate: Date.now().toString(),
+      });
+      res.status(200).json({ status: 200, Message: "Employee Added" });
+    }
+    client.close();
+    console.log(idCheck);
+  } catch (err) {
+    console.log(err.stack);
+    res.status(500).json({ status: 500, message: err.message });
+  }
 };
 
 module.exports = {
