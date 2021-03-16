@@ -9,6 +9,7 @@ const {
   handleUserLogin,
   getEmployeeList,
   AddNewEmployee,
+  registerNewUser,
 } = require("./handlers");
 
 const PORT = 8000;
@@ -25,5 +26,6 @@ express()
   .post("/userlogin", handleUserLogin)
   .get("/employee-list", getEmployeeList)
   .post("/add-new-employee", AddNewEmployee)
+  .post("/register-user", registerNewUser)
 
   .listen(PORT, () => console.info(`Listening on port ${PORT}`));

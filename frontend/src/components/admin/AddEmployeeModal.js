@@ -34,7 +34,6 @@ const AddEmployeeModal = ({ showModal, setShowModal }) => {
         setPhone("");
       }
     },
-
     [setShowModal, showModal]
   );
 

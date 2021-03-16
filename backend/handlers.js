@@ -86,22 +86,70 @@ const AddNewEmployee = async (req, res) => {
   await client.connect();
   try {
     const db = client.db("employee_system");
-    const idCheck = await db.collection("all_employees").findOne({ _id });
-    if (idCheck) {
+    const empCheck = await db.collection("all_employees").findOne({ _id });
+    if (empCheck) {
       res.status(406).json({
         status: 406,
         message: "Employee ID already exists. Please provide a new one.",
       });
     } else {
-      await await db.collection("all_employees").insertOne({
+      await db.collection("all_employees").insertOne({
         ...response,
         currentStatus: "Active",
         joinDate: Date.now().toString(),
       });
+      await db.collection("employee_data").insertOne({
+        _id,
+        password: "",
+        userProfile: {
+          fname: response.fname,
+          lname: response.lname,
+          shifts: [],
+        },
+      });
       res.status(200).json({ status: 200, Message: "Employee Added" });
     }
     client.close();
-    console.log(idCheck);
+    console.log(empCheck);
+  } catch (err) {
+    console.log(err.stack);
+    res.status(500).json({ status: 500, message: err.message });
+  }
+};
+
+const registerNewUser = async (req, res) => {
+  const response = req.body;
+  const _id = response._id;
+  const fname = response.fname;
+  const lname = response.lname;
+  const email = response.email;
+  const client = await MongoClient(MONGO_URI, options);
+  await client.connect();
+  try {
+    const db = client.db("employee_system");
+    const empCheck = await db
+      .collection("all_employees")
+      .findOne({ _id, fname, lname, email });
+    if (empCheck) {
+      await db.collection("employee_data").insertOne({
+        _id,
+        password: response.password,
+        userProfile: {
+          fname: response.fname,
+          lname: response.lname,
+          shifts: [],
+        },
+      });
+      res.status(200).json({ status: 200, Message: "Employee Added" });
+    } else {
+      res.status(406).json({
+        status: 406,
+        message:
+          "Employee details don't exist in the system. Please contact the administrator.",
+      });
+    }
+    client.close();
+    console.log(empCheck);
   } catch (err) {
     console.log(err.stack);
     res.status(500).json({ status: 500, message: err.message });
@@ -113,4 +161,5 @@ module.exports = {
   handleUserLogin,
   getEmployeeList,
   AddNewEmployee,
+  registerNewUser,
 };

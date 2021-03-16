@@ -50,7 +50,6 @@ const UserLogin = () => {
           onChange={(ev) => setEmpID(ev.target.value)}
           required
         />
-
         <Label htmlFor="psw">
           <b>Password</b>
         </Label>
@@ -62,6 +61,12 @@ const UserLogin = () => {
           onChange={(ev) => setPassword(ev.target.value)}
           required
         />
+        <div>
+          <span>New User?</span>{" "}
+          <span>
+            <a href="/new-user">Register!</a>
+          </span>
+        </div>
         <Button type="submit">Login</Button>
       </Form>
     </Wrapper>

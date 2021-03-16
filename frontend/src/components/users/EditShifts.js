@@ -28,8 +28,10 @@ const EditShifts = () => {
             return (
               <tr key={index}>
                 <td>{elem.title}</td>
-                <td>{moment(parseInt(elem.startTime)).format("LLLL")}</td>
-                <td>{moment(parseInt(elem.endTime)).format("LLLL")}</td>
+                <td>
+                  {moment(parseInt(elem.startTime)).local().format("LLLL")}
+                </td>
+                <td>{moment(parseInt(elem.endTime)).local().format("LLLL")}</td>
                 <td>
                   <button onClick={(ev) => handleCancellingShifts(ev, elem)}>
                     Cancel

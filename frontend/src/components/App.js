@@ -10,6 +10,8 @@ import UserHome from "./users/UserHome";
 import Shifts from "./users/Shifts";
 import EditShifts from "./users/EditShifts";
 import EmployeeList from "./admin/EmployeeList";
+import UserShifts from "./admin/UserShifts";
+import NewUser from "./NewUser";
 
 const App = () => {
   return (
@@ -37,6 +39,12 @@ const App = () => {
           </Route>
           <Route path="/employee-list">
             <EmployeeList />
+          </Route>
+          <Route path="/see-all-shifts">
+            <UserShifts />
+          </Route>
+          <Route path="/new-user">
+            <NewUser />
           </Route>
         </Switch>
       </Router>

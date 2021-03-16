@@ -12,7 +12,10 @@ const EmployeeList = () => {
   useEffect(() => {
     fetch("/employee-list")
       .then((res) => res.json())
-      .then((res) => dispatch(receieveEmployeeList(res.data)));
+      .then((res) => {
+        console.log(res);
+        dispatch(receieveEmployeeList(res.data));
+      });
   }, []);
   const list = useSelector((state) => state.allEmployees.employees);
 
@@ -22,7 +25,7 @@ const EmployeeList = () => {
   return (
     <Wrapper>
       <Menu />
-      <div>
+      <Container>
         <Button onClick={openModal}>Add New User</Button>
         <table>
           <thead>
@@ -34,34 +37,37 @@ const EmployeeList = () => {
               <th>Email</th>
               <th>Phone Number</th>
               <th></th>
+              <th></th>
             </tr>
           </thead>
-          <tbody>
-            {list.map((elem, index) => {
-              return (
-                <tr key={index}>
-                  <td>{elem._id}</td>
-                  <td>
-                    {elem.fname} {elem.lname}
-                  </td>
-                  <td>
-                    {moment(parseInt(elem.joinDate)).format("DD/MM/YYYY")}
-                  </td>
-                  <td>{elem.currentStatus}</td>
-                  <td>{elem.email}</td>
-                  <td>{elem.phoneNumber}</td>
-                  <td>
-                    <button>Delete Employee</button>
-                  </td>
-                  <td>
-                    <button>Edit Information</button>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
+          {list && (
+            <tbody>
+              {list.map((elem, index) => {
+                return (
+                  <tr key={index}>
+                    <td>{elem._id}</td>
+                    <td>
+                      {elem.fname} {elem.lname}
+                    </td>
+                    <td>
+                      {moment(parseInt(elem.joinDate)).format("DD/MM/YYYY")}
+                    </td>
+                    <td>{elem.currentStatus}</td>
+                    <td>{elem.email}</td>
+                    <td>{elem.phoneNumber}</td>
+                    <td>
+                      <button>Delete Employee</button>
+                    </td>
+                    <td>
+                      <button>Edit Information</button>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          )}
         </table>
-      </div>
+      </Container>
       <AddEmployeeModal showModal={showModal} setShowModal={setShowModal} />
     </Wrapper>
   );
@@ -69,10 +75,11 @@ const EmployeeList = () => {
 
 const Wrapper = styled.div`
   display: flex;
+  width: 100%;
   table {
     border-collapse: collapse;
-    max-width: 100%;
-    margin: 10px;
+    width: inherit;
+    padding: 8px;
   }
 
   td,
@@ -86,6 +93,10 @@ const Wrapper = styled.div`
   tr {
     border-bottom: 1px solid gray;
   }
+`;
+
+const Container = styled.div`
+  width: inherit;
 `;
 
 const Button = styled.button`

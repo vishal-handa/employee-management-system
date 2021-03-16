@@ -21,9 +21,11 @@ const Menu = () => {
             <IoIosPeople size={23} />
           </div>
         </Link>
-        <div>
-          <BiNotepad size={23} />
-        </div>
+        <Link to={"/see-all-shifts"}>
+          <div>
+            <BiNotepad size={23} />
+          </div>
+        </Link>
         <div>
           <RiLogoutCircleRLine size={23} />
         </div>
