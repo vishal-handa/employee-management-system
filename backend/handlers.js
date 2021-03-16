@@ -98,15 +98,6 @@ const AddNewEmployee = async (req, res) => {
         currentStatus: "Active",
         joinDate: Date.now().toString(),
       });
-      await db.collection("employee_data").insertOne({
-        _id,
-        password: "",
-        userProfile: {
-          fname: response.fname,
-          lname: response.lname,
-          shifts: [],
-        },
-      });
       res.status(200).json({ status: 200, Message: "Employee Added" });
     }
     client.close();
