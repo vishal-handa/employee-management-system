@@ -165,6 +165,7 @@ const assignShifts = async (req, res) => {
             _id: x,
             startTime: response.startTime,
             endTime: response.endTime,
+            title: response.title,
           },
         },
       }

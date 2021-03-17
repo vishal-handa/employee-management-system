@@ -58,6 +58,7 @@ const NewUser = () => {
           type="text"
           placeholder="Employee ID"
           name="empID"
+          maxLength="7"
           value={empID}
           onChange={(ev) => setEmpID(ev.target.value)}
           required

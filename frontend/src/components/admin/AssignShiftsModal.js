@@ -5,10 +5,11 @@ import { useSelector } from "react-redux";
 import { GiConsoleController } from "react-icons/gi";
 
 const AssignShiftModal = ({ showModal, setShowModal }) => {
-  const [status, setStatus] = useState();
   const [startTime, setStartTime] = useState("");
   const [empID, setEmpID] = useState();
   const [endTime, setEndTime] = useState("");
+  const [shiftType, setShiftType] = useState("");
+  const [timeError, setTimeError] = useState(false);
   const empData = useSelector((state) => state.allEmployees.employees);
   // console.log(empData);
   const modalRef = useRef();
@@ -34,24 +35,38 @@ const AssignShiftModal = ({ showModal, setShowModal }) => {
 
   const handleSubmit = (ev) => {
     ev.preventDefault();
-    const shiftStart = new Date(startTime).getTime().toString();
-    const shiftEnd = new Date(endTime).getTime().toString();
+    if (new Date(endTime).getTime() - new Date(startTime).getTime() <= 0) {
+      setTimeError(true);
+    } else {
+      const shiftStart = new Date(startTime).getTime().toString();
+      const shiftEnd = new Date(endTime).getTime().toString();
 
-    console.log(shiftStart, shiftEnd);
-    fetch("/assign-shifts", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        empid: empID,
-        startTime: shiftStart,
-        endTime: shiftEnd,
-      }),
-    })
-      .then((res) => res.json())
-      .then((res) => console.log(res));
+      // console.log(shiftStart, shiftEnd);
+      fetch("/assign-shifts", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          empid: empID,
+          startTime: shiftStart,
+          endTime: shiftEnd,
+          title: shiftType,
+        }),
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          if (res.status === 200) {
+            setShowModal(false);
+            setTimeError(false);
+            setEmpID("");
+            setEndTime("");
+            setStartTime("");
+            setShiftType("");
+          }
+        });
+    }
   };
 
   return (
@@ -62,10 +77,14 @@ const AssignShiftModal = ({ showModal, setShowModal }) => {
             <ModalContent>
               <Form onSubmit={handleSubmit}>
                 <H1>Assign new shift</H1>
-
-                <Label>Select employee ID</Label>
+                <ErrorMessage
+                  className={timeError === true ? "showError" : null}
+                >
+                  Please set proper time
+                </ErrorMessage>
+                <Label>Select employee ID:</Label>
                 {empData && (
-                  <select onChange={(ev) => setEmpID(ev.target.value)}>
+                  <select onChange={(ev) => setEmpID(ev.target.value)} required>
                     <option autoFocus>Select ID</option>
                     {empData.map((elem) => {
                       return (
@@ -76,9 +95,9 @@ const AssignShiftModal = ({ showModal, setShowModal }) => {
                     })}
                   </select>
                 )}
-
                 <Label htmlFor="start-time">Select start time:</Label>
                 <Input
+                  className={timeError === true ? "showError" : null}
                   type="datetime-local"
                   value={startTime}
                   name="start-time"
@@ -90,6 +109,7 @@ const AssignShiftModal = ({ showModal, setShowModal }) => {
 
                 <Label htmlFor="end-time">Select end time:</Label>
                 <Input
+                  className={timeError === true ? "showError" : null}
                   type="datetime-local"
                   value={endTime}
                   name="end-time"
@@ -98,7 +118,15 @@ const AssignShiftModal = ({ showModal, setShowModal }) => {
                   onChange={(ev) => setEndTime(ev.target.value)}
                   required
                 />
-
+                <Label>Select shift type:</Label>
+                <select
+                  onChange={(ev) => setShiftType(ev.target.value)}
+                  required
+                >
+                  <option>Shift type</option>
+                  <option value="Invigilation">Invigilation</option>
+                  <option value="Scribe">Scribe</option>
+                </select>
                 <Button type="submit">Assign Shift</Button>
               </Form>
             </ModalContent>
@@ -165,6 +193,7 @@ const Form = styled.form`
   padding: 30px;
   display: flex;
   flex-direction: column;
+  width: 400px;
   label {
     font-size: 14px;
     padding-right: 5px;
@@ -180,6 +209,7 @@ const Button = styled.button`
   cursor: pointer;
   letter-spacing: 0.05em;
   outline: none;
+  margin-top: 20px;
   &:hover {
     background: white;
     color: black;
@@ -212,6 +242,16 @@ const Input = styled.input`
   text-align: left;
   &.showError {
     border: 2px solid red;
+  }
+`;
+
+const ErrorMessage = styled.h3`
+  margin-bottom: 0rem;
+  text-align: center;
+  display: none;
+  &.showError {
+    display: block;
+    color: red;
   }
 `;
 

@@ -61,12 +61,12 @@ const UserLogin = () => {
           onChange={(ev) => setPassword(ev.target.value)}
           required
         />
-        <div>
+        <Container>
           <span>New User?</span>{" "}
           <span>
             <a href="/new-user">Register!</a>
           </span>
-        </div>
+        </Container>
         <Button type="submit">Login</Button>
       </Form>
     </Wrapper>
@@ -120,6 +120,10 @@ const Button = styled.button`
   letter-spacing: 0.05em;
   outline: none;
   margin: 10px;
+`;
+
+const Container = styled.div`
+  text-align: center;
 `;
 
 export default UserLogin;
