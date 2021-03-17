@@ -1,12 +1,17 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import { MdClose } from "react-icons/md";
+import { useSelector } from "react-redux";
+import { GiConsoleController } from "react-icons/gi";
 
 const AssignShiftModal = ({ showModal, setShowModal }) => {
   const [status, setStatus] = useState();
-
+  const [startTime, setStartTime] = useState("");
+  const [empID, setEmpID] = useState();
+  const [endTime, setEndTime] = useState("");
+  const empData = useSelector((state) => state.allEmployees.employees);
+  // console.log(empData);
   const modalRef = useRef();
-  console.log(status);
   const closeModal = (e) => {
     if (modalRef.current === e.target) {
       setShowModal(false);
@@ -27,12 +32,76 @@ const AssignShiftModal = ({ showModal, setShowModal }) => {
     return () => document.removeEventListener("keydown", keyPress);
   }, [keyPress]);
 
+  const handleSubmit = (ev) => {
+    ev.preventDefault();
+    const shiftStart = new Date(startTime).getTime().toString();
+    const shiftEnd = new Date(endTime).getTime().toString();
+
+    console.log(shiftStart, shiftEnd);
+    fetch("/assign-shifts", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        empid: empID,
+        startTime: shiftStart,
+        endTime: shiftEnd,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => console.log(res));
+  };
+
   return (
     <>
       {showModal ? (
         <Background onClick={closeModal} ref={modalRef}>
           <ModalWrapper showModal={showModal}>
-            <ModalContent></ModalContent>
+            <ModalContent>
+              <Form onSubmit={handleSubmit}>
+                <H1>Assign new shift</H1>
+
+                <Label>Select employee ID</Label>
+                {empData && (
+                  <select onChange={(ev) => setEmpID(ev.target.value)}>
+                    <option autoFocus>Select ID</option>
+                    {empData.map((elem) => {
+                      return (
+                        <option key={elem._id} value={elem._id}>
+                          {elem._id}
+                        </option>
+                      );
+                    })}
+                  </select>
+                )}
+
+                <Label htmlFor="start-time">Select start time:</Label>
+                <Input
+                  type="datetime-local"
+                  value={startTime}
+                  name="start-time"
+                  min="1990-06-07T00:00"
+                  max="2099-06-14T00:00"
+                  onChange={(ev) => setStartTime(ev.target.value)}
+                  required
+                />
+
+                <Label htmlFor="end-time">Select end time:</Label>
+                <Input
+                  type="datetime-local"
+                  value={endTime}
+                  name="end-time"
+                  min="1990-06-07T00:00"
+                  max="2099-06-14T00:00"
+                  onChange={(ev) => setEndTime(ev.target.value)}
+                  required
+                />
+
+                <Button type="submit">Assign Shift</Button>
+              </Form>
+            </ModalContent>
             <CloseModalButton
               aria-label="Close modal"
               onClick={() => setShowModal((prev) => !prev)}
@@ -55,13 +124,9 @@ const Background = styled.div`
 `;
 
 const ModalWrapper = styled.div`
-  width: 800px;
-  height: 500px;
   box-shadow: 0 5px 16px rgba(0, 0, 0, 0.2);
   background: #fff;
   color: #000;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
   position: relative;
   z-index: 10;
   border-radius: 10px;
@@ -94,6 +159,60 @@ const CloseModalButton = styled(MdClose)`
   height: 28px;
   padding: 0;
   z-index: 10;
+`;
+
+const Form = styled.form`
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  label {
+    font-size: 14px;
+    padding-right: 5px;
+  }
+`;
+
+const Button = styled.button`
+  height: 40px;
+  background: #4caf50;
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  cursor: pointer;
+  letter-spacing: 0.05em;
+  outline: none;
+  &:hover {
+    background: white;
+    color: black;
+    border: 2px solid black;
+  }
+`;
+
+const H1 = styled.h1`
+  margin-bottom: 10px;
+  padding: 10px;
+  font-size: 1.7em;
+  text-align: center;
+  border-bottom: 1px solid gray;
+`;
+
+const Label = styled.label`
+  color: black;
+  font-size: 1em;
+  padding: 10px 10px 0px 10px;
+`;
+
+const Input = styled.input`
+  margin: 10px;
+  height: 25px;
+  display: inline-block;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  outline: none;
+  box-sizing: border-box;
+  text-align: left;
+  &.showError {
+    border: 2px solid red;
+  }
 `;
 
 export default AssignShiftModal;

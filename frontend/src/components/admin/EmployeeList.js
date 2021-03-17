@@ -12,10 +12,7 @@ const EmployeeList = () => {
   useEffect(() => {
     fetch("/employee-list")
       .then((res) => res.json())
-      .then((res) => {
-        console.log(res);
-        dispatch(receieveEmployeeList(res.data));
-      });
+      .then((res) => dispatch(receieveEmployeeList(res.data)));
   }, []);
   const list = useSelector((state) => state.allEmployees.employees);
 

@@ -1,5 +1,5 @@
 "use strict";
-const { MongoClient } = require("mongodb");
+const { MongoClient, ObjectID } = require("mongodb");
 require("dotenv").config();
 const { MONGO_URI } = process.env;
 
@@ -147,10 +147,43 @@ const registerNewUser = async (req, res) => {
   }
 };
 
+const assignShifts = async (req, res) => {
+  const response = req.body;
+  const id = response.empid;
+  const client = await MongoClient(MONGO_URI, options);
+  await client.connect();
+  let x = ObjectID();
+
+  try {
+    const db = client.db("employee_system");
+    await db.collection("all_shifts").insertOne(response);
+    await db.collection("employee_data").updateOne(
+      { _id: id },
+      {
+        $push: {
+          "userProfile.shifts": {
+            _id: x,
+            startTime: response.startTime,
+            endTime: response.endTime,
+          },
+        },
+      }
+    );
+    res
+      .status(200)
+      .json({ status: 200, message: "Shifts added", data: response });
+  } catch (err) {
+    console.log(err.stack);
+    res.status(500).json({ status: 500, message: err.message });
+  }
+  client.close();
+};
+
 module.exports = {
   handleAdminLogin,
   handleUserLogin,
   getEmployeeList,
   AddNewEmployee,
   registerNewUser,
+  assignShifts,
 };
