@@ -11,7 +11,7 @@ const AddEmployeeModal = ({ showModal, setShowModal }) => {
   const [status, setStatus] = useState();
 
   const modalRef = useRef();
-  console.log(status);
+  // console.log(status);
   const closeModal = (e) => {
     if (modalRef.current === e.target) {
       setShowModal(false);

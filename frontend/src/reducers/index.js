@@ -5,6 +5,7 @@ import swap from "./swap-shifts-reducer";
 import logInCheck from "./hasLoggedIn-reducer";
 import admin from "./admin-reducer";
 import allEmployees from "./employee-list-reducer";
+import allShifts from "./all-shifts-reducer";
 
 export default combineReducers({
   user,
@@ -13,4 +14,5 @@ export default combineReducers({
   logInCheck,
   admin,
   allEmployees,
+  allShifts,
 });

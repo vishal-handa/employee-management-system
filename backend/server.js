@@ -11,6 +11,7 @@ const {
   AddNewEmployee,
   registerNewUser,
   assignShifts,
+  getAllShifts,
 } = require("./handlers");
 
 const PORT = 8000;
@@ -29,5 +30,6 @@ express()
   .post("/add-new-employee", AddNewEmployee)
   .post("/register-user", registerNewUser)
   .post("/assign-shifts", assignShifts)
+  .get("/get-all-shifts", getAllShifts)
 
   .listen(PORT, () => console.info(`Listening on port ${PORT}`));

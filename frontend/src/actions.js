@@ -16,3 +16,8 @@ export const receieveEmployeeList = (list) => ({
   type: "RECEIVE_EMPLOYEE_LIST",
   list,
 });
+
+export const receieveAllShifts = (shifts) => ({
+  type: "RECEIVE_ALL_SHIFTS",
+  shifts,
+});

@@ -180,6 +180,32 @@ const assignShifts = async (req, res) => {
   client.close();
 };
 
+const getAllShifts = async (req, res) => {
+  const client = await MongoClient(MONGO_URI, options);
+  await client.connect();
+  try {
+    const db = client.db("employee_system");
+    await db
+      .collection("employee_data")
+      .find({})
+      .toArray((err, result) => {
+        result
+          ? res.status(200).json({
+              status: 200,
+              data: result.map((elem) => {
+                return { id: elem._id, userProfile: elem.userProfile };
+              }),
+            })
+          : console.log(err);
+        // console.log(result);
+        client.close();
+      });
+  } catch (err) {
+    console.log(err.stack);
+    res.status(500).json({ status: 500, message: err.message });
+  }
+};
+
 module.exports = {
   handleAdminLogin,
   handleUserLogin,
@@ -187,4 +213,5 @@ module.exports = {
   AddNewEmployee,
   registerNewUser,
   assignShifts,
+  getAllShifts,
 };

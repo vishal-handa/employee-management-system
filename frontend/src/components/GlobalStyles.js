@@ -33,7 +33,7 @@ export default createGlobalStyle`
     b, u, i, center,
     dl, dt, dd, ol, ul, li,
     fieldset, form, label, legend,
-    caption, tbody, tfoot, thead, tr, th, td,
+    caption,
     article, aside, canvas, details, embed,
     figure, figcaption, footer, header, hgroup,
     menu, nav, output, ruby, section, summary,
@@ -86,5 +86,23 @@ export default createGlobalStyle`
         text-decoration: none;
         outline: none;
     }
+
+    table {
+    border-collapse: collapse;
+    width: inherit;
+    padding: 8px;
+  }
+
+  td,
+  th {
+    border-bottom: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    font-size: 16px;
+  }
+
+  tr {
+    border-bottom: 1px solid gray;
+  }
 
 `;
