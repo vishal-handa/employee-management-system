@@ -9,11 +9,12 @@ import moment from "moment";
 const UserShifts = () => {
   const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch();
+  // console.log(ifUpdate);
   const openModal = () => {
     setShowModal((prev) => !prev);
   };
   const usersAndShifts = useSelector((state) => state.allShifts.users);
-  console.log(usersAndShifts);
+  // console.log(usersAndShifts);
 
   useEffect(() => {
     fetch("/get-all-shifts")
@@ -24,6 +25,18 @@ const UserShifts = () => {
         }
       });
   }, []);
+
+  const handleUpdate = (ev, theUser) => {
+    console.log(theUser);
+  };
+
+  const handleCancel = (ev, theshift) => {
+    console.log(theshift);
+  };
+
+  const handleDelete = (ev, theshift) => {
+    console.log(theshift);
+  };
 
   return (
     <Wrapper>
@@ -41,6 +54,7 @@ const UserShifts = () => {
               <th>Shift End </th>
               <th></th>
               <th></th>
+              <th></th>
             </tr>
           </thead>
           {usersAndShifts && (
@@ -48,8 +62,8 @@ const UserShifts = () => {
               {usersAndShifts.map((elem, index) => {
                 return elem.userProfile.shifts.map((el, i) => {
                   return (
-                    <tr>
-                      <td key={index + i}>{elem.id}</td>
+                    <tr key={index + i} id={parseInt(elem.id) + i}>
+                      <td>{elem.id}</td>
                       <td>
                         {elem.userProfile.fname} {elem.userProfile.lname}
                       </td>
@@ -57,10 +71,19 @@ const UserShifts = () => {
                       <td>{moment(parseInt(el.startTime)).format("llll")}</td>
                       <td>{moment(parseInt(el.endTime)).format("llll")}</td>
                       <td>
-                        <button>Update</button>
+                        <Update onClick={(ev) => handleUpdate(ev, elem)}>
+                          Update
+                        </Update>
                       </td>
                       <td>
-                        <button>Delete</button>
+                        <Cancel onClick={(ev) => handleCancel(ev, el)}>
+                          Cancel
+                        </Cancel>
+                      </td>
+                      <td>
+                        <Delete onClick={(ev) => handleDelete(ev, el)}>
+                          Delete
+                        </Delete>
                       </td>
                     </tr>
                   );
@@ -94,6 +117,34 @@ const Button = styled.button`
 
 const Container = styled.div`
   width: inherit;
+`;
+
+const Update = styled.button`
+  /* display: block;
+  &.hideUpdate {
+    display: none;
+  } */
+`;
+
+const ConfrimUpdate = styled.button`
+  /* display: none;
+  &.updateTime {
+    display: block;
+  } */
+`;
+
+const Cancel = styled.button`
+  /* display: none;
+  &.updateTime {
+    display: block;
+  } */
+`;
+
+const Delete = styled.button`
+  /* display: block;
+  &.hideUpdate {
+    display: none;
+  } */
 `;
 
 export default UserShifts;
