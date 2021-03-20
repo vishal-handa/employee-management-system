@@ -216,20 +216,6 @@ const updateShift = async (req, res) => {
 
   try {
     const db = client.db("employee_system");
-    // const data = await db
-    //   .collection("employee_data")
-    //   .find({
-    //     userProfile: {
-    //       $elemMatch: { shifts: [{ $elemMatch: { _id: ObjectId(shiftID) } }] },
-    //     },
-    //   })
-    //   .toArray(function (err, result) {
-    //     if (err) throw err;
-    //     return console.log(result);
-    //     client.close();
-    //   });
-    // console.log(data);
-    // res.status(200);
     await db.collection("employee_data").updateOne(
       {
         "userProfile.shifts": {
@@ -264,6 +250,50 @@ const updateShift = async (req, res) => {
   }
 };
 
+const cancelUserShift = async (req, res) => {
+  const response = req.body;
+  console.log(response);
+  const client = await MongoClient(MONGO_URI, options);
+  await client.connect();
+  const cancelledObj = {
+    ...response,
+    _id: ObjectId(response._id),
+  };
+  try {
+    const db = client.db("employee_system");
+    await db.collection("cancelled_shifts").insertOne(cancelledObj);
+    await db.collection("employee_data").updateOne(
+      {
+        "userProfile.shifts": {
+          $elemMatch: { _id: ObjectId(response._id) },
+        },
+      },
+      {
+        $pull: {
+          "userProfile.shifts": { startTime: response.startTime },
+        },
+      },
+      (err, result) => {
+        if (err) {
+          console.log(err);
+          res.status(500).json({ error: "Shift not found" });
+        } else {
+          console.log(result);
+          res.status(200).json({
+            status: 200,
+            message: "shift Found",
+            data: result,
+          });
+          client.close();
+        }
+      }
+    );
+  } catch (err) {
+    console.log(err.stack);
+    res.status(500).json({ status: 500, message: err.message });
+  }
+};
+
 module.exports = {
   handleAdminLogin,
   handleUserLogin,
@@ -273,4 +303,5 @@ module.exports = {
   assignShifts,
   getAllShifts,
   updateShift,
+  cancelUserShift,
 };

@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import { MdClose } from "react-icons/md";
-import { useSelector } from "react-redux";
+import moment from "moment";
 
-const CancelShiftModal = ({ showModal, setShowModal }) => {
+const CancelShiftModal = ({ showModal, setShowModal, cancelData }) => {
   const modalRef = useRef();
   const closeModal = (e) => {
     if (modalRef.current === e.target) {
@@ -25,12 +25,44 @@ const CancelShiftModal = ({ showModal, setShowModal }) => {
     return () => document.removeEventListener("keydown", keyPress);
   }, [keyPress]);
 
+  const handleCancelShift = (ev) => {
+    ev.preventDefault();
+    fetch("/cancel-user-shift", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(cancelData),
+    })
+      .then((res) => res.json())
+      .then((res) => console.log(res));
+  };
+
   return (
     <>
       {showModal ? (
         <Background onClick={closeModal} ref={modalRef}>
           <ModalWrapper showModal={showModal}>
-            <ModalContent>{"Cancel this shite"}</ModalContent>
+            <ModalContent>
+              {cancelData && (
+                <>
+                  <H1>Confirm shift cancellation.</H1>
+                  <Form onSubmit={handleCancelShift}>
+                    <Label>
+                      <b>Start Time:</b>{" "}
+                      {moment(new Date(parseInt(cancelData.startTime))).format(
+                        "lll"
+                      )}
+                    </Label>
+                    <Label>
+                      <b>End Time:</b>{" "}
+                      {moment(new Date(parseInt(cancelData.endTime))).format(
+                        "lll"
+                      )}
+                    </Label>
+                    <Button type="submit">Confirm</Button>
+                  </Form>
+                </>
+              )}
+            </ModalContent>
             <CloseModalButton
               aria-label="Close modal"
               onClick={() => setShowModal((prev) => !prev)}
@@ -45,7 +77,7 @@ const CancelShiftModal = ({ showModal, setShowModal }) => {
 const Background = styled.div`
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.5);
   position: fixed;
   display: flex;
   justify-content: center;
@@ -58,7 +90,7 @@ const ModalWrapper = styled.div`
   color: #000;
   position: relative;
   z-index: 10;
-  border-radius: 10px;
+  width: 450px;
 `;
 
 const ModalContent = styled.div`
@@ -68,6 +100,7 @@ const ModalContent = styled.div`
   align-items: center;
   line-height: 1.8;
   color: #141414;
+  padding-top: 20px;
   p {
     margin-bottom: 1rem;
   }
@@ -91,7 +124,7 @@ const CloseModalButton = styled(MdClose)`
 `;
 
 const Form = styled.form`
-  padding: 30px;
+  padding: 0px 30px 30px 30px;
   display: flex;
   flex-direction: column;
   width: 400px;
@@ -105,7 +138,6 @@ const Button = styled.button`
   height: 40px;
   background: #4caf50;
   border: none;
-  border-radius: 10px;
   color: #fff;
   cursor: pointer;
   letter-spacing: 0.05em;
@@ -120,9 +152,10 @@ const Button = styled.button`
 
 const H1 = styled.h1`
   margin-bottom: 10px;
-  padding: 10px;
-  font-size: 1.7em;
+  padding: 10px 20px 10px 10px;
+  font-size: 1.4em;
   text-align: center;
+  width: 100%;
   border-bottom: 1px solid gray;
 `;
 
@@ -143,16 +176,6 @@ const Input = styled.input`
   text-align: left;
   &.showError {
     border: 2px solid red;
-  }
-`;
-
-const ErrorMessage = styled.h3`
-  margin-bottom: 0rem;
-  text-align: center;
-  display: none;
-  &.showError {
-    display: block;
-    color: red;
   }
 `;
 

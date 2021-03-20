@@ -11,6 +11,9 @@ const UpdateShiftModal = ({ showModal, setShowModal, updateData }) => {
   const closeModal = (e) => {
     if (modalRef.current === e.target) {
       setShowModal(false);
+      setTimeError(false);
+      setEndTime("");
+      setStartTime("");
     }
   };
 
@@ -18,6 +21,10 @@ const UpdateShiftModal = ({ showModal, setShowModal, updateData }) => {
     (e) => {
       if (e.key === "Escape" && showModal) {
         setShowModal(false);
+        setShowModal(false);
+        setTimeError(false);
+        setEndTime("");
+        setStartTime("");
       }
     },
     [setShowModal, showModal]

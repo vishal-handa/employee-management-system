@@ -13,6 +13,7 @@ const {
   assignShifts,
   getAllShifts,
   updateShift,
+  cancelUserShift,
 } = require("./handlers");
 
 const PORT = 8000;
@@ -33,5 +34,6 @@ express()
   .post("/assign-shifts", assignShifts)
   .get("/get-all-shifts", getAllShifts)
   .put("/update-user-shift", updateShift)
+  .post("/cancel-user-shift", cancelUserShift)
 
   .listen(PORT, () => console.info(`Listening on port ${PORT}`));
