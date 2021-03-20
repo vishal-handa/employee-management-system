@@ -1,5 +1,5 @@
 "use strict";
-const { MongoClient, ObjectID } = require("mongodb");
+const { MongoClient, ObjectID, ObjectId } = require("mongodb");
 require("dotenv").config();
 const { MONGO_URI } = process.env;
 
@@ -206,6 +206,45 @@ const getAllShifts = async (req, res) => {
   }
 };
 
+const updateShift = async (req, res) => {
+  const response = req.body;
+  const id = response.id;
+  const shiftID = response.newshift.id;
+  console.log(shiftID, response);
+  const client = await MongoClient(MONGO_URI, options);
+  await client.connect();
+
+  try {
+    const db = client.db("employee_system");
+    await db.collection("employee_data").findOneAndUpdate(
+      { _id: id, "userProfile.shifts._id": ObjectId(shiftID) },
+      {
+        $set: {
+          "userProfile.$.shifts": {
+            startTime: response.newshift.startTime,
+            endTime: response.newshift.endTime,
+          },
+        },
+      },
+      (err, result) => {
+        if (err) {
+          res.status(500).json({ error: "Unable to update shifts." });
+        } else {
+          res.status(200).json({
+            status: 200,
+            message: "Shifts updated successfully",
+            data: response,
+          });
+        }
+      }
+    );
+  } catch (err) {
+    console.log(err.stack);
+    res.status(500).json({ status: 500, message: err.message });
+  }
+  client.close();
+};
+
 module.exports = {
   handleAdminLogin,
   handleUserLogin,
@@ -214,4 +253,5 @@ module.exports = {
   registerNewUser,
   assignShifts,
   getAllShifts,
+  updateShift,
 };

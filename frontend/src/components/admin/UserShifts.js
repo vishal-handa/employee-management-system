@@ -5,16 +5,26 @@ import AssignShiftModal from "./AssignShiftsModal";
 import Menu from "./Menu";
 import { receieveAllShifts } from "../../actions";
 import moment from "moment";
+import UpdateShiftModal from "./UpdateShiftModal";
+import CancelShiftModal from "./CancelShiftModal";
+import DeleteShiftModal from "./DeleteShiftModal";
+import { GiConsoleController } from "react-icons/gi";
 
 const UserShifts = () => {
   const [showModal, setShowModal] = useState(false);
+  const [updateModal, setUpdateModal] = useState(false);
+  const [cancelModal, setCancelModal] = useState(false);
+  const [deteleModal, setDeleteModal] = useState(false);
+  const [updateData, setUpdateData] = useState();
+  const [cancelData, setCancelData] = useState();
+  const [deleteData, setDeleteData] = useState();
   const dispatch = useDispatch();
-  // console.log(ifUpdate);
+
   const openModal = () => {
     setShowModal((prev) => !prev);
   };
+
   const usersAndShifts = useSelector((state) => state.allShifts.users);
-  // console.log(usersAndShifts);
 
   useEffect(() => {
     fetch("/get-all-shifts")
@@ -26,16 +36,22 @@ const UserShifts = () => {
       });
   }, []);
 
-  const handleUpdate = (ev, theUser) => {
-    console.log(theUser);
+  const handleUpdate = (ev, theUser, theShift) => {
+    setUpdateModal((prev) => !prev);
+    setUpdateData({
+      id: theUser.id,
+      fname: theUser.userProfile.fname,
+      lname: theUser.userProfile.lname,
+      shiftToUpdate: theShift,
+    });
   };
 
   const handleCancel = (ev, theshift) => {
-    console.log(theshift);
+    setCancelModal((prev) => !prev);
   };
 
   const handleDelete = (ev, theshift) => {
-    console.log(theshift);
+    setDeleteModal((prev) => !prev);
   };
 
   return (
@@ -71,7 +87,7 @@ const UserShifts = () => {
                       <td>{moment(parseInt(el.startTime)).format("llll")}</td>
                       <td>{moment(parseInt(el.endTime)).format("llll")}</td>
                       <td>
-                        <Update onClick={(ev) => handleUpdate(ev, elem)}>
+                        <Update onClick={(ev) => handleUpdate(ev, elem, el)}>
                           Update
                         </Update>
                       </td>
@@ -95,6 +111,13 @@ const UserShifts = () => {
       </Container>
 
       <AssignShiftModal showModal={showModal} setShowModal={setShowModal} />
+      <UpdateShiftModal
+        showModal={updateModal}
+        setShowModal={setUpdateModal}
+        updateData={updateData}
+      />
+      <CancelShiftModal showModal={cancelModal} setShowModal={setCancelModal} />
+      <DeleteShiftModal showModal={deteleModal} setShowModal={setDeleteModal} />
     </Wrapper>
   );
 };

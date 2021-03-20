@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import { MdClose } from "react-icons/md";
 import { useSelector } from "react-redux";
-import { GiConsoleController } from "react-icons/gi";
 
 const AssignShiftModal = ({ showModal, setShowModal }) => {
   const [startTime, setStartTime] = useState("");
@@ -168,9 +167,7 @@ const ModalContent = styled.div`
   align-items: center;
   line-height: 1.8;
   color: #141414;
-  p {
-    margin-bottom: 1rem;
-  }
+
   button {
     padding: 10px 24px;
     background: #141414;
