@@ -51,7 +51,15 @@ const UpdateShiftModal = ({ showModal, setShowModal, updateData }) => {
         }),
       })
         .then((res) => res.json())
-        .then((res) => console.log(res));
+        .then((res) => {
+          if (res.status === 200) {
+            setShowModal(false);
+            setTimeError(false);
+            setEndTime("");
+            setStartTime("");
+            window.location.reload();
+          }
+        });
     }
   };
 
@@ -92,11 +100,16 @@ const UpdateShiftModal = ({ showModal, setShowModal, updateData }) => {
                     </Label>
                   </>
                 )}
+                <ErrorMessage
+                  className={timeError === true ? "showError" : null}
+                >
+                  Please set proper time
+                </ErrorMessage>
                 <Label>
                   <b>New Start Time:</b>
                 </Label>
                 <Input
-                  //   className={timeError === true ? "showError" : null}
+                  className={timeError === true ? "showError" : null}
                   type="datetime-local"
                   value={startTime}
                   name="start-time"
@@ -109,7 +122,7 @@ const UpdateShiftModal = ({ showModal, setShowModal, updateData }) => {
                   <b> New End Time:</b>
                 </Label>
                 <Input
-                  //   className={timeError === true ? "showError" : null}
+                  className={timeError === true ? "showError" : null}
                   type="datetime-local"
                   value={endTime}
                   name="start-time"

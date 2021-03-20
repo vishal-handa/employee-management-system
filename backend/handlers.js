@@ -210,31 +210,51 @@ const updateShift = async (req, res) => {
   const response = req.body;
   const id = response.id;
   const shiftID = response.newshift.id;
-  console.log(shiftID, response);
+  console.log(typeof shiftID);
   const client = await MongoClient(MONGO_URI, options);
   await client.connect();
 
   try {
     const db = client.db("employee_system");
-    await db.collection("employee_data").findOneAndUpdate(
-      { _id: id, "userProfile.shifts._id": ObjectId(shiftID) },
+    // const data = await db
+    //   .collection("employee_data")
+    //   .find({
+    //     userProfile: {
+    //       $elemMatch: { shifts: [{ $elemMatch: { _id: ObjectId(shiftID) } }] },
+    //     },
+    //   })
+    //   .toArray(function (err, result) {
+    //     if (err) throw err;
+    //     return console.log(result);
+    //     client.close();
+    //   });
+    // console.log(data);
+    // res.status(200);
+    await db.collection("employee_data").updateOne(
+      {
+        "userProfile.shifts": {
+          $elemMatch: { _id: ObjectId(shiftID) },
+        },
+      },
       {
         $set: {
-          "userProfile.$.shifts": {
-            startTime: response.newshift.startTime,
-            endTime: response.newshift.endTime,
-          },
+          "userProfile.shifts.$.startTime": response.newshift.startTime,
+          "userProfile.shifts.$.endTime": response.newshift.endTime,
         },
       },
       (err, result) => {
         if (err) {
+          console.log(err);
           res.status(500).json({ error: "Unable to update shifts." });
+          client.close();
         } else {
+          console.log(result);
           res.status(200).json({
             status: 200,
             message: "Shifts updated successfully",
             data: response,
           });
+          client.close();
         }
       }
     );
@@ -242,7 +262,6 @@ const updateShift = async (req, res) => {
     console.log(err.stack);
     res.status(500).json({ status: 500, message: err.message });
   }
-  client.close();
 };
 
 module.exports = {
