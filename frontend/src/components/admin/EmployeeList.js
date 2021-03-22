@@ -15,10 +15,39 @@ const EmployeeList = () => {
       .then((res) => dispatch(receieveEmployeeList(res.data)));
   }, []);
   const list = useSelector((state) => state.allEmployees.employees);
-
+  // console.log(list);
   const openModal = () => {
     setShowModal((prev) => !prev);
   };
+
+  const handleArchiveStatus = (user) => {
+    fetch("/archive-user", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(user),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.status === 200) {
+          window.location.reload();
+        }
+      });
+  };
+
+  const handleRetireStatus = (user) => {
+    fetch("/retire-user", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(user),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.status === 200) {
+          window.location.reload();
+        }
+      });
+  };
+
   return (
     <Wrapper>
       <Menu />
@@ -33,7 +62,6 @@ const EmployeeList = () => {
               <th>Employement Status</th>
               <th>Email</th>
               <th>Phone Number</th>
-              <th></th>
               <th></th>
             </tr>
           </thead>
@@ -53,10 +81,15 @@ const EmployeeList = () => {
                     <td>{elem.email}</td>
                     <td>{elem.phoneNumber}</td>
                     <td>
-                      <button>Delete Employee</button>
-                    </td>
-                    <td>
-                      <button>Edit Information</button>
+                      {elem.currentStatus === "Active" ? (
+                        <button onClick={() => handleRetireStatus(elem)}>
+                          Retire Employee
+                        </button>
+                      ) : elem.currentStatus === "Retired" ? (
+                        <button onClick={() => handleArchiveStatus(elem)}>
+                          Archive Employee
+                        </button>
+                      ) : null}
                     </td>
                   </tr>
                 );

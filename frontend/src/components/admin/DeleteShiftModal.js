@@ -1,13 +1,15 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import { MdClose } from "react-icons/md";
-import { useSelector } from "react-redux";
+import moment from "moment";
 
-const DeleteShiftModal = ({ showModal, setShowModal }) => {
+const DeleteShiftModal = ({ showModal, setShowModal, deleteData }) => {
+  const [serverError, setServerError] = useState(false);
   const modalRef = useRef();
   const closeModal = (e) => {
     if (modalRef.current === e.target) {
       setShowModal(false);
+      setServerError(true);
     }
   };
 
@@ -15,6 +17,7 @@ const DeleteShiftModal = ({ showModal, setShowModal }) => {
     (e) => {
       if (e.key === "Escape" && showModal) {
         setShowModal(false);
+        setServerError(true);
       }
     },
     [setShowModal, showModal]
@@ -25,12 +28,50 @@ const DeleteShiftModal = ({ showModal, setShowModal }) => {
     return () => document.removeEventListener("keydown", keyPress);
   }, [keyPress]);
 
+  const handleDeleteShift = (ev) => {
+    ev.preventDefault();
+    fetch("/delete-user-shift", {
+      method: "Delete",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(deleteData),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.status === 200) {
+          setShowModal(false);
+          window.location.reload();
+        } else setServerError(true);
+      });
+  };
+
   return (
     <>
       {showModal ? (
         <Background onClick={closeModal} ref={modalRef}>
           <ModalWrapper showModal={showModal}>
-            <ModalContent>{"Delete this shite"}</ModalContent>
+            <ModalContent>
+              {" "}
+              {deleteData && (
+                <>
+                  <H1>Are you sure you want to delete following shift?</H1>
+                  <Form onSubmit={handleDeleteShift}>
+                    <Label>
+                      <b>Start Time:</b>{" "}
+                      {moment(new Date(parseInt(deleteData.startTime))).format(
+                        "lll"
+                      )}
+                    </Label>
+                    <Label>
+                      <b>End Time:</b>{" "}
+                      {moment(new Date(parseInt(deleteData.endTime))).format(
+                        "lll"
+                      )}
+                    </Label>
+                    <Button type="submit">Confirm</Button>
+                  </Form>
+                </>
+              )}
+            </ModalContent>
             <CloseModalButton
               aria-label="Close modal"
               onClick={() => setShowModal((prev) => !prev)}

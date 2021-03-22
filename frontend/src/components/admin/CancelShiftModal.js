@@ -4,10 +4,12 @@ import { MdClose } from "react-icons/md";
 import moment from "moment";
 
 const CancelShiftModal = ({ showModal, setShowModal, cancelData }) => {
+  const [serverError, setServerError] = useState(false);
   const modalRef = useRef();
   const closeModal = (e) => {
     if (modalRef.current === e.target) {
       setShowModal(false);
+      setServerError(false);
     }
   };
 
@@ -15,6 +17,7 @@ const CancelShiftModal = ({ showModal, setShowModal, cancelData }) => {
     (e) => {
       if (e.key === "Escape" && showModal) {
         setShowModal(false);
+        setServerError(false);
       }
     },
     [setShowModal, showModal]
@@ -33,8 +36,17 @@ const CancelShiftModal = ({ showModal, setShowModal, cancelData }) => {
       body: JSON.stringify(cancelData),
     })
       .then((res) => res.json())
-      .then((res) => console.log(res));
+      .then((res) => {
+        if (res.status === 200) {
+          setShowModal(false);
+          window.location.reload();
+        } else setServerError(true);
+      });
   };
+
+  if (serverError) {
+    window.alert("Server error. Please try again.");
+  }
 
   return (
     <>

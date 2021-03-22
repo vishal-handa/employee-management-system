@@ -178,7 +178,6 @@ const ModalWrapper = styled.div`
   color: #000;
   position: relative;
   z-index: 10;
-  border-radius: 10px;
 `;
 
 const ModalContent = styled.div`

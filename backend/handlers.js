@@ -294,6 +294,111 @@ const cancelUserShift = async (req, res) => {
   }
 };
 
+const deleteUserShift = async (req, res) => {
+  const response = req.body;
+  console.log(response);
+  const client = await MongoClient(MONGO_URI, options);
+  await client.connect();
+
+  try {
+    const db = client.db("employee_system");
+    await db.collection("employee_data").updateOne(
+      {
+        "userProfile.shifts": {
+          $elemMatch: { _id: ObjectId(response._id) },
+        },
+      },
+      {
+        $pull: {
+          "userProfile.shifts": { startTime: response.startTime },
+        },
+      },
+      (err, result) => {
+        if (err) {
+          console.log(err);
+          res.status(500).json({ error: "Shift not found" });
+        } else {
+          console.log(result);
+          res.status(200).json({
+            status: 200,
+            message: "shift Found",
+            data: result,
+          });
+          client.close();
+        }
+      }
+    );
+  } catch (err) {
+    console.log(err.stack);
+    res.status(500).json({ status: 500, message: err.message });
+  }
+};
+
+const retireUser = async (req, res) => {
+  const response = req.body;
+  console.log(response);
+  const client = await MongoClient(MONGO_URI, options);
+  await client.connect();
+
+  try {
+    const db = client.db("employee_system");
+    await db.collection("all_employees").updateOne(
+      {
+        _id: response._id,
+      },
+      {
+        $set: {
+          currentStatus: "Retired",
+        },
+      },
+      (err, result) => {
+        if (err) {
+          console.log(err);
+          res.status(500).json({ error: "User not found." });
+        } else {
+          console.log(result);
+          res.status(200).json({
+            status: 200,
+            message: "User updated.",
+            data: result,
+          });
+          client.close();
+        }
+      }
+    );
+  } catch (err) {
+    console.log(err.stack);
+    res.status(500).json({ status: 500, message: err.message });
+  }
+};
+
+const archiveUser = async (req, res) => {
+  const response = req.body;
+  const client = await MongoClient(MONGO_URI, options);
+  await client.connect();
+
+  try {
+    const db = client.db("employee_system");
+    const archiveEmployee = await db
+      .collection("employee_data")
+      .findOne({ _id: response._id });
+    await db
+      .collection("all_employees")
+      .updateOne(
+        { _id: response._id },
+        { $set: { currentStatus: "Archived" } }
+      );
+    await db.collection("archived_employees").insertOne(archiveEmployee);
+    await db.collection("employee_data").deleteOne({ _id: response._id });
+
+    res.status(200).json({ status: 200, message: "Employee Archived." });
+    console.log(archiveEmployee);
+  } catch (err) {
+    console.log(err.stack);
+    res.status(500).json({ status: 500, message: err.message });
+  }
+};
+
 module.exports = {
   handleAdminLogin,
   handleUserLogin,
@@ -304,4 +409,7 @@ module.exports = {
   getAllShifts,
   updateShift,
   cancelUserShift,
+  deleteUserShift,
+  retireUser,
+  archiveUser,
 };

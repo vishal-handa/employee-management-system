@@ -47,13 +47,13 @@ const UserShifts = () => {
   };
 
   const handleCancel = (ev, theshift) => {
-    console.log(theshift);
     setCancelModal((prev) => !prev);
     setCancelData(theshift);
   };
 
   const handleDelete = (ev, theshift) => {
     setDeleteModal((prev) => !prev);
+    setDeleteData(theshift);
   };
 
   return (
@@ -123,7 +123,11 @@ const UserShifts = () => {
         setShowModal={setCancelModal}
         cancelData={cancelData}
       />
-      <DeleteShiftModal showModal={deteleModal} setShowModal={setDeleteModal} />
+      <DeleteShiftModal
+        showModal={deteleModal}
+        setShowModal={setDeleteModal}
+        deleteData={deleteData}
+      />
     </Wrapper>
   );
 };
