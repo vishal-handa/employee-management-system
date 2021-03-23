@@ -17,6 +17,8 @@ const {
   deleteUserShift,
   retireUser,
   archiveUser,
+  getUserShifts,
+  getCancelledShifts,
 } = require("./handlers");
 
 const PORT = 8000;
@@ -41,5 +43,7 @@ express()
   .put("/update-user-shift", updateShift)
   .post("/cancel-user-shift", cancelUserShift)
   .delete("/delete-user-shift", deleteUserShift)
+  .get("/get-user-shifts/:id", getUserShifts)
+  .get("/get-cancelled-shifts", getCancelledShifts)
 
   .listen(PORT, () => console.info(`Listening on port ${PORT}`));

@@ -21,3 +21,8 @@ export const receieveAllShifts = (shifts) => ({
   type: "RECEIVE_ALL_SHIFTS",
   shifts,
 });
+
+export const updateUserShifts = (shifts) => ({
+  type: "UPDATE_USER_SHIFTS",
+  shifts,
+});

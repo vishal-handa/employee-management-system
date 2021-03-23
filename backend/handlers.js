@@ -1,5 +1,5 @@
 "use strict";
-const { MongoClient, ObjectID, ObjectId } = require("mongodb");
+const { MongoClient, ObjectID, ObjectId, ReplSet } = require("mongodb");
 require("dotenv").config();
 const { MONGO_URI } = process.env;
 
@@ -44,7 +44,10 @@ const handleUserLogin = async (req, res) => {
       .collection("employee_data")
       .findOne({ _id, password }, (err, result) => {
         result
-          ? res.status(200).json({ status: 200, data: result.userProfile })
+          ? res.status(200).json({
+              status: 200,
+              data: { id: result._id, ...result.userProfile },
+            })
           : res
               .status(404)
               .json({ status: 404, data: "Not Found", error: err });
@@ -399,6 +402,32 @@ const archiveUser = async (req, res) => {
   }
 };
 
+const getUserShifts = async (req, res) => {
+  const id = req.params.id;
+  const client = await MongoClient(MONGO_URI, options);
+  await client.connect();
+  try {
+    const db = client.db("employee_system");
+    await db.collection("employee_data").findOne({ _id: id }, (err, result) => {
+      result
+        ? res.status(200).json({
+            status: 200,
+            data: result.userProfile.shifts,
+          })
+        : console.log(err);
+      // console.log(result);
+      client.close();
+    });
+  } catch (err) {
+    console.log(err.stack);
+    res.status(500).json({ status: 500, message: err.message });
+  }
+};
+
+const getCancelledShifts = async (req, res) => {
+  res.status(200);
+};
+
 module.exports = {
   handleAdminLogin,
   handleUserLogin,
@@ -412,4 +441,6 @@ module.exports = {
   deleteUserShift,
   retireUser,
   archiveUser,
+  getUserShifts,
+  getCancelledShifts,
 };

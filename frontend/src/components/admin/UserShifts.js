@@ -8,7 +8,6 @@ import moment from "moment";
 import UpdateShiftModal from "./UpdateShiftModal";
 import CancelShiftModal from "./CancelShiftModal";
 import DeleteShiftModal from "./DeleteShiftModal";
-import { GiConsoleController } from "react-icons/gi";
 
 const UserShifts = () => {
   const [showModal, setShowModal] = useState(false);

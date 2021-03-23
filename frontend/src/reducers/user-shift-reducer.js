@@ -13,6 +13,12 @@ export default function userShiftReducer(state = initialState, action) {
         user: action.profile,
       };
     }
+    case "UPDATE_USER_SHIFTS": {
+      return {
+        ...state,
+        user: { ...state.user, shifts: action.shifts },
+      };
+    }
     default: {
       return state;
     }

@@ -1,14 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import Menu from "./Menu";
+import CancelModal from "./CancelModal";
+import { updateUserShifts } from "../../actions";
 
 const EditShifts = () => {
   const events = Object.values(useSelector((state) => state.user.user.shifts));
+  const dispatch = useDispatch();
+  const [cancelModal, setCancelModal] = useState(false);
+  const [cancelData, setCancelData] = useState();
+  const ID = useSelector((state) => state.user.user.id);
+  useEffect(() => {
+    fetch(`/get-user-shifts/${ID}`)
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.status === 200) {
+          const shifts = res.data;
+          dispatch(updateUserShifts(shifts));
+        }
+      });
+  }, []);
+
   const handleCancellingShifts = (ev, object) => {
-    ev.preventDefault();
-    console.log(object);
+    setCancelModal((prev) => !prev);
+    setCancelData(object);
   };
   return (
     <Wrapper>
@@ -45,6 +62,11 @@ const EditShifts = () => {
           })}
         </tbody>
       </table>
+      <CancelModal
+        showModal={cancelModal}
+        setShowModal={setCancelModal}
+        cancelData={cancelData}
+      />
     </Wrapper>
   );
 };
@@ -62,11 +84,6 @@ const Wrapper = styled.div`
     border: 1px solid #dddddd;
     text-align: left;
     padding: 8px;
-  }
-
-  tr:nth-child(even) {
-    background-color: #dddddd;
-    border: 1px solid gray;
   }
 `;
 

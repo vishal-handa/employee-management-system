@@ -12,6 +12,7 @@ import EditShifts from "./users/EditShifts";
 import EmployeeList from "./admin/EmployeeList";
 import UserShifts from "./admin/UserShifts";
 import NewUser from "./NewUser";
+import CancelledShifts from "./users/CancelledShifts";
 
 const App = () => {
   return (
@@ -45,6 +46,9 @@ const App = () => {
           </Route>
           <Route path="/new-user">
             <NewUser />
+          </Route>
+          <Route path="/cancelled-shifts">
+            <CancelledShifts />
           </Route>
         </Switch>
       </Router>

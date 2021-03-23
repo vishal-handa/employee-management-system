@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 
 const UserHome = () => {
   const userState = useSelector((state) => state.user.user);
-  console.log(userState);
   return (
     <Wrapper>
       <Menu />

@@ -29,7 +29,9 @@ const Menu = () => {
           </Link>
         </div>
         <div>
-          <CgUnavailable size={23} />
+          <Link to={"/cancelled-shifts"}>
+            <CgUnavailable size={23} />
+          </Link>
         </div>
         <div>
           <IoSwapHorizontal size={23} />
@@ -46,6 +48,8 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   height: 100vh;
+  top: 0;
+  position: sticky;
   svg {
     padding: 17px;
     margin-bottom: 20px;
