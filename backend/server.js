@@ -1,8 +1,8 @@
 "use strict";
 
 const express = require("express");
-const bodyParser = require("body-parser");
 const morgan = require("morgan");
+const bodyParser = require("body-parser");
 
 const {
   handleAdminLogin,
@@ -19,15 +19,16 @@ const {
   archiveUser,
   getUserShifts,
   getCancelledShifts,
+  takeCancelledShifts,
 } = require("./handlers");
 
 const PORT = 8000;
 
 express()
   .use(morgan("tiny"))
+  .use(express.static("public"))
   .use(bodyParser.json())
   .use(bodyParser.urlencoded({ extended: true }))
-  .use(express.static("public"))
 
   // REST endpoints:
 
@@ -45,5 +46,6 @@ express()
   .delete("/delete-user-shift", deleteUserShift)
   .get("/get-user-shifts/:id", getUserShifts)
   .get("/get-cancelled-shifts", getCancelledShifts)
+  .post("/take-cancelled-shift", takeCancelledShifts)
 
   .listen(PORT, () => console.info(`Listening on port ${PORT}`));

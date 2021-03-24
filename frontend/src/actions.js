@@ -26,3 +26,8 @@ export const updateUserShifts = (shifts) => ({
   type: "UPDATE_USER_SHIFTS",
   shifts,
 });
+
+export const receiveCancelledShifts = (shifts) => ({
+  type: "RECEIVE_CANCELLED_SHIFTS",
+  shifts,
+});

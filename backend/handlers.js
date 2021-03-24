@@ -425,7 +425,57 @@ const getUserShifts = async (req, res) => {
 };
 
 const getCancelledShifts = async (req, res) => {
-  res.status(200);
+  const client = await MongoClient(MONGO_URI, options);
+  await client.connect();
+  try {
+    const db = client.db("employee_system");
+    await db
+      .collection("cancelled_shifts")
+      .find({})
+      .toArray((err, result) => {
+        result
+          ? res.status(200).json({
+              status: 200,
+              data: result,
+            })
+          : console.log(err);
+        // console.log(result);
+        client.close();
+      });
+  } catch (err) {
+    console.log(err.stack);
+    res.status(500).json({ status: 500, message: err.message });
+  }
+};
+
+const takeCancelledShifts = async (req, res) => {
+  const response = req.body;
+  const id = response.id;
+  const client = await MongoClient(MONGO_URI, options);
+  await client.connect();
+
+  try {
+    const db = client.db("employee_system");
+    await db.collection("employee_data").updateOne(
+      { _id: id },
+      {
+        $push: {
+          "userProfile.shifts": {
+            ...response.shift,
+            _id: ObjectId(response.shift._id),
+          },
+        },
+      }
+    );
+    await db
+      .collection("cancelled_shifts")
+      .deleteOne({ _id: ObjectId(response.shift._id) });
+    res.status(200).json({ status: 200, message: "Cancelled shift taken." });
+  } catch (err) {
+    console.log(err.stack);
+    res.status(500).json({ status: 500, message: err.message });
+  }
+  client.close();
 };
 
 module.exports = {
@@ -443,4 +493,5 @@ module.exports = {
   archiveUser,
   getUserShifts,
   getCancelledShifts,
+  takeCancelledShifts,
 };
