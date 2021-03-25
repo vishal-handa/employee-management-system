@@ -9,7 +9,9 @@ const AssignShiftModal = ({ showModal, setShowModal }) => {
   const [endTime, setEndTime] = useState("");
   const [shiftType, setShiftType] = useState("");
   const [timeError, setTimeError] = useState(false);
-  const empData = useSelector((state) => state.allEmployees.employees);
+  const empData = useSelector((state) => state.allEmployees.employees).filter(
+    (elem) => elem.currentStatus === "Active"
+  );
   // console.log(empData);
   const modalRef = useRef();
   const closeModal = (e) => {
