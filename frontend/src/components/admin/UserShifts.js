@@ -23,7 +23,9 @@ const UserShifts = () => {
     setShowModal((prev) => !prev);
   };
 
-  const usersAndShifts = useSelector((state) => state.allShifts.users);
+  const [usersAndShifts, setUsersAndShifts] = useState([]);
+
+  const allUserShifts = useSelector((state) => state.allShifts.users);
 
   useEffect(() => {
     fetch("/get-all-shifts")
@@ -55,10 +57,53 @@ const UserShifts = () => {
     setDeleteData(theshift);
   };
 
+  const sortFutureShifts = allUserShifts.map((elem) => {
+    return {
+      ...elem,
+      userProfile: {
+        ...elem.userProfile,
+        shifts: elem.userProfile.shifts.filter(
+          (el) => new Date(parseInt(el.startTime)) > Date.now()
+        ),
+      },
+    };
+  });
+
+  const sortOldShifts = allUserShifts.map((elem) => {
+    return {
+      ...elem,
+      userProfile: {
+        ...elem.userProfile,
+        shifts: elem.userProfile.shifts.filter(
+          (el) => new Date(parseInt(el.startTime)) < Date.now()
+        ),
+      },
+    };
+  });
+  console.log(sortFutureShifts, sortOldShifts);
+  const sortAllShifts = useSelector((state) => state.allShifts.users);
+
+  const UpcomingShifts = () => {
+    return setUsersAndShifts(sortFutureShifts);
+  };
+
+  const PastShifts = () => {
+    return setUsersAndShifts(sortOldShifts);
+  };
+
+  const AllShifts = () => {
+    return setUsersAndShifts(sortAllShifts);
+  };
+
   return (
     <Wrapper>
       <Menu />
       <Container>
+        <ButtonContainer>
+          <Button1 onClick={UpcomingShifts}>Upcoming shifts</Button1>
+          <Button2 onClick={PastShifts}>Past Shifts</Button2>
+          <Button1 onClick={AllShifts}>All shifts</Button1>
+        </ButtonContainer>
         <Button onClick={openModal}>Add New Shifts</Button>
         <h1>Following are the assigned shifts </h1>
         <table>
@@ -88,17 +133,38 @@ const UserShifts = () => {
                       <td>{moment(parseInt(el.startTime)).format("llll")}</td>
                       <td>{moment(parseInt(el.endTime)).format("llll")}</td>
                       <td>
-                        <Update onClick={(ev) => handleUpdate(ev, elem, el)}>
+                        <Update
+                          onClick={(ev) => handleUpdate(ev, elem, el)}
+                          disabled={
+                            new Date(parseInt(el.startTime)) < Date.now()
+                              ? true
+                              : false
+                          }
+                        >
                           Update
                         </Update>
                       </td>
                       <td>
-                        <Cancel onClick={(ev) => handleCancel(ev, el)}>
+                        <Cancel
+                          onClick={(ev) => handleCancel(ev, el)}
+                          disabled={
+                            new Date(parseInt(el.startTime)) < Date.now()
+                              ? true
+                              : false
+                          }
+                        >
                           Cancel
                         </Cancel>
                       </td>
                       <td>
-                        <Delete onClick={(ev) => handleDelete(ev, el)}>
+                        <Delete
+                          onClick={(ev) => handleDelete(ev, el)}
+                          disabled={
+                            new Date(parseInt(el.startTime)) < Date.now()
+                              ? true
+                              : false
+                          }
+                        >
                           Delete
                         </Delete>
                       </td>
@@ -158,13 +224,6 @@ const Update = styled.button`
   } */
 `;
 
-const ConfrimUpdate = styled.button`
-  /* display: none;
-  &.updateTime {
-    display: block;
-  } */
-`;
-
 const Cancel = styled.button`
   /* display: none;
   &.updateTime {
@@ -177,6 +236,21 @@ const Delete = styled.button`
   &.hideUpdate {
     display: none;
   } */
+`;
+
+const ButtonContainer = styled.div`
+  width: inherit;
+`;
+
+const Button1 = styled.button`
+  width: 33%;
+  height: 40px;
+  background-color: burlywood;
+`;
+
+const Button2 = styled.button`
+  width: 33%;
+  height: 40px;
 `;
 
 export default UserShifts;

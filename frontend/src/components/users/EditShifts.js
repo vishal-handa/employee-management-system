@@ -7,7 +7,8 @@ import CancelModal from "./CancelModal";
 import { updateUserShifts } from "../../actions";
 
 const EditShifts = () => {
-  const events = Object.values(useSelector((state) => state.user.user.shifts));
+  const [events, setEvents] = useState([]);
+  const shifts = useSelector((state) => state.user.user.shifts);
   const dispatch = useDispatch();
   const [cancelModal, setCancelModal] = useState(false);
   const [cancelData, setCancelData] = useState();
@@ -27,41 +28,94 @@ const EditShifts = () => {
     setCancelModal((prev) => !prev);
     setCancelData(object);
   };
+
+  const sortFutureShifts = shifts.filter((elem) => {
+    if (new Date(parseInt(elem.startTime)) > Date.now()) {
+      return elem;
+    }
+  });
+
+  const sortOldShifts = shifts.filter((elem) => {
+    if (new Date(parseInt(elem.startTime)) < Date.now()) {
+      return elem;
+    }
+  });
+
+  const sortAllShifts = Object.values(
+    useSelector((state) => state.user.user.shifts)
+  );
+
+  const UpcomingShifts = () => {
+    return setEvents(sortFutureShifts);
+  };
+
+  const PastShifts = () => {
+    return setEvents(sortOldShifts);
+  };
+
+  const AllShifts = () => {
+    return setEvents(sortAllShifts);
+  };
+
   return (
     <Wrapper>
       <Menu />
-      <table>
-        <thead>
-          <tr>
-            <th>Shift Title</th>
-            <th>Start Time</th>
-            <th>End Time</th>
-            <th>Cancel Shift</th>
-            <th>Swap Shift</th>
-          </tr>
-        </thead>
-        <tbody>
-          {events.map((elem, index) => {
-            return (
-              <tr key={index}>
-                <td>{elem.title}</td>
-                <td>
-                  {moment(parseInt(elem.startTime)).local().format("LLLL")}
-                </td>
-                <td>{moment(parseInt(elem.endTime)).local().format("LLLL")}</td>
-                <td>
-                  <button onClick={(ev) => handleCancellingShifts(ev, elem)}>
-                    Cancel
-                  </button>
-                </td>
-                <td>
-                  <button>Swap</button>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <Container>
+        <ButtonContainer>
+          <Button onClick={UpcomingShifts}>Upcoming shifts</Button>
+          <Button2 onClick={PastShifts}>Past Shifts</Button2>
+          <Button onClick={AllShifts}>All shifts</Button>
+        </ButtonContainer>
+        <table>
+          <thead>
+            <tr>
+              <th>Shift Title</th>
+              <th>Start Time</th>
+              <th>End Time</th>
+              <th>Cancel Shift</th>
+              <th>Swap Shift</th>
+            </tr>
+          </thead>
+          <tbody>
+            {events.map((elem, index) => {
+              return (
+                <tr key={index}>
+                  <td>{elem.title}</td>
+                  <td>
+                    {moment(parseInt(elem.startTime)).local().format("LLLL")}
+                  </td>
+                  <td>
+                    {moment(parseInt(elem.endTime)).local().format("LLLL")}
+                  </td>
+                  <td>
+                    <button
+                      onClick={(ev) => handleCancellingShifts(ev, elem)}
+                      disabled={
+                        new Date(parseInt(elem.startTime)) < Date.now()
+                          ? true
+                          : false
+                      }
+                    >
+                      Cancel
+                    </button>
+                  </td>
+                  <td>
+                    <button
+                      disabled={
+                        new Date(parseInt(elem.startTime)) < Date.now()
+                          ? true
+                          : false
+                      }
+                    >
+                      Swap
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </Container>
       <CancelModal
         showModal={cancelModal}
         setShowModal={setCancelModal}
@@ -73,18 +127,28 @@ const EditShifts = () => {
 
 const Wrapper = styled.div`
   display: flex;
-  table {
-    border-collapse: collapse;
-    width: 100%;
-    margin: 10px;
-  }
+  width: 100%;
+`;
 
-  td,
-  th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-  }
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: inherit;
+`;
+
+const ButtonContainer = styled.div`
+  width: inherit;
+`;
+
+const Button = styled.button`
+  width: 33%;
+  height: 40px;
+  background-color: burlywood;
+`;
+
+const Button2 = styled.button`
+  width: 33%;
+  height: 40px;
 `;
 
 export default EditShifts;
