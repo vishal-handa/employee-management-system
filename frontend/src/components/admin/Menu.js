@@ -13,6 +13,7 @@ const Menu = () => {
   const dispatch = useDispatch();
   const handleLogout = () => {
     dispatch(setLogOut());
+    window.localStorage.clear();
     history.push("/admin");
   };
   return (

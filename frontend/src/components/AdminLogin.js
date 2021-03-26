@@ -8,8 +8,8 @@ import { setLogIn, receiveAdminProfile } from "../actions";
 const AdminLogin = () => {
   const [adminName, setAdminName] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(false);
   let history = useHistory();
-  let bool = false;
   const dispatch = useDispatch();
   const handleSubmit = (ev) => {
     ev.preventDefault();
@@ -28,8 +28,7 @@ const AdminLogin = () => {
           dispatch(receiveAdminProfile(res.data));
           history.push("/adminHome");
         } else if (res.status === 404) {
-          bool = true;
-          console.log(res, bool);
+          setError(true);
         }
       })
       .catch((err) => console.log(err));
@@ -37,10 +36,14 @@ const AdminLogin = () => {
   return (
     <Wrapper>
       <Form onSubmit={(ev) => handleSubmit(ev)}>
+        {error === true ? (
+          <P>Login error. Please fill in correct details. </P>
+        ) : null}
         <Label htmlFor="admin">
           <b>Admin Name</b>
         </Label>
         <Input
+          className={error === true ? "showError" : null}
           type="text"
           placeholder="Admin Name"
           name="admin"
@@ -53,6 +56,7 @@ const AdminLogin = () => {
           <b>Password</b>
         </Label>
         <Input
+          className={error === true ? "showError" : null}
           type="password"
           placeholder="Enter Password"
           name="psw"
@@ -60,9 +64,7 @@ const AdminLogin = () => {
           onChange={(ev) => setPassword(ev.target.value)}
           required
         />
-        {bool === false ? null : (
-          <p>{"Employee name or password incorrect. Please try again."}</p>
-        )}
+
         <Button type="submit">Login</Button>
       </Form>
     </Wrapper>
@@ -103,6 +105,9 @@ const Input = styled.input`
   display: inline-block;
   border: 1px solid #ccc;
   box-sizing: border-box;
+  &.showError {
+    border: 2px solid red;
+  }
 `;
 
 const Button = styled.button`
@@ -116,6 +121,12 @@ const Button = styled.button`
   letter-spacing: 0.05em;
   outline: none;
   margin: 10px;
+`;
+
+const P = styled.p`
+  color: red;
+  text-align: center;
+  font-size: 14px;
 `;
 
 export default AdminLogin;

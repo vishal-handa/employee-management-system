@@ -35,6 +35,9 @@ const App = () => {
           <Route path="/admin">
             <AdminLogin />
           </Route>
+          <Route path="/new-user">
+            <NewUser />
+          </Route>
           {loginCheck === true ? (
             <Route path="/adminHome">
               <AdminHome />
@@ -73,13 +76,6 @@ const App = () => {
           {loginCheck === true ? (
             <Route path="/see-all-shifts">
               <UserShifts />
-            </Route>
-          ) : (
-            <Redirect to="/" exact />
-          )}
-          {loginCheck === true ? (
-            <Route path="/new-user">
-              <NewUser />
             </Route>
           ) : (
             <Redirect to="/" exact />

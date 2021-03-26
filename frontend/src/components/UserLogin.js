@@ -8,9 +8,9 @@ import { setLogIn, receiveUserProfile } from "../actions";
 const UserLogin = () => {
   const [empID, setEmpID] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(false);
   let history = useHistory();
   const dispatch = useDispatch();
-  let bool = false;
   const handleSubmit = (ev) => {
     ev.preventDefault();
     fetch("/userlogin", {
@@ -28,8 +28,7 @@ const UserLogin = () => {
           dispatch(receiveUserProfile(res.data));
           history.push("/userHome");
         } else if (res.status === 404) {
-          bool = true;
-          console.log(res, bool);
+          setError(true);
         }
       })
       .catch((err) => console.log(err));
@@ -38,14 +37,19 @@ const UserLogin = () => {
   return (
     <Wrapper>
       <Form onSubmit={(ev) => handleSubmit(ev)}>
+        {error === true ? (
+          <P>Login error. Please fill in correct details. </P>
+        ) : null}
         <Label htmlFor="empID">
           <b>Employee ID</b>
         </Label>
         <Input
+          className={error === true ? "showError" : null}
           type="text"
           placeholder="Employee ID"
           name="empID"
           value={empID}
+          maxLength="7"
           onChange={(ev) => setEmpID(ev.target.value)}
           required
         />
@@ -53,6 +57,7 @@ const UserLogin = () => {
           <b>Password</b>
         </Label>
         <Input
+          className={error === true ? "showError" : null}
           type="password"
           placeholder="Enter Password"
           name="psw"
@@ -106,6 +111,9 @@ const Input = styled.input`
   display: inline-block;
   border: 1px solid #ccc;
   box-sizing: border-box;
+  &.showError {
+    border: 2px solid red;
+  }
 `;
 
 const Button = styled.button`
@@ -123,6 +131,12 @@ const Button = styled.button`
 
 const Container = styled.div`
   text-align: center;
+`;
+
+const P = styled.p`
+  color: red;
+  text-align: center;
+  font-size: 14px;
 `;
 
 export default UserLogin;

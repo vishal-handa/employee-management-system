@@ -1,11 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Menu from "./Menu";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { receieveAllShifts } from "../../actions";
 
 const AdminHome = () => {
+  const dispatch = useDispatch();
   const adminState = useSelector((state) => state.admin.admin);
-  // console.log(adminState);
+  useEffect(() => {
+    fetch("/get-all-shifts")
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.status === 200) {
+          dispatch(receieveAllShifts(res.data));
+        }
+      });
+  }, []);
   return (
     <Wrapper>
       <Menu />
