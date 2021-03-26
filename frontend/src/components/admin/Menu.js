@@ -1,13 +1,20 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React from "react";
+import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
-import { GiHumanPyramid } from "react-icons/gi";
+import { setLogOut } from "../../actions";
+import { useDispatch } from "react-redux";
 import { BiNotepad } from "react-icons/bi";
 import { IoIosPeople } from "react-icons/io";
-import { RiDashboardFill, RiLogoutCircleRLine } from "react-icons/ri";
+import { RiDashboardFill, RiLogoutCircleLine } from "react-icons/ri";
 import Pattern from "../images/pattern2.jpg";
 
 const Menu = () => {
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(setLogOut());
+    history.push("/admin");
+  };
   return (
     <Wrapper>
       <Container>
@@ -27,7 +34,9 @@ const Menu = () => {
           </div>
         </Link>
         <div>
-          <RiLogoutCircleRLine size={23} />
+          <Button onClick={handleLogout}>
+            <RiLogoutCircleLine size={23} />
+          </Button>
         </div>
       </Container>
     </Wrapper>
@@ -50,10 +59,17 @@ const Wrapper = styled.div`
   }
   background-image: url(${Pattern});
   background-position-x: 370px;
-  /* background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e); */
 `;
 
 const Container = styled.div`
   margin-top: 20%;
 `;
+
+const Button = styled.button`
+  background: none;
+  outline: none;
+  cursor: pointer;
+  padding: 0;
+`;
+
 export default Menu;

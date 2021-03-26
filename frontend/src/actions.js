@@ -2,6 +2,10 @@ export const setLogIn = () => ({
   type: "SET_LOG_IN",
 });
 
+export const setLogOut = () => ({
+  type: "SET_LOG_OUT",
+});
+
 export const receiveUserProfile = (profile) => ({
   type: "RECEIVE_USER_PROFILE",
   profile,

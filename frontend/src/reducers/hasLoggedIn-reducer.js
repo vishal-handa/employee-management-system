@@ -10,6 +10,12 @@ export default function hasLoggedInReducer(state = initialState, action) {
         hasLoggedIn: true,
       };
     }
+    case "SET_LOG_OUT": {
+      return {
+        ...state,
+        hasLoggedIn: false,
+      };
+    }
     default: {
       return state;
     }

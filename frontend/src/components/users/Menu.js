@@ -1,15 +1,22 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React from "react";
+import { Link, useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
+import { setLogOut } from "../../actions";
 import { AiOutlineHome } from "react-icons/ai";
 import { BiCalendar, BiNotepad } from "react-icons/bi";
-import { GrWorkshop } from "react-icons/gr";
 import { IoSwapHorizontal } from "react-icons/io5";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { CgUnavailable } from "react-icons/cg";
 import Pattern from "../images/pattern.jpg";
 
 const Menu = () => {
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(setLogOut());
+    history.push("/");
+  };
   return (
     <Wrapper>
       <Container>
@@ -37,7 +44,9 @@ const Menu = () => {
           <IoSwapHorizontal size={23} />
         </div>
         <div>
-          <RiLogoutCircleLine size={23} />
+          <Button onClick={handleLogout}>
+            <RiLogoutCircleLine size={23} />
+          </Button>
         </div>
       </Container>
     </Wrapper>
@@ -60,10 +69,17 @@ const Wrapper = styled.div`
   }
   background-image: url(${Pattern});
   background-position-x: 370px;
-  /* background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e); */
 `;
 
 const Container = styled.div`
   margin-top: 20%;
 `;
+
+const Button = styled.button`
+  background: none;
+  outline: none;
+  cursor: pointer;
+  padding: 0;
+`;
+
 export default Menu;

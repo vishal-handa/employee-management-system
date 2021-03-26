@@ -1,5 +1,10 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import GlobalStyles from "./GlobalStyles";
 import styled from "styled-components";
 
@@ -13,8 +18,12 @@ import EmployeeList from "./admin/EmployeeList";
 import UserShifts from "./admin/UserShifts";
 import NewUser from "./NewUser";
 import CancelledShifts from "./users/CancelledShifts";
+import { useSelector } from "react-redux";
 
 const App = () => {
+  const loginCheck = useSelector((state) => state.logInCheck.hasLoggedIn);
+  console.log(loginCheck);
+
   return (
     <Wrapper>
       <GlobalStyles />
@@ -26,30 +35,62 @@ const App = () => {
           <Route path="/admin">
             <AdminLogin />
           </Route>
-          <Route path="/adminHome">
-            <AdminHome />
-          </Route>
-          <Route path="/userHome">
-            <UserHome />
-          </Route>
-          <Route path="/user-shifts">
-            <Shifts />
-          </Route>
-          <Route path="/edit-shifts">
-            <EditShifts />
-          </Route>
-          <Route path="/employee-list">
-            <EmployeeList />
-          </Route>
-          <Route path="/see-all-shifts">
-            <UserShifts />
-          </Route>
-          <Route path="/new-user">
-            <NewUser />
-          </Route>
-          <Route path="/cancelled-shifts">
-            <CancelledShifts />
-          </Route>
+          {loginCheck === true ? (
+            <Route path="/adminHome">
+              <AdminHome />
+            </Route>
+          ) : (
+            <Redirect to="/" exact />
+          )}
+          {loginCheck === true ? (
+            <Route path="/userHome">
+              <UserHome />
+            </Route>
+          ) : (
+            <Redirect to="/" exact />
+          )}
+          {loginCheck === true ? (
+            <Route path="/user-shifts">
+              <Shifts />
+            </Route>
+          ) : (
+            <Redirect to="/" exact />
+          )}
+          {loginCheck === true ? (
+            <Route path="/edit-shifts">
+              <EditShifts />
+            </Route>
+          ) : (
+            <Redirect to="/" exact />
+          )}
+          {loginCheck === true ? (
+            <Route path="/employee-list">
+              <EmployeeList />
+            </Route>
+          ) : (
+            <Redirect to="/" exact />
+          )}
+          {loginCheck === true ? (
+            <Route path="/see-all-shifts">
+              <UserShifts />
+            </Route>
+          ) : (
+            <Redirect to="/" exact />
+          )}
+          {loginCheck === true ? (
+            <Route path="/new-user">
+              <NewUser />
+            </Route>
+          ) : (
+            <Redirect to="/" exact />
+          )}
+          {loginCheck === true ? (
+            <Route path="/cancelled-shifts">
+              <CancelledShifts />
+            </Route>
+          ) : (
+            <Redirect to="/" exact />
+          )}
         </Switch>
       </Router>
     </Wrapper>
