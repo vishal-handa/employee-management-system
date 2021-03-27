@@ -35,3 +35,8 @@ export const receiveCancelledShifts = (shifts) => ({
   type: "RECEIVE_CANCELLED_SHIFTS",
   shifts,
 });
+
+export const receiveUserDetails = (details) => ({
+  type: "RECEIVE_USER_DETAILS",
+  details,
+});

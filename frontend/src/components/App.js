@@ -19,6 +19,7 @@ import UserShifts from "./admin/UserShifts";
 import NewUser from "./NewUser";
 import CancelledShifts from "./users/CancelledShifts";
 import { useSelector } from "react-redux";
+import UserProfile from "./users/UserProfile";
 
 const App = () => {
   const loginCheck = useSelector((state) => state.logInCheck.hasLoggedIn);
@@ -62,6 +63,13 @@ const App = () => {
           {loginCheck === true ? (
             <Route path="/edit-shifts">
               <EditShifts />
+            </Route>
+          ) : (
+            <Redirect to="/" exact />
+          )}
+          {loginCheck === true ? (
+            <Route path="/user-profile">
+              <UserProfile />
             </Route>
           ) : (
             <Redirect to="/" exact />

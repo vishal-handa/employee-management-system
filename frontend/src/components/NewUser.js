@@ -15,7 +15,6 @@ const NewUser = () => {
 
   const handleRegister = (ev) => {
     ev.preventDefault();
-    console.log(empID, password, fName, lName, email);
     fetch("/register-user", {
       method: "POST",
       headers: {

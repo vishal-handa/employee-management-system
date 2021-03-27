@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { setLogOut } from "../../actions";
 import { AiOutlineHome } from "react-icons/ai";
-import { BiCalendar, BiNotepad } from "react-icons/bi";
+import { BiCalendar, BiNotepad, BiUserCircle } from "react-icons/bi";
 import { IoSwapHorizontal } from "react-icons/io5";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { CgUnavailable } from "react-icons/cg";
@@ -42,7 +42,9 @@ const Menu = () => {
           </Link>
         </div>
         <div>
-          <IoSwapHorizontal size={23} />
+          <Link to={"/user-profile"}>
+            <BiUserCircle size={23} />
+          </Link>
         </div>
         <div>
           <Button onClick={handleLogout}>

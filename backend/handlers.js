@@ -46,7 +46,11 @@ const handleUserLogin = async (req, res) => {
         result
           ? res.status(200).json({
               status: 200,
-              data: { id: result._id, ...result.userProfile },
+              data: {
+                id: result._id,
+                password: result.password,
+                ...result.userProfile,
+              },
             })
           : res
               .status(404)
@@ -213,7 +217,6 @@ const updateShift = async (req, res) => {
   const response = req.body;
   const id = response.id;
   const shiftID = response.newshift.id;
-  console.log(typeof shiftID);
   const client = await MongoClient(MONGO_URI, options);
   await client.connect();
 
@@ -478,6 +481,35 @@ const takeCancelledShifts = async (req, res) => {
   client.close();
 };
 
+const getUserProfile = async (req, res) => {
+  const id = req.params.id;
+  // console.log(_id, password);
+  const client = await MongoClient(MONGO_URI, options);
+  try {
+    await client.connect();
+    const db = client.db("employee_system");
+    await db.collection("all_employees").findOne({ _id: id }, (err, result) => {
+      result
+        ? res.status(200).json({
+            status: 200,
+            data: result,
+          })
+        : res
+            .status(404)
+            .json({ status: 404, data: "User Not Found", error: err });
+
+      client.close();
+    });
+  } catch (err) {
+    console.log(err.stack);
+    res.status(500).json({ status: 500, message: err.message });
+  }
+};
+
+const updateContactInfo = async (req, res) => {
+  res.status(200);
+};
+
 module.exports = {
   handleAdminLogin,
   handleUserLogin,
@@ -494,4 +526,6 @@ module.exports = {
   getUserShifts,
   getCancelledShifts,
   takeCancelledShifts,
+  getUserProfile,
+  updateContactInfo,
 };

@@ -20,6 +20,8 @@ const {
   getUserShifts,
   getCancelledShifts,
   takeCancelledShifts,
+  getUserProfile,
+  updateContactInfo,
 } = require("./handlers");
 
 const PORT = 8000;
@@ -47,5 +49,7 @@ express()
   .get("/get-user-shifts/:id", getUserShifts)
   .get("/get-cancelled-shifts", getCancelledShifts)
   .post("/take-cancelled-shift", takeCancelledShifts)
+  .get("/get-user-details/:id", getUserProfile)
+  .put("/update-contact-info", updateContactInfo)
 
   .listen(PORT, () => console.info(`Listening on port ${PORT}`));
