@@ -507,7 +507,72 @@ const getUserProfile = async (req, res) => {
 };
 
 const updateContactInfo = async (req, res) => {
-  res.status(200);
+  const response = req.body;
+  const id = response.id;
+  const password = response.password;
+  const client = await MongoClient(MONGO_URI, options);
+  try {
+    await client.connect();
+    const db = client.db("employee_system");
+    const userFound = await db
+      .collection("employee_data")
+      .findOne({ _id: id, password });
+    if (userFound) {
+      await db.collection("all_employees").updateOne(
+        { _id: id },
+        {
+          $set: {
+            email: response.email,
+            phoneNumber: response.phoneNumber,
+          },
+        }
+      );
+      res
+        .status(200)
+        .json({ status: 200, message: "Contact details updated." });
+    } else {
+      res.status(404).json({
+        status: 404,
+        message: "Password incorrect. Please try again.",
+      });
+    }
+    client.close();
+  } catch (err) {
+    console.log(err.stack);
+    res.status(500).json({ status: 500, message: err.message });
+  }
+};
+
+const updatePassword = async (req, res) => {
+  const response = req.body;
+  console.log(req.body);
+  const id = response.id;
+  const client = await MongoClient(MONGO_URI, options);
+  try {
+    await client.connect();
+    const db = client.db("employee_system");
+    await db.collection("employee_data").updateOne(
+      { _id: id, password: response.oldPassword },
+      {
+        $set: {
+          password: response.newPassword,
+        },
+      },
+      (err, result) => {
+        result
+          ? res.status(200).json({ status: 200, message: "Password updated." })
+          : res.status(404).json({
+              status: 404,
+              message: "User not found. Please put in correct password.",
+              data: err,
+            });
+        client.close();
+      }
+    );
+  } catch (err) {
+    console.log(err.stack);
+    res.status(500).json({ status: 500, message: err.message });
+  }
 };
 
 module.exports = {
@@ -528,4 +593,5 @@ module.exports = {
   takeCancelledShifts,
   getUserProfile,
   updateContactInfo,
+  updatePassword,
 };

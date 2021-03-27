@@ -39,28 +39,30 @@ const UserProfile = () => {
         <Button onClick={openPasswordModal}>Change password</Button>
         <h1>Your profile</h1>
         <hr />
-        <table>
-          <tr>
-            <td>Name</td>
-            <td>
-              {profile.fname} {profile.lname}
-            </td>
-          </tr>
-          <td>Employee ID</td>
-          <td>{profile._id}</td>
-          <tr>
-            <td>Email</td>
-            <td>{profile.email}</td>
-          </tr>
-          <tr>
-            <td>Phone Number</td>
-            <td>{profile.phoneNumber}</td>
-          </tr>
-          <tr>
-            <td>Joining Date</td>
-            <td>{moment(parseInt(profile.joinDate)).format("ll")}</td>
-          </tr>
-        </table>
+        {profile && (
+          <table>
+            <tr>
+              <td>Name</td>
+              <td>
+                {profile.fname} {profile.lname}
+              </td>
+            </tr>
+            <td>Employee ID</td>
+            <td>{profile._id}</td>
+            <tr>
+              <td>Email</td>
+              <td>{profile.email}</td>
+            </tr>
+            <tr>
+              <td>Phone Number</td>
+              <td>{profile.phoneNumber}</td>
+            </tr>
+            <tr>
+              <td>Joining Date</td>
+              <td>{moment(parseInt(profile.joinDate)).format("ll")}</td>
+            </tr>
+          </table>
+        )}
       </div>
       <UpdateDetailsModal
         showModal={showDetailsModal}
@@ -70,6 +72,7 @@ const UserProfile = () => {
       <UpdatePasswordModal
         showModal={changePasswordModa}
         setShowModal={setChangePasswordModal}
+        profile={profile}
       />
     </Wrapper>
   );

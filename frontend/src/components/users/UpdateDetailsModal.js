@@ -4,13 +4,20 @@ import { MdClose } from "react-icons/md";
 
 const UpdateDetailsModal = ({ showModal, setShowModal, profile }) => {
   const modalRef = useRef();
-  const [email, setEmail] = useState();
-  const [phone, setPhone] = useState();
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
+  const [status, setStatus] = useState(0);
+  const [error, setError] = useState("");
 
   const closeModal = (e) => {
     if (modalRef.current === e.target) {
       setShowModal(false);
+      setEmail("");
+      setPhone("");
+      setPassword("");
+      setError("");
+      setStatus(0);
     }
   };
 
@@ -18,6 +25,11 @@ const UpdateDetailsModal = ({ showModal, setShowModal, profile }) => {
     (e) => {
       if (e.key === "Escape" && showModal) {
         setShowModal(false);
+        setEmail("");
+        setPhone("");
+        setPassword("");
+        setError("");
+        setStatus(0);
       }
     },
     [setShowModal, showModal]
@@ -41,7 +53,18 @@ const UpdateDetailsModal = ({ showModal, setShowModal, profile }) => {
       }),
     })
       .then((res) => res.json())
-      .then((res) => console.log(res));
+      .then((res) => {
+        if (res.status === 200) {
+          setShowModal(false);
+          setStatus(200);
+          window.location.reload();
+        } else if (res.status === 404) {
+          setStatus(404);
+          setError(res.message);
+        } else {
+          window.alert("Server error. Please try again.");
+        }
+      });
   };
 
   return (
@@ -71,6 +94,7 @@ const UpdateDetailsModal = ({ showModal, setShowModal, profile }) => {
               </Label>
               <Input
                 type="text"
+                maxLength="10"
                 value={phone}
                 placeholder={profile.phoneNumber}
                 onChange={(ev) => setPhone(ev.target.value)}
@@ -80,12 +104,14 @@ const UpdateDetailsModal = ({ showModal, setShowModal, profile }) => {
                 <b>Password:</b>
               </Label>
               <Input
+                className={status === 404 ? "showError" : null}
                 type="password"
                 value={password}
                 placeholder="Confirm password"
                 onChange={(ev) => setPassword(ev.target.value)}
                 required
               />
+              {error && <Message>{error}</Message>}
               <Button type="submit">Update</Button>
             </Form>
           </ModalWrapper>
@@ -150,11 +176,6 @@ const Form = styled.form`
     font-size: 14px;
     padding-right: 5px;
   }
-`;
-
-const Div = styled.div`
-  text-align-last: end;
-  margin: 10px;
 `;
 
 const H1 = styled.h1`
