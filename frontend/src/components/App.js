@@ -5,6 +5,7 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
+import { useSelector } from "react-redux";
 import GlobalStyles from "./GlobalStyles";
 import styled from "styled-components";
 
@@ -18,8 +19,8 @@ import EmployeeList from "./admin/EmployeeList";
 import UserShifts from "./admin/UserShifts";
 import NewUser from "./NewUser";
 import CancelledShifts from "./users/CancelledShifts";
-import { useSelector } from "react-redux";
 import UserProfile from "./users/UserProfile";
+import SendMail from "./admin/SendMail";
 
 const App = () => {
   const loginCheck = useSelector((state) => state.logInCheck.hasLoggedIn);
@@ -91,6 +92,13 @@ const App = () => {
           {loginCheck === true ? (
             <Route path="/cancelled-shifts">
               <CancelledShifts />
+            </Route>
+          ) : (
+            <Redirect to="/" exact />
+          )}
+          {loginCheck === true ? (
+            <Route path="/mail-shifts">
+              <SendMail />
             </Route>
           ) : (
             <Redirect to="/" exact />

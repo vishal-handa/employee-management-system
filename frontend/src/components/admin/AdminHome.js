@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Menu from "./Menu";
 import { useSelector, useDispatch } from "react-redux";
-import { receieveAllShifts } from "../../actions";
+import { receieveAllShifts, receieveEmployeeList } from "../../actions";
 
 const AdminHome = () => {
   const dispatch = useDispatch();
@@ -15,7 +15,10 @@ const AdminHome = () => {
           dispatch(receieveAllShifts(res.data));
         }
       });
-  }, []);
+    fetch("/employee-list")
+      .then((res) => res.json())
+      .then((res) => dispatch(receieveEmployeeList(res.data)));
+  });
   return (
     <Wrapper>
       <Menu />

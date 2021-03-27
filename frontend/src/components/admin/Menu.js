@@ -3,7 +3,7 @@ import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { setLogOut } from "../../actions";
 import { useDispatch } from "react-redux";
-import { BiNotepad } from "react-icons/bi";
+import { BiNotepad, BiMailSend, BiUserCircle } from "react-icons/bi";
 import { IoIosPeople } from "react-icons/io";
 import { RiDashboardFill, RiLogoutCircleLine } from "react-icons/ri";
 import Pattern from "../images/pattern2.jpg";
@@ -34,6 +34,14 @@ const Menu = () => {
             <BiNotepad size={23} />
           </div>
         </Link>
+        <Link to={"/mail-shifts"}>
+          <div>
+            <BiMailSend size={23} />
+          </div>
+        </Link>
+        <div>
+          <BiUserCircle size={23} />
+        </div>
         <div>
           <Button onClick={handleLogout}>
             <RiLogoutCircleLine size={23} />

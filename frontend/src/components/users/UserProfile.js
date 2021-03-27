@@ -41,26 +41,30 @@ const UserProfile = () => {
         <hr />
         {profile && (
           <table>
-            <tr>
-              <td>Name</td>
-              <td>
-                {profile.fname} {profile.lname}
-              </td>
-            </tr>
-            <td>Employee ID</td>
-            <td>{profile._id}</td>
-            <tr>
-              <td>Email</td>
-              <td>{profile.email}</td>
-            </tr>
-            <tr>
-              <td>Phone Number</td>
-              <td>{profile.phoneNumber}</td>
-            </tr>
-            <tr>
-              <td>Joining Date</td>
-              <td>{moment(parseInt(profile.joinDate)).format("ll")}</td>
-            </tr>
+            <tbody>
+              <tr>
+                <td>Name</td>
+                <td>
+                  {profile.fname} {profile.lname}
+                </td>
+              </tr>
+              <tr>
+                <td>Employee ID</td>
+                <td>{profile._id}</td>
+              </tr>
+              <tr>
+                <td>Email</td>
+                <td>{profile.email}</td>
+              </tr>
+              <tr>
+                <td>Phone Number</td>
+                <td>{profile.phoneNumber}</td>
+              </tr>
+              <tr>
+                <td>Joining Date</td>
+                <td>{moment(parseInt(profile.joinDate)).format("ll")}</td>
+              </tr>
+            </tbody>
           </table>
         )}
       </div>
