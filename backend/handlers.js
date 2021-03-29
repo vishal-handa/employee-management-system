@@ -1,7 +1,9 @@
 "use strict";
 const { MongoClient, ObjectID, ObjectId, ReplSet } = require("mongodb");
+const nodemailer = require("nodemailer");
+const moment = require("moment");
 require("dotenv").config();
-const { MONGO_URI } = process.env;
+const { MONGO_URI, EMAIL_ID, PASSWORD } = process.env;
 
 const options = {
   useNewUrlParser: true,
@@ -575,6 +577,67 @@ const updatePassword = async (req, res) => {
   }
 };
 
+const sendEmails = async (req, res) => {
+  const response = req.body;
+  // console.log(response);
+  await response.forEach((elem) => {
+    let transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: EMAIL_ID,
+        pass: PASSWORD,
+      },
+    });
+    let message = "";
+    elem.userProfile.shifts.forEach((el) => {
+      // console.log(el);
+
+      let temp =
+        "<table border=1px width=500px>" +
+        " <thead>" +
+        "<th>Shift Type</th>" +
+        "<th>From</th>" +
+        "<th>To</th>" +
+        "</thead>" +
+        " <tbody>" +
+        "<tr>" +
+        "<td>" +
+        `${el.title}` +
+        "</td>" +
+        "<td>" +
+        `${moment(parseInt(el.startTime)).format("LLLL")}` +
+        "</td>" +
+        "<td>" +
+        `${moment(parseInt(el.endTime)).format("LLLL")}` +
+        "</td>" +
+        "</tr>" +
+        "</tbody>" +
+        "</table>" +
+        "<br/>";
+      message = message + temp;
+    });
+    let mailOptions = {
+      from: "vishalhanda705@gmail.com",
+      to: elem.userProfile.email,
+      subject: "Upcoming shifts",
+      html: `<p>Hello ${elem.userProfile.fname},</p> <p>Please see your shifts for upcoming week.</p> <br/>
+        <p>${message}</p>
+      <br/><p>Regards,</p><p>Vishal Handa</p><p>ACSD</p>`,
+    };
+    transporter.sendMail(mailOptions, (err, data) => {
+      err
+        ? res
+            .status(502)
+            .json({
+              status: 502,
+              data: err,
+              message: `Email not sent to ${elem.userProfile.email}`,
+            })
+        : res.status(200).json({ status: 200, data, message: "Success!" });
+    });
+  });
+};
+
 module.exports = {
   handleAdminLogin,
   handleUserLogin,
@@ -594,4 +657,5 @@ module.exports = {
   getUserProfile,
   updateContactInfo,
   updatePassword,
+  sendEmails,
 };

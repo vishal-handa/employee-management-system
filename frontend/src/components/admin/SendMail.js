@@ -20,23 +20,26 @@ const SendMail = () => {
       new Date(startDate).getTime() + 14400000
     ).getTime();
     let dateEnd = new Date(new Date(endDate).getTime() + 14400000).getTime();
-    let shiftFilter = empShifts.map((elem) => {
-      return {
-        ...elem,
-        userProfile: {
-          ...elem.userProfile,
-          shifts: elem.userProfile.shifts.filter((el) => {
-            if (
-              parseInt(el.startTime) > dateStart &&
-              parseInt(el.endTime) < dateEnd
-            ) {
-              return el;
-            }
-          }),
-        },
-      };
-    });
+    let shiftFilter = empShifts
+      .map((elem) => {
+        return {
+          ...elem,
+          userProfile: {
+            ...elem.userProfile,
+            shifts: elem.userProfile.shifts.filter((el) => {
+              if (
+                parseInt(el.startTime) > dateStart &&
+                parseInt(el.endTime) < dateEnd
+              ) {
+                return el;
+              }
+            }),
+          },
+        };
+      })
+      .filter((elem) => elem.userProfile.shifts.length > 0);
 
+    // console.log(shiftFilter);
     const shiftsWithEmails = shiftFilter.map((elem) => {
       return {
         ...elem,
@@ -47,6 +50,31 @@ const SendMail = () => {
       };
     });
     setFilteredShifts(shiftsWithEmails);
+  };
+  // console.log(filteredShifts);
+  const handleEmailFunction = () => {
+    console.log(filteredShifts);
+    fetch("/send-emails", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(filteredShifts),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.status === 200) {
+          console.log(res);
+          window.alert("Emails sent!");
+        } else if (res.status === 502) {
+          window.alert(
+            "Email not sent to " + res.message + ". Please try again."
+          );
+        } else {
+          window.alert("Server error. Please try again.");
+        }
+      });
   };
 
   return (
@@ -79,7 +107,7 @@ const SendMail = () => {
           </span>
         </div>
         <button onClick={handleShiftFilter}>Get appropriate shifts</button>
-        <button>Send Emails</button>
+        <button onClick={handleEmailFunction}>Send Emails</button>
         <table>
           <thead>
             <tr>
