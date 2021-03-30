@@ -88,7 +88,7 @@ const Wrapper = styled.div`
     }
   }
   background-image: url(${Pattern});
-  background-position-x: 370px;
+  background-position-x: 60px;
 `;
 
 const Container = styled.div`
