@@ -91,7 +91,7 @@ const AssignShiftModal = ({ showModal, setShowModal }) => {
                     {empData.map((elem) => {
                       return (
                         <option key={elem._id} value={elem._id}>
-                          {elem._id}
+                          {elem._id} - {elem.lname}, {elem.fname}
                         </option>
                       );
                     })}

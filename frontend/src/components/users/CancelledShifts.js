@@ -65,7 +65,16 @@ const CancelledShifts = () => {
                     {moment(parseInt(elem.endTime)).local().format("LLLL")}
                   </td>
                   <td>
-                    <button onClick={() => handleTakeShift(elem)}>
+                    <button
+                      onClick={() => handleTakeShift(elem)}
+                      disabled={
+                        new Date(parseInt(elem.startTime)).getTime() <
+                          Date.now() &&
+                        new Date(parseInt(elem.endTime)).getTime() < Date.now()
+                          ? true
+                          : false
+                      }
+                    >
                       Take Shift
                     </button>
                   </td>
