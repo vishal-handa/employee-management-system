@@ -33,7 +33,7 @@ const Shifts = () => {
         defaultView="month"
         startAccessor="startTime"
         endAccessor="endTime"
-        style={{ height: "100vh", width: "95%", padding: "10px" }}
+        style={{ height: "100vh", width: "95%", padding: "10px", zIndex: "10" }}
         eventPropGetter={(event) => {
           const eventData = events.find((ot) => ot.id === event.id);
           const backgroundColor = eventData && eventData.color;

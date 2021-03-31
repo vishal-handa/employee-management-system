@@ -21,6 +21,7 @@ import NewUser from "./NewUser";
 import CancelledShifts from "./users/CancelledShifts";
 import UserProfile from "./users/UserProfile";
 import SendMail from "./admin/SendMail";
+import EmployeeProfile from "./admin/EmployeeProfile";
 
 const App = () => {
   const loginCheck = useSelector((state) => state.logInCheck.hasLoggedIn);
@@ -99,6 +100,13 @@ const App = () => {
           {loginCheck === true ? (
             <Route path="/mail-shifts">
               <SendMail />
+            </Route>
+          ) : (
+            <Redirect to="/" exact />
+          )}
+          {loginCheck === true ? (
+            <Route path="/employee/:id">
+              <EmployeeProfile />
             </Route>
           ) : (
             <Redirect to="/" exact />

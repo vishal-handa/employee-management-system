@@ -70,6 +70,8 @@ const handleUserLogin = async (req, res) => {
               }
             }
           );
+        } else {
+          res.status(404).json({ status: 404, data: "Not Found", error: err });
         }
 
         client.close();
@@ -140,6 +142,7 @@ const registerNewUser = async (req, res) => {
   const client = await MongoClient(MONGO_URI, options);
   await client.connect();
   try {
+    const hashedPassword = await bcrypt.hash(response.password, SALT_ROUNDS);
     const db = client.db("employee_system");
     const empCheck = await db
       .collection("all_employees")
@@ -147,7 +150,7 @@ const registerNewUser = async (req, res) => {
     if (empCheck) {
       await db.collection("employee_data").insertOne({
         _id,
-        password: response.password,
+        password: hashedPassword,
         userProfile: {
           fname: response.fname,
           lname: response.lname,
@@ -678,6 +681,30 @@ const sendEmails = async (req, res) => {
   });
 };
 
+const getArchivedUsers = async (req, res) => {
+  const id = req.params.id;
+  const client = await MongoClient(MONGO_URI, options);
+  await client.connect();
+  try {
+    const db = client.db("employee_system");
+    await db
+      .collection("archived_employees")
+      .findOne({ _id: id }, (err, result) => {
+        result
+          ? res.status(200).json({
+              status: 200,
+              data: result.userProfile,
+            })
+          : console.log(err);
+        // console.log(result);
+        client.close();
+      });
+  } catch (err) {
+    console.log(err.stack);
+    res.status(500).json({ status: 500, message: err.message });
+  }
+};
+
 module.exports = {
   handleAdminLogin,
   handleUserLogin,
@@ -698,6 +725,7 @@ module.exports = {
   updateContactInfo,
   updatePassword,
   sendEmails,
+  getArchivedUsers,
 };
 
 // await db.collection("employee_data").updateOne(

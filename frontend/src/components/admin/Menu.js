@@ -52,7 +52,7 @@ const Menu = () => {
             {" Send Emails"}
           </ReactTooltip>
         </Link>
-        <Link data-tip data-for="profile">
+        <Link data-tip data-for="profile" to="#">
           <div>
             <BiUserCircle size={23} />
           </div>

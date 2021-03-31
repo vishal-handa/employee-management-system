@@ -26,49 +26,49 @@ const Menu = () => {
           <Link to={"/userHome"}>
             <AiOutlineHome size={23} />
           </Link>
-          <ReactTooltip place="right" type="dark" effect="solid" id="home">
+          <Tooltip place="right" type="dark" effect="solid" id="home">
             {" Home"}
-          </ReactTooltip>
+          </Tooltip>
         </div>
         <div data-tip data-for="calendar">
           <Link to={"/user-shifts"}>
             <BiCalendar size={23} />
           </Link>
-          <ReactTooltip place="right" type="dark" effect="solid" id="calendar">
+          <Tooltip place="right" type="dark" effect="solid" id="calendar">
             {" Calendar and Agenda"}
-          </ReactTooltip>
+          </Tooltip>
         </div>
         <div data-tip data-for="shifts">
           <Link to={"/edit-shifts"}>
             <BiNotepad size={23} />
           </Link>
-          <ReactTooltip place="right" type="dark" effect="solid" id="shifts">
+          <Tooltip place="right" type="dark" effect="solid" id="shifts">
             {" View Shifts"}
-          </ReactTooltip>
+          </Tooltip>
         </div>
         <div data-tip data-for="cancelled">
           <Link to={"/cancelled-shifts"}>
             <CgUnavailable size={23} />
           </Link>
-          <ReactTooltip place="right" type="dark" effect="solid" id="cancelled">
+          <Tooltip place="right" type="dark" effect="solid" id="cancelled">
             {" See Cancelled Shifts"}
-          </ReactTooltip>
+          </Tooltip>
         </div>
         <div data-tip data-for="profile">
           <Link to={"/user-profile"}>
             <BiUserCircle size={23} />
           </Link>
-          <ReactTooltip place="right" type="dark" effect="solid" id="profile">
+          <Tooltip place="right" type="dark" effect="solid" id="profile">
             {" User Profile"}
-          </ReactTooltip>
+          </Tooltip>
         </div>
         <div data-tip data-for="logout">
           <Button onClick={handleLogout}>
             <RiLogoutCircleLine size={23} />
           </Button>
-          <ReactTooltip place="right" type="dark" effect="solid" id="logout">
+          <Tooltip place="right" type="dark" effect="solid" id="logout">
             {" Logout"}
-          </ReactTooltip>
+          </Tooltip>
         </div>
       </Container>
     </Wrapper>
@@ -101,6 +101,10 @@ const Button = styled.button`
   outline: none;
   cursor: pointer;
   padding: 0;
+`;
+
+const Tooltip = styled(ReactTooltip)`
+  z-index: 500;
 `;
 
 export default Menu;

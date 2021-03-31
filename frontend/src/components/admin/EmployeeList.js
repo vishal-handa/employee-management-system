@@ -5,9 +5,11 @@ import { receieveEmployeeList } from "../../actions";
 import Menu from "./Menu";
 import AddEmployeeModal from "./AddEmployeeModal";
 import moment from "moment";
+import { useHistory } from "react-router";
 
 const EmployeeList = () => {
   const [showModal, setShowModal] = useState(false);
+  const history = useHistory();
   const dispatch = useDispatch();
   useEffect(() => {
     fetch("/employee-list")
@@ -48,6 +50,10 @@ const EmployeeList = () => {
       });
   };
 
+  const handleRowClick = (id) => {
+    history.push(`/employee/${id}`);
+  };
+
   return (
     <Wrapper>
       <Menu />
@@ -69,7 +75,11 @@ const EmployeeList = () => {
             <tbody>
               {list.map((elem, index) => {
                 return (
-                  <tr key={index}>
+                  <tr
+                    key={index}
+                    id={elem._id}
+                    onClick={() => handleRowClick(elem._id)}
+                  >
                     <td>{elem._id}</td>
                     <td>
                       {elem.fname} {elem.lname}
@@ -122,6 +132,10 @@ const Wrapper = styled.div`
 
   tr {
     border-bottom: 1px solid gray;
+    cursor: pointer;
+    &:hover {
+      background-color: #f1eeee;
+    }
   }
 `;
 

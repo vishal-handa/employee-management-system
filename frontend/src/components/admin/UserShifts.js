@@ -80,7 +80,7 @@ const UserShifts = () => {
       },
     };
   });
-  console.log(sortFutureShifts, sortOldShifts);
+
   const sortAllShifts = useSelector((state) => state.allShifts.users);
 
   const UpcomingShifts = () => {
