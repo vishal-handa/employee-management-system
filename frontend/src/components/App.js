@@ -24,7 +24,7 @@ import SendMail from "./admin/SendMail";
 
 const App = () => {
   const loginCheck = useSelector((state) => state.logInCheck.hasLoggedIn);
-  console.log(loginCheck);
+  // console.log(loginCheck);
 
   return (
     <Wrapper>

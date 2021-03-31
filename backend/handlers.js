@@ -3,7 +3,9 @@ const { MongoClient, ObjectID, ObjectId, ReplSet } = require("mongodb");
 const nodemailer = require("nodemailer");
 const moment = require("moment");
 require("dotenv").config();
+const bcrypt = require("bcrypt");
 const { MONGO_URI, EMAIL_ID, PASSWORD } = process.env;
+const SALT_ROUNDS = 10;
 
 const options = {
   useNewUrlParser: true,
@@ -44,19 +46,31 @@ const handleUserLogin = async (req, res) => {
     const db = client.db("employee_system");
     await db
       .collection("employee_data")
-      .findOne({ _id, password }, (err, result) => {
-        result
-          ? res.status(200).json({
-              status: 200,
-              data: {
-                id: result._id,
-                password: result.password,
-                ...result.userProfile,
-              },
-            })
-          : res
-              .status(404)
-              .json({ status: 404, data: "Not Found", error: err });
+      .findOne({ _id }, async (err, result) => {
+        if (result) {
+          // console.log(result);
+          await bcrypt.compare(
+            password,
+            result.password,
+            async (error, output) => {
+              if (output) {
+                // console.log(output);
+                res.status(200).json({
+                  status: 200,
+                  data: {
+                    id: result._id,
+                    password: result.password,
+                    ...result.userProfile,
+                  },
+                });
+              } else {
+                res
+                  .status(404)
+                  .json({ status: 404, data: "Not Found", error: err });
+              }
+            }
+          );
+        }
 
         client.close();
         console.log("disconnected!");
@@ -516,10 +530,9 @@ const updateContactInfo = async (req, res) => {
   try {
     await client.connect();
     const db = client.db("employee_system");
-    const userFound = await db
-      .collection("employee_data")
-      .findOne({ _id: id, password });
-    if (userFound) {
+    const userFound = await db.collection("employee_data").findOne({ _id: id });
+    const compare = await bcrypt.compare(password, userFound.password);
+    if (compare) {
       await db.collection("all_employees").updateOne(
         { _id: id },
         {
@@ -547,30 +560,59 @@ const updateContactInfo = async (req, res) => {
 
 const updatePassword = async (req, res) => {
   const response = req.body;
-  console.log(req.body);
+  // console.log(req.body);
   const id = response.id;
   const client = await MongoClient(MONGO_URI, options);
   try {
     await client.connect();
     const db = client.db("employee_system");
-    await db.collection("employee_data").updateOne(
-      { _id: id, password: response.oldPassword },
-      {
-        $set: {
-          password: response.newPassword,
-        },
-      },
-      (err, result) => {
-        result
-          ? res.status(200).json({ status: 200, message: "Password updated." })
-          : res.status(404).json({
-              status: 404,
-              message: "User not found. Please put in correct password.",
-              data: err,
-            });
-        client.close();
-      }
-    );
+    const hashedPwd = await bcrypt.hash(response.newPassword, SALT_ROUNDS);
+    console.log(hashedPwd);
+    await db
+      .collection("employee_data")
+      .findOne({ _id: id }, async (err, result) => {
+        if (result) {
+          console.log(result);
+          await bcrypt.compare(
+            response.oldPassword,
+            result.password,
+            async (error, output) => {
+              if (output) {
+                console.log(output);
+                await db.collection("employee_data").updateOne(
+                  { _id: id },
+                  {
+                    $set: {
+                      password: hashedPwd,
+                    },
+                  },
+                  (err, resp) => {
+                    resp
+                      ? res
+                          .status(200)
+                          .json({ status: 200, message: "Password updated." })
+                      : res.status(404).json({
+                          status: 404,
+                          message:
+                            "User not found. Please put in correct password.",
+                        });
+                    client.close();
+                  }
+                );
+              } else {
+                console.log(output);
+                res.status(404).json({
+                  status: 404,
+                  message: "User not found. Please put in correct password.",
+                  data: error,
+                });
+              }
+            }
+          );
+        } else {
+          console.log(err);
+        }
+      });
   } catch (err) {
     console.log(err.stack);
     res.status(500).json({ status: 500, message: err.message });
@@ -626,13 +668,11 @@ const sendEmails = async (req, res) => {
     };
     transporter.sendMail(mailOptions, (err, data) => {
       err
-        ? res
-            .status(502)
-            .json({
-              status: 502,
-              data: err,
-              message: `Email not sent to ${elem.userProfile.email}`,
-            })
+        ? res.status(502).json({
+            status: 502,
+            data: err,
+            message: `Email not sent to ${elem.userProfile.email}`,
+          })
         : res.status(200).json({ status: 200, data, message: "Success!" });
     });
   });
@@ -659,3 +699,22 @@ module.exports = {
   updatePassword,
   sendEmails,
 };
+
+// await db.collection("employee_data").updateOne(
+//   { _id: id, password: response.oldPassword },
+//   {
+//     $set: {
+//       password: response.newPassword,
+//     },
+//   },
+//   (err, result) => {
+//     result
+//       ? res.status(200).json({ status: 200, message: "Password updated." })
+//       : res.status(404).json({
+//           status: 404,
+//           message: "User not found. Please put in correct password.",
+//           data: err,
+//         });
+//     client.close();
+//   }
+// );

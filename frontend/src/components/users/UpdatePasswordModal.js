@@ -54,6 +54,7 @@ const UpdatePasswordModal = ({ showModal, setShowModal, profile }) => {
       })
         .then((res) => res.json())
         .then((res) => {
+          console.log(res);
           if (res.status === 200) {
             setShowModal(false);
             setStatus(200);
