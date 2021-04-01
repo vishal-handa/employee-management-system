@@ -9,6 +9,7 @@ import { useHistory } from "react-router";
 
 const EmployeeList = () => {
   const [showModal, setShowModal] = useState(false);
+  const [list, setList] = useState([]);
   const history = useHistory();
   const dispatch = useDispatch();
   useEffect(() => {
@@ -16,7 +17,7 @@ const EmployeeList = () => {
       .then((res) => res.json())
       .then((res) => dispatch(receieveEmployeeList(res.data)));
   }, []);
-  const list = useSelector((state) => state.allEmployees.employees);
+  const temp = useSelector((state) => state.allEmployees.employees);
   // console.log(list);
   const openModal = () => {
     setShowModal((prev) => !prev);
@@ -50,8 +51,24 @@ const EmployeeList = () => {
       });
   };
 
+  const activeUsers = temp.filter((el) => el.currentStatus === "Active");
+  const retiredUsers = temp.filter((el) => el.currentStatus === "Retired");
+  const archivedUsers = temp.filter((el) => el.currentStatus === "Archived");
+
   const handleRowClick = (id) => {
     history.push(`/employee/${id}`);
+  };
+
+  const handleActive = () => {
+    return setList(activeUsers);
+  };
+
+  const handleRetired = () => {
+    return setList(retiredUsers);
+  };
+
+  const handleArchive = () => {
+    return setList(archivedUsers);
   };
 
   return (
@@ -59,6 +76,11 @@ const EmployeeList = () => {
       <Menu />
       <Container>
         <Button onClick={openModal}>Add New User</Button>
+        <ButtonContainer>
+          <Button1 onClick={handleActive}>Active Employees</Button1>
+          <Button2 onClick={handleRetired}>Retired Employees</Button2>
+          <Button1 onClick={handleArchive}>Archived Employees</Button1>
+        </ButtonContainer>
         <table>
           <thead>
             <tr>
@@ -152,6 +174,21 @@ const Button = styled.button`
   color: #fff;
   font-size: 24px;
   cursor: pointer;
+`;
+
+const ButtonContainer = styled.div`
+  width: inherit;
+`;
+
+const Button1 = styled.button`
+  width: 33%;
+  height: 40px;
+  background-color: burlywood;
+`;
+
+const Button2 = styled.button`
+  width: 33%;
+  height: 40px;
 `;
 
 export default EmployeeList;

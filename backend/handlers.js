@@ -693,7 +693,7 @@ const getArchivedUsers = async (req, res) => {
         result
           ? res.status(200).json({
               status: 200,
-              data: result.userProfile,
+              data: result.userProfile.shifts,
             })
           : console.log(err);
         // console.log(result);
@@ -727,22 +727,3 @@ module.exports = {
   sendEmails,
   getArchivedUsers,
 };
-
-// await db.collection("employee_data").updateOne(
-//   { _id: id, password: response.oldPassword },
-//   {
-//     $set: {
-//       password: response.newPassword,
-//     },
-//   },
-//   (err, result) => {
-//     result
-//       ? res.status(200).json({ status: 200, message: "Password updated." })
-//       : res.status(404).json({
-//           status: 404,
-//           message: "User not found. Please put in correct password.",
-//           data: err,
-//         });
-//     client.close();
-//   }
-// );
