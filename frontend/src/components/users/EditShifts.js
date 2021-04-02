@@ -141,13 +141,13 @@ const ButtonContainer = styled.div`
 `;
 
 const Button = styled.button`
-  width: 33%;
+  width: 33.33%;
   height: 40px;
   background-color: burlywood;
 `;
 
 const Button2 = styled.button`
-  width: 33%;
+  width: 33.33%;
   height: 40px;
 `;
 

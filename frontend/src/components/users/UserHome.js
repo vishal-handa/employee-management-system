@@ -102,11 +102,12 @@ const Grid = styled.section`
   margin: 20px 10% 0% 10%;
   align-items: center;
   justify-items: center;
+  overflow-x: hidden;
 `;
 
 const GridElement = styled.div`
   padding: 10px;
-  width: 300px;
+  max-width: 300px;
   margin: 30px;
   color: white;
   div {
