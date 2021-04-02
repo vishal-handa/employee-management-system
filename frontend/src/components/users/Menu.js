@@ -5,7 +5,6 @@ import styled from "styled-components";
 import { setLogOut } from "../../actions";
 import { AiOutlineHome } from "react-icons/ai";
 import { BiCalendar, BiNotepad, BiUserCircle } from "react-icons/bi";
-import { IoSwapHorizontal } from "react-icons/io5";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { CgUnavailable } from "react-icons/cg";
 import Pattern from "../images/pattern.jpg";
@@ -79,13 +78,17 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   height: 100vh;
-  top: 0;
   position: sticky;
+  top: 0;
+  z-index: 1500;
   svg {
     padding: 30px 17px 30px 17px;
     color: white;
     &:hover {
       opacity: 80%;
+    }
+    &:focus {
+      background-color: #7c7a7a;
     }
   }
   background-image: url(${Pattern});
@@ -105,6 +108,8 @@ const Button = styled.button`
 
 const Tooltip = styled(ReactTooltip)`
   z-index: 500;
+  background-color: #f9f83d;
+  border: 0.5px solid black;
+  color: black;
 `;
-
 export default Menu;
