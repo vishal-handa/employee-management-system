@@ -61,9 +61,10 @@ const EditShifts = () => {
     <Wrapper>
       <Menu />
       <Container>
+        <Banner>View and Edit Shifts</Banner>
         <ButtonContainer>
           <Button onClick={UpcomingShifts}>Upcoming shifts</Button>
-          <Button2 onClick={PastShifts}>Past Shifts</Button2>
+          <Button onClick={PastShifts}>Past Shifts</Button>
           <Button onClick={AllShifts}>All shifts</Button>
         </ButtonContainer>
         <table>
@@ -136,19 +137,32 @@ const Container = styled.div`
   width: inherit;
 `;
 
+const Banner = styled.p`
+  width: 100%;
+  color: #e64f5e;
+  padding: 50px 0px 50px 10px;
+  font-size: 3em;
+  font-weight: 900;
+`;
+
 const ButtonContainer = styled.div`
   width: inherit;
+  padding-bottom: 20px;
 `;
 
 const Button = styled.button`
   width: 33.33%;
   height: 40px;
-  background-color: burlywood;
-`;
-
-const Button2 = styled.button`
-  width: 33.33%;
-  height: 40px;
+  background-color: transparent;
+  transition: 0.3s;
+  cursor: pointer;
+  font-size: 15px;
+  background-color: #e64f5e;
+  color: white;
+  &:hover {
+    background-color: white;
+    color: #e64f5e;
+  }
 `;
 
 export default EditShifts;

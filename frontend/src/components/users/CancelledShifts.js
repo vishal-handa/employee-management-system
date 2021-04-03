@@ -43,47 +43,51 @@ const CancelledShifts = () => {
   return (
     <Wrapper>
       <Menu />
-      {events && (
-        <table>
-          <thead>
-            <tr>
-              <th>Shift Title</th>
-              <th>Start Time</th>
-              <th>End Time</th>
-              <th>Take Shift</th>
-            </tr>
-          </thead>
-          <tbody>
-            {events.map((elem, index) => {
-              return (
-                <tr key={index}>
-                  <td>{elem.title}</td>
-                  <td>
-                    {moment(parseInt(elem.startTime)).local().format("LLLL")}
-                  </td>
-                  <td>
-                    {moment(parseInt(elem.endTime)).local().format("LLLL")}
-                  </td>
-                  <td>
-                    <button
-                      onClick={() => handleTakeShift(elem)}
-                      disabled={
-                        new Date(parseInt(elem.startTime)).getTime() <
-                          Date.now() &&
-                        new Date(parseInt(elem.endTime)).getTime() < Date.now()
-                          ? true
-                          : false
-                      }
-                    >
-                      Take Shift
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      )}
+      <Container>
+        <Banner>Cancelled Shifts</Banner>
+        {events && (
+          <table>
+            <thead>
+              <tr>
+                <th>Shift Title</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Take Shift</th>
+              </tr>
+            </thead>
+            <tbody>
+              {events.map((elem, index) => {
+                return (
+                  <tr key={index}>
+                    <td>{elem.title}</td>
+                    <td>
+                      {moment(parseInt(elem.startTime)).local().format("LLLL")}
+                    </td>
+                    <td>
+                      {moment(parseInt(elem.endTime)).local().format("LLLL")}
+                    </td>
+                    <td>
+                      <button
+                        onClick={() => handleTakeShift(elem)}
+                        disabled={
+                          new Date(parseInt(elem.startTime)).getTime() <
+                            Date.now() &&
+                          new Date(parseInt(elem.endTime)).getTime() <
+                            Date.now()
+                            ? true
+                            : false
+                        }
+                      >
+                        Take Shift
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        )}
+      </Container>
     </Wrapper>
   );
 };
@@ -94,8 +98,21 @@ const Wrapper = styled.div`
 
   table {
     width: 100%;
-    margin: 10px;
   }
+`;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: inherit;
+`;
+
+const Banner = styled.p`
+  width: 100%;
+  color: #0c64b1;
+  padding: 50px 0px 50px 10px;
+  font-size: 3em;
+  font-weight: 900;
 `;
 
 export default CancelledShifts;

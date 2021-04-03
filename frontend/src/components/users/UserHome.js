@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import Menu from "./Menu";
 import { useSelector } from "react-redux";
-import bg from "../images/home-page-background.jpg";
 import emp from "../images/employee.png";
 
 const UserHome = () => {
@@ -17,7 +16,7 @@ const UserHome = () => {
           </div>
           <div>
             <H1>
-              <strong>{`Hi! ${userState.fname} ${userState.lname}!`}</strong>
+              <strong>{`Hi, ${userState.fname} ${userState.lname}!`}</strong>
             </H1>
             <P>Welcome to your personal employee portal.</P>
           </div>
