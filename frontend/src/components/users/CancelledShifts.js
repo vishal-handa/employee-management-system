@@ -98,6 +98,10 @@ const Wrapper = styled.div`
 
   table {
     width: 100%;
+    th {
+      background-color: #4b4b4b;
+      color: white;
+    }
   }
 `;
 
@@ -109,7 +113,7 @@ const Container = styled.div`
 
 const Banner = styled.p`
   width: 100%;
-  color: #0c64b1;
+  color: #e64f5e;
   padding: 50px 0px 50px 10px;
   font-size: 3em;
   font-weight: 900;

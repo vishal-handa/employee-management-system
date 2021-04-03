@@ -135,6 +135,12 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: inherit;
+  table {
+    th {
+      background-color: #4b4b4b;
+      color: white;
+    }
+  }
 `;
 
 const Banner = styled.p`
@@ -160,8 +166,7 @@ const Button = styled.button`
   background-color: #e64f5e;
   color: white;
   &:hover {
-    background-color: white;
-    color: #e64f5e;
+    text-decoration: underline;
   }
 `;
 

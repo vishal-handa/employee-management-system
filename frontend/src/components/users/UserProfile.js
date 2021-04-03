@@ -34,40 +34,43 @@ const UserProfile = () => {
   return (
     <Wrapper>
       <Menu />
-      <div>
-        <Button onClick={openDetailsModal}>Update contact information</Button>
-        <Button onClick={openPasswordModal}>Change password</Button>
-        <h1>Your profile</h1>
-        <hr />
-        {profile && (
-          <table>
-            <tbody>
-              <tr>
-                <td>Name</td>
-                <td>
-                  {profile.fname} {profile.lname}
-                </td>
-              </tr>
-              <tr>
-                <td>Employee ID</td>
-                <td>{profile._id}</td>
-              </tr>
-              <tr>
-                <td>Email</td>
-                <td>{profile.email}</td>
-              </tr>
-              <tr>
-                <td>Phone Number</td>
-                <td>{profile.phoneNumber}</td>
-              </tr>
-              <tr>
-                <td>Joining Date</td>
-                <td>{moment(parseInt(profile.joinDate)).format("ll")}</td>
-              </tr>
-            </tbody>
-          </table>
-        )}
-      </div>
+      <Container>
+        <Banner>Your Profile</Banner>
+        <ButtonContainer>
+          <Button onClick={openDetailsModal}>Update contact information</Button>
+          <Button onClick={openPasswordModal}>Change password</Button>
+        </ButtonContainer>
+        <TableContainer>
+          {profile && (
+            <table>
+              <tbody>
+                <tr>
+                  <td>Name</td>
+                  <td>
+                    {profile.fname} {profile.lname}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Employee ID</td>
+                  <td>{profile._id}</td>
+                </tr>
+                <tr>
+                  <td>Email</td>
+                  <td>{profile.email}</td>
+                </tr>
+                <tr>
+                  <td>Phone Number</td>
+                  <td>{profile.phoneNumber}</td>
+                </tr>
+                <tr>
+                  <td>Joining Date</td>
+                  <td>{moment(parseInt(profile.joinDate)).format("ll")}</td>
+                </tr>
+              </tbody>
+            </table>
+          )}
+        </TableContainer>
+      </Container>
       <UpdateDetailsModal
         showModal={showDetailsModal}
         setShowModal={setShowDetailsModal}
@@ -84,26 +87,52 @@ const UserProfile = () => {
 
 const Wrapper = styled.div`
   display: flex;
-  & > div > table {
-    border: none;
+  width: 100%;
+`;
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: inherit;
+`;
+
+const Button = styled.button`
+  color: #fff;
+  font-size: 17px;
+  cursor: pointer;
+  background: transparent;
+  padding: 15px;
+`;
+
+const Banner = styled.p`
+  width: 100%;
+  color: #e64f5e;
+  padding: 50px 0px 50px 10px;
+  font-size: 3em;
+  font-weight: 900;
+`;
+
+const ButtonContainer = styled.div`
+  width: inherit;
+  align-content: right;
+  background-color: #4b4b4b;
+  text-align: right;
+`;
+
+const TableContainer = styled.div`
+  display: flex;
+  margin: auto;
+  table {
+    border: none;
     td,
     tr {
       border: none;
       padding: 20px;
     }
+    td:nth-child(1) {
+      font-weight: 900;
+    }
   }
-`;
-
-const Button = styled.button`
-  min-width: 100px;
-  padding: 16px 32px;
-  border-radius: 4px;
-  border: none;
-  background: #141414;
-  color: #fff;
-  font-size: 24px;
-  cursor: pointer;
 `;
 
 export default UserProfile;
