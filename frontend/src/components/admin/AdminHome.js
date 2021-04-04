@@ -8,10 +8,19 @@ import {
   receiveCancelledShifts,
 } from "../../actions";
 import emp from "../images/admin.jpg";
+import { AiOutlineSetting } from "react-icons/ai";
+import UpdateAdminPassword from "./UpdateAdminPassword";
 
 const AdminHome = () => {
+  const [showSettings, setShowSettings] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const dispatch = useDispatch();
   const adminState = useSelector((state) => state.admin.admin);
+
+  const openModal = () => {
+    setShowModal((prev) => !prev);
+  };
+
   useEffect(() => {
     fetch("/get-all-shifts")
       .then((res) => res.json())
@@ -32,6 +41,7 @@ const AdminHome = () => {
         }
       });
   });
+
   return (
     <Wrapper>
       <Menu />
@@ -46,6 +56,17 @@ const AdminHome = () => {
             </H1>
             <P>Welcome to your personal admin portal.</P>
           </div>
+          <SettingsContainer>
+            <SettingsIcon onClick={() => setShowSettings((prev) => !prev)}>
+              <AiOutlineSetting size={23} />
+            </SettingsIcon>
+            <ChangePassword
+              style={{ display: showSettings === true ? "block" : "none" }}
+              onClick={openModal}
+            >
+              Change password
+            </ChangePassword>
+          </SettingsContainer>
         </Section>
         <Statement>Here you can..</Statement>
         <Grid>
@@ -110,6 +131,11 @@ const AdminHome = () => {
           </GridElement>
         </Grid>
       </Container>
+      <UpdateAdminPassword
+        showModal={showModal}
+        setShowModal={setShowModal}
+        profile={adminState}
+      />
     </Wrapper>
   );
 };
@@ -132,7 +158,25 @@ const Img = styled.img`
 const Section = styled.section`
   display: flex;
   padding: 5px;
+  width: inherit;
 `;
+
+const SettingsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  right: 30px;
+  align-items: flex-end;
+`;
+
+const SettingsIcon = styled.button`
+  background: transparent;
+  cursor: pointer;
+  svg {
+    color: gray;
+  }
+`;
+const ChangePassword = styled.button``;
 
 const H1 = styled.h1`
   font-size: 4em;

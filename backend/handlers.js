@@ -21,15 +21,28 @@ const handleAdminLogin = async (req, res) => {
     const db = client.db("employee_system");
     await db
       .collection("admin_credentials")
-      .findOne({ userName, password }, (err, result) => {
-        result
-          ? res.status(200).json({ status: 200, data: result.userProfile })
-          : res
-              .status(404)
-              .json({ status: 404, data: "Not Found", error: err });
+      .findOne({ userName }, async (err, output) => {
+        if (output) {
+          await bcrypt.compare(
+            password,
+            output.password,
+            async (error, result) => {
+              result
+                ? res.status(200).json({
+                    status: 200,
+                    data: { ...output.userProfile, id: output._id },
+                  })
+                : res
+                    .status(404)
+                    .json({ status: 404, data: "Not Found", error: error });
 
-        client.close();
-        console.log("disconnected!");
+              client.close();
+              console.log("disconnected!");
+            }
+          );
+        } else if (err) {
+          console.log(err);
+        }
       });
   } catch (err) {
     console.log(err.stack);
@@ -739,6 +752,67 @@ const getArchivedUsers = async (req, res) => {
   }
 };
 
+const updateAdminPassowrd = async (req, res) => {
+  const response = req.body;
+  // console.log(req.body);
+  const id = response.id;
+  const client = await MongoClient(MONGO_URI, options);
+  try {
+    await client.connect();
+    const db = client.db("employee_system");
+    const hashedPwd = await bcrypt.hash(response.newPassword, SALT_ROUNDS);
+    console.log(hashedPwd);
+    await db
+      .collection("admin_credentials")
+      .findOne({ _id: ObjectId(id) }, async (err, result) => {
+        if (result) {
+          console.log(result);
+          await bcrypt.compare(
+            response.oldPassword,
+            result.password,
+            async (error, output) => {
+              if (output) {
+                console.log(output);
+                await db.collection("admin_credentials").updateOne(
+                  { _id: ObjectId(id) },
+                  {
+                    $set: {
+                      password: hashedPwd,
+                    },
+                  },
+                  (err, resp) => {
+                    resp
+                      ? res
+                          .status(200)
+                          .json({ status: 200, message: "Password updated." })
+                      : res.status(404).json({
+                          status: 404,
+                          message:
+                            "User not found. Please put in correct password.",
+                        });
+                    client.close();
+                  }
+                );
+              } else {
+                console.log(output);
+                res.status(404).json({
+                  status: 404,
+                  message: "User not found. Please put in correct password.",
+                  data: error,
+                });
+              }
+            }
+          );
+        } else {
+          console.log(err);
+        }
+      });
+  } catch (err) {
+    console.log(err.stack);
+    res.status(500).json({ status: 500, message: err.message });
+  }
+};
+
 module.exports = {
   handleAdminLogin,
   handleUserLogin,
@@ -761,4 +835,5 @@ module.exports = {
   sendEmails,
   getArchivedUsers,
   updateUserEmail,
+  updateAdminPassowrd,
 };

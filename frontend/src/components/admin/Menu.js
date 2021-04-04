@@ -23,7 +23,7 @@ const Menu = () => {
       <Container>
         <Link to={"/adminHome"} data-tip data-for="home">
           <div>
-            <RiDashboardFill size={23} />
+            <RiDashboardFill size={23} fill="white" />
           </div>
           <ReactTooltip place="right" type="dark" effect="solid" id="home">
             {" Home"}
@@ -61,14 +61,6 @@ const Menu = () => {
             {" See Cancelled Shifts"}
           </ReactTooltip>
         </div>
-        <Link data-tip data-for="profile" to="#">
-          <div>
-            <BiUserCircle size={23} />
-          </div>
-          <ReactTooltip place="right" type="dark" effect="solid" id="profile">
-            {" Profile"}
-          </ReactTooltip>
-        </Link>
         <div data-tip data-for="logout">
           <Button onClick={handleLogout}>
             <RiLogoutCircleLine size={23} />
