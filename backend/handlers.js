@@ -1,5 +1,5 @@
 "use strict";
-const { MongoClient, ObjectID, ObjectId, ReplSet } = require("mongodb");
+const { MongoClient, ObjectID, ObjectId } = require("mongodb");
 const nodemailer = require("nodemailer");
 const moment = require("moment");
 require("dotenv").config();
@@ -540,8 +540,42 @@ const updateContactInfo = async (req, res) => {
         { _id: id },
         {
           $set: {
-            email: response.email,
             phoneNumber: response.phoneNumber,
+          },
+        }
+      );
+      res
+        .status(200)
+        .json({ status: 200, message: "Contact details updated." });
+    } else {
+      res.status(404).json({
+        status: 404,
+        message: "Password incorrect. Please try again.",
+      });
+    }
+    client.close();
+  } catch (err) {
+    console.log(err.stack);
+    res.status(500).json({ status: 500, message: err.message });
+  }
+};
+
+const updateUserEmail = async (req, res) => {
+  const response = req.body;
+  const id = response.id;
+  const password = response.password;
+  const client = await MongoClient(MONGO_URI, options);
+  try {
+    await client.connect();
+    const db = client.db("employee_system");
+    const userFound = await db.collection("employee_data").findOne({ _id: id });
+    const compare = await bcrypt.compare(password, userFound.password);
+    if (compare) {
+      await db.collection("all_employees").updateOne(
+        { _id: id },
+        {
+          $set: {
+            email: response.email,
           },
         }
       );
@@ -726,4 +760,5 @@ module.exports = {
   updatePassword,
   sendEmails,
   getArchivedUsers,
+  updateUserEmail,
 };

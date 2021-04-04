@@ -113,7 +113,7 @@ const Container = styled.div`
 
 const Banner = styled.p`
   width: 100%;
-  color: #e64f5e;
+  color: black;
   padding: 50px 0px 50px 10px;
   font-size: 3em;
   font-weight: 900;

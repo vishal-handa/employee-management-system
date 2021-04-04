@@ -6,10 +6,12 @@ import { receiveUserDetails } from "../../actions";
 import moment from "moment";
 import UpdateDetailsModal from "./UpdateDetailsModal";
 import UpdatePasswordModal from "./UpdatePasswordModal";
+import UpdateEmailModal from "./UpdateEmailModal";
 
 const UserProfile = () => {
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [changePasswordModa, setChangePasswordModal] = useState(false);
+  const [changeEmailModal, setChangeEmailModal] = useState(false);
   const dispatch = useDispatch();
   const userID = useSelector((state) => state.user.user.id);
   const profile = useSelector((state) => state.userDetails.profile);
@@ -20,6 +22,10 @@ const UserProfile = () => {
 
   const openPasswordModal = () => {
     setChangePasswordModal((prev) => !prev);
+  };
+
+  const openEmailModal = () => {
+    setChangeEmailModal((prev) => !prev);
   };
 
   useEffect(() => {
@@ -37,7 +43,8 @@ const UserProfile = () => {
       <Container>
         <Banner>Your Profile</Banner>
         <ButtonContainer>
-          <Button onClick={openDetailsModal}>Update contact information</Button>
+          <Button onClick={openDetailsModal}>Change phone number</Button>
+          <Button onClick={openEmailModal}>Change email</Button>
           <Button onClick={openPasswordModal}>Change password</Button>
         </ButtonContainer>
         <TableContainer>
@@ -81,6 +88,11 @@ const UserProfile = () => {
         setShowModal={setChangePasswordModal}
         profile={profile}
       />
+      <UpdateEmailModal
+        showModal={changeEmailModal}
+        setShowModal={setChangeEmailModal}
+        profile={profile}
+      />
     </Wrapper>
   );
 };
@@ -106,7 +118,7 @@ const Button = styled.button`
 
 const Banner = styled.p`
   width: 100%;
-  color: #e64f5e;
+  color: black;
   padding: 50px 0px 50px 10px;
   font-size: 3em;
   font-weight: 900;

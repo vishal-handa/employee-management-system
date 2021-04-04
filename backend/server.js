@@ -25,6 +25,7 @@ const {
   updatePassword,
   sendEmails,
   getArchivedUsers,
+  updateUserEmail,
 } = require("./handlers");
 
 const PORT = 8000;
@@ -55,6 +56,7 @@ express()
   .get("/get-user-details/:id", getUserProfile)
   .put("/update-contact-info", updateContactInfo)
   .put("/update-password", updatePassword)
+  .put("/update-user-email", updateUserEmail)
   .post("/send-emails", sendEmails)
   .get("/get-archived-user/:id", getArchivedUsers)
 

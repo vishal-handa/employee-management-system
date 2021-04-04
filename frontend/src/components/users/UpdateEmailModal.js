@@ -2,9 +2,9 @@ import React, { useState, useRef, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import { MdClose } from "react-icons/md";
 
-const UpdateDetailsModal = ({ showModal, setShowModal, profile }) => {
+const UpdateEmailModal = ({ showModal, setShowModal, profile }) => {
   const modalRef = useRef();
-  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState(0);
   const [error, setError] = useState("");
@@ -12,7 +12,7 @@ const UpdateDetailsModal = ({ showModal, setShowModal, profile }) => {
   const closeModal = (e) => {
     if (modalRef.current === e.target) {
       setShowModal(false);
-      setPhone("");
+      setEmail("");
       setPassword("");
       setError("");
       setStatus(0);
@@ -23,7 +23,7 @@ const UpdateDetailsModal = ({ showModal, setShowModal, profile }) => {
     (e) => {
       if (e.key === "Escape" && showModal) {
         setShowModal(false);
-        setPhone("");
+        setEmail("");
         setPassword("");
         setError("");
         setStatus(0);
@@ -39,13 +39,13 @@ const UpdateDetailsModal = ({ showModal, setShowModal, profile }) => {
 
   const handleSubmit = (ev) => {
     ev.preventDefault();
-    fetch("/update-contact-info", {
+    fetch("/update-user-email", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         id: profile._id,
         password: password,
-        phoneNumber: phone,
+        email: email,
       }),
     })
       .then((res) => res.json())
@@ -68,38 +68,38 @@ const UpdateDetailsModal = ({ showModal, setShowModal, profile }) => {
       {showModal ? (
         <Background onClick={closeModal} ref={modalRef}>
           <ModalWrapper showModal={showModal}>
-            <ModalContent></ModalContent>
-            <CloseModalButton
-              aria-label="Close modal"
-              onClick={() => setShowModal((prev) => !prev)}
-            />
-            <Form onSubmit={handleSubmit}>
-              <H1>Update Phone Number</H1>
-              <Label>
-                <b>Phone number:</b>
-              </Label>
-              <Input
-                type="text"
-                maxLength="10"
-                value={phone}
-                placeholder={profile.phoneNumber}
-                onChange={(ev) => setPhone(ev.target.value)}
-                required
+            <ModalContent>
+              <CloseModalButton
+                aria-label="Close modal"
+                onClick={() => setShowModal((prev) => !prev)}
               />
-              <Label>
-                <b>Password:</b>
-              </Label>
-              <Input
-                className={status === 404 ? "showError" : null}
-                type="password"
-                value={password}
-                placeholder="Confirm password"
-                onChange={(ev) => setPassword(ev.target.value)}
-                required
-              />
-              {error && <Message>{error}</Message>}
-              <Button type="submit">Update</Button>
-            </Form>
+              <Form onSubmit={handleSubmit}>
+                <H1>Update Email</H1>
+                <Label>
+                  <b>Email:</b>
+                </Label>
+                <Input
+                  type="email"
+                  value={email}
+                  placeholder={profile.email}
+                  onChange={(ev) => setEmail(ev.target.value)}
+                  required
+                />
+                <Label>
+                  <b>Password:</b>
+                </Label>
+                <Input
+                  className={status === 404 ? "showError" : null}
+                  type="password"
+                  value={password}
+                  placeholder="Confirm password"
+                  onChange={(ev) => setPassword(ev.target.value)}
+                  required
+                />
+                {error && <Message>{error}</Message>}
+                <Button type="submit">Update</Button>
+              </Form>
+            </ModalContent>
           </ModalWrapper>
         </Background>
       ) : null}
@@ -157,6 +157,7 @@ const CloseModalButton = styled(MdClose)`
 const Form = styled.form`
   padding: 30px;
   display: flex;
+  width: 300px;
   flex-direction: column;
   label {
     font-size: 14px;
@@ -181,7 +182,7 @@ const Input = styled.input`
   outline: none;
   box-sizing: border-box;
   text-align: left;
-  width: 70%;
+  width: 90%;
   &.showError {
     border: 2px solid red;
   }
@@ -217,4 +218,4 @@ const Message = styled.p`
   color: red;
 `;
 
-export default UpdateDetailsModal;
+export default UpdateEmailModal;
