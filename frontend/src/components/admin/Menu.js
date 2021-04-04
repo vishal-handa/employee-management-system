@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { BiNotepad, BiMailSend, BiUserCircle } from "react-icons/bi";
 import { IoIosPeople } from "react-icons/io";
 import { RiDashboardFill, RiLogoutCircleLine } from "react-icons/ri";
+import { CgUnavailable } from "react-icons/cg";
 import Pattern from "../images/pattern2.jpg";
 import ReactTooltip from "react-tooltip";
 
@@ -52,6 +53,14 @@ const Menu = () => {
             {" Send Emails"}
           </ReactTooltip>
         </Link>
+        <div data-tip data-for="cancelled">
+          <Link to={"/cancelled-shifts-admin-side"}>
+            <CgUnavailable size={23} />
+          </Link>
+          <ReactTooltip place="right" type="dark" effect="solid" id="cancelled">
+            {" See Cancelled Shifts"}
+          </ReactTooltip>
+        </div>
         <Link data-tip data-for="profile" to="#">
           <div>
             <BiUserCircle size={23} />
@@ -80,7 +89,7 @@ const Wrapper = styled.div`
   top: 0;
   position: sticky;
   svg {
-    padding: 30px 17px 30px 17px;
+    padding: 25px 17px 25px 17px;
 
     color: white;
     &:hover {

@@ -2,7 +2,11 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Menu from "./Menu";
 import { useSelector, useDispatch } from "react-redux";
-import { receieveAllShifts, receieveEmployeeList } from "../../actions";
+import {
+  receieveAllShifts,
+  receieveEmployeeList,
+  receiveCancelledShifts,
+} from "../../actions";
 import emp from "../images/admin.jpg";
 
 const AdminHome = () => {
@@ -19,6 +23,14 @@ const AdminHome = () => {
     fetch("/employee-list")
       .then((res) => res.json())
       .then((res) => dispatch(receieveEmployeeList(res.data)));
+
+    fetch("/get-cancelled-shifts")
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.status === 200) {
+          dispatch(receiveCancelledShifts(res.data));
+        }
+      });
   });
   return (
     <Wrapper>
