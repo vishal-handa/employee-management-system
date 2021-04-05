@@ -82,7 +82,8 @@ const SendMail = () => {
       <Menu />
       <Container>
         <Banner>Notify invigilators</Banner>
-        <div>
+        <P>-Select date range and send emails-</P>
+        <InputContainer>
           <span>
             <b>Start Date: </b>
           </span>
@@ -93,8 +94,8 @@ const SendMail = () => {
               onChange={(ev) => setStartDate(ev.target.value)}
             />
           </span>
-        </div>
-        <div>
+        </InputContainer>
+        <InputContainer>
           <span>
             <b>End Date: </b>
           </span>
@@ -105,9 +106,11 @@ const SendMail = () => {
               onChange={(ev) => setEndDate(ev.target.value)}
             />
           </span>
-        </div>
-        <button onClick={handleShiftFilter}>Get appropriate shifts</button>
-        <button onClick={handleEmailFunction}>Send Emails</button>
+        </InputContainer>
+        <ButtonContainer>
+          <button onClick={handleShiftFilter}>Get appropriate shifts</button>
+          <button onClick={handleEmailFunction}>Send Emails</button>
+        </ButtonContainer>
         <table>
           <thead>
             <tr>
@@ -160,6 +163,33 @@ const Banner = styled.p`
   padding: 50px 0px 50px 10px;
   font-size: 3em;
   font-weight: 900;
+`;
+
+const P = styled.p`
+  font-size: 2em;
+  text-align: center;
+`;
+
+const InputContainer = styled.div`
+  text-align: center;
+  padding: 20px;
+  input {
+    width: 200px;
+  }
+`;
+
+const ButtonContainer = styled.div`
+  text-align: center;
+  button {
+    margin: 20px;
+    padding: 10px;
+    cursor: pointer;
+    background-color: black;
+    color: white;
+    &:hover {
+      background-color: gray;
+    }
+  }
 `;
 
 export default SendMail;
