@@ -81,7 +81,7 @@ const Wrapper = styled.div`
   top: 0;
   position: sticky;
   svg {
-    padding: 25px 17px 25px 17px;
+    padding: 30px 17px 30px 17px;
 
     color: white;
     &:hover {

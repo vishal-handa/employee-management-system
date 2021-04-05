@@ -75,11 +75,14 @@ const EmployeeList = () => {
     <Wrapper>
       <Menu />
       <Container>
-        <Button onClick={openModal}>Add New User</Button>
+        <Banner>Your Employees</Banner>
         <ButtonContainer>
-          <Button1 onClick={handleActive}>Active Employees</Button1>
-          <Button2 onClick={handleRetired}>Retired Employees</Button2>
-          <Button1 onClick={handleArchive}>Archived Employees</Button1>
+          <div>
+            <Button onClick={handleActive}>Active Employees</Button>
+            <Button onClick={handleRetired}>Retired Employees</Button>
+            <Button onClick={handleArchive}>Archived Employees</Button>
+          </div>
+          <Button onClick={openModal}>+Add New User</Button>
         </ButtonContainer>
         <table>
           <thead>
@@ -161,34 +164,34 @@ const Wrapper = styled.div`
   }
 `;
 
+const Banner = styled.p`
+  width: 100%;
+  color: black;
+  padding: 50px 0px 50px 10px;
+  font-size: 3em;
+  font-weight: 900;
+`;
+
 const Container = styled.div`
   width: inherit;
 `;
 
-const Button = styled.button`
-  min-width: 100px;
-  padding: 16px 32px;
-  border-radius: 4px;
-  border: none;
-  background: #141414;
-  color: #fff;
-  font-size: 24px;
-  cursor: pointer;
-`;
-
 const ButtonContainer = styled.div`
   width: inherit;
+  display: flex;
+  justify-content: space-between;
+  background-color: black;
 `;
 
-const Button1 = styled.button`
-  width: 33%;
+const Button = styled.button`
   height: 40px;
-  background-color: burlywood;
-`;
-
-const Button2 = styled.button`
-  width: 33%;
-  height: 40px;
+  background: transparent;
+  color: white;
+  cursor: pointer;
+  padding: 0px 20px 0px 20px;
+  &:hover {
+    background-color: gray;
+  }
 `;
 
 export default EmployeeList;

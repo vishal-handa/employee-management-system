@@ -99,12 +99,16 @@ const UserShifts = () => {
     <Wrapper>
       <Menu />
       <Container>
+        <Banner>Your Employees</Banner>
         <ButtonContainer>
-          <Button1 onClick={UpcomingShifts}>Upcoming shifts</Button1>
-          <Button2 onClick={PastShifts}>Past Shifts</Button2>
-          <Button1 onClick={AllShifts}>All shifts</Button1>
+          <div>
+            <Button onClick={UpcomingShifts}>Upcoming shifts</Button>
+            <Button onClick={PastShifts}>Past Shifts</Button>
+            <Button onClick={AllShifts}>All shifts</Button>
+          </div>
+          <Button onClick={openModal}>+Add New Shifts</Button>
         </ButtonContainer>
-        <Button onClick={openModal}>Add New Shifts</Button>
+
         <h1>Following are the assigned shifts </h1>
         <table>
           <thead>
@@ -202,19 +206,16 @@ const Wrapper = styled.div`
   width: 100%;
 `;
 
-const Button = styled.button`
-  min-width: 100px;
-  padding: 16px 32px;
-  border-radius: 4px;
-  border: none;
-  background: #141414;
-  color: #fff;
-  font-size: 24px;
-  cursor: pointer;
-`;
-
 const Container = styled.div`
   width: inherit;
+`;
+
+const Banner = styled.p`
+  width: 100%;
+  color: black;
+  padding: 50px 0px 50px 10px;
+  font-size: 3em;
+  font-weight: 900;
 `;
 
 const Update = styled.button`
@@ -240,6 +241,20 @@ const Delete = styled.button`
 
 const ButtonContainer = styled.div`
   width: inherit;
+  display: flex;
+  justify-content: space-between;
+  background-color: black;
+`;
+
+const Button = styled.button`
+  height: 40px;
+  background: transparent;
+  color: white;
+  cursor: pointer;
+  padding: 0px 20px 0px 20px;
+  &:hover {
+    background-color: gray;
+  }
 `;
 
 const Button1 = styled.button`

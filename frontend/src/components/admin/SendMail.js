@@ -81,7 +81,7 @@ const SendMail = () => {
     <Wrapper>
       <Menu />
       <Container>
-        <h1>Notify invigilators</h1>
+        <Banner>Notify invigilators</Banner>
         <div>
           <span>
             <b>Start Date: </b>
@@ -152,6 +152,14 @@ const Wrapper = styled.div`
 
 const Container = styled.div`
   width: inherit;
+`;
+
+const Banner = styled.p`
+  width: 100%;
+  color: black;
+  padding: 50px 0px 50px 10px;
+  font-size: 3em;
+  font-weight: 900;
 `;
 
 export default SendMail;

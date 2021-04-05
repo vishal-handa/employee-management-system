@@ -617,18 +617,15 @@ const updatePassword = async (req, res) => {
     await client.connect();
     const db = client.db("employee_system");
     const hashedPwd = await bcrypt.hash(response.newPassword, SALT_ROUNDS);
-    console.log(hashedPwd);
     await db
       .collection("employee_data")
       .findOne({ _id: id }, async (err, result) => {
         if (result) {
-          console.log(result);
           await bcrypt.compare(
             response.oldPassword,
             result.password,
             async (error, output) => {
               if (output) {
-                console.log(output);
                 await db.collection("employee_data").updateOne(
                   { _id: id },
                   {
@@ -650,7 +647,6 @@ const updatePassword = async (req, res) => {
                   }
                 );
               } else {
-                console.log(output);
                 res.status(404).json({
                   status: 404,
                   message: "User not found. Please put in correct password.",
@@ -761,18 +757,16 @@ const updateAdminPassowrd = async (req, res) => {
     await client.connect();
     const db = client.db("employee_system");
     const hashedPwd = await bcrypt.hash(response.newPassword, SALT_ROUNDS);
-    console.log(hashedPwd);
+
     await db
       .collection("admin_credentials")
       .findOne({ _id: ObjectId(id) }, async (err, result) => {
         if (result) {
-          console.log(result);
           await bcrypt.compare(
             response.oldPassword,
             result.password,
             async (error, output) => {
               if (output) {
-                console.log(output);
                 await db.collection("admin_credentials").updateOne(
                   { _id: ObjectId(id) },
                   {
