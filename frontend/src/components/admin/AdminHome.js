@@ -152,7 +152,7 @@ const Container = styled.div`
 
 const Img = styled.img`
   border-radius: 50%;
-  border: 10px solid #d2302d;
+  border: 10px solid #03763d;
 `;
 
 const Section = styled.section`
@@ -176,7 +176,11 @@ const SettingsIcon = styled.button`
     color: gray;
   }
 `;
-const ChangePassword = styled.button``;
+const ChangePassword = styled.button`
+  background: transparent;
+  border: 1px solid gray;
+  cursor: pointer;
+`;
 
 const H1 = styled.h1`
   font-size: 4em;

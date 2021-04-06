@@ -51,40 +51,40 @@ const EmployeeProfile = () => {
     <Wrapper>
       <Menu />
       <Container>
+        <Banner>Employee Details</Banner>
         {empDetails && (
-          <table>
-            <thead>
-              <th colSpan="2">Employee Details</th>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Employee ID</td>
-                <td>{empDetails._id}</td>
-              </tr>
-              <tr>
-                <td>First Name</td>
-                <td>{empDetails.fname}</td>
-              </tr>
-              <tr>
-                <td>Last Name</td>
-                <td>{empDetails.lname}</td>
-              </tr>
-              <tr>
-                <td>Email</td>
-                <td>{empDetails.email}</td>
-              </tr>
-              <tr>
-                <td>Phone Number</td>
-                <td>{empDetails.phoneNumber}</td>
-              </tr>
-            </tbody>
-          </table>
+          <Div>
+            <table>
+              <tbody>
+                <tr>
+                  <td>Employee ID</td>
+                  <td>{empDetails._id}</td>
+                </tr>
+                <tr>
+                  <td>First Name</td>
+                  <td>{empDetails.fname}</td>
+                </tr>
+                <tr>
+                  <td>Last Name</td>
+                  <td>{empDetails.lname}</td>
+                </tr>
+                <tr>
+                  <td>Email</td>
+                  <td>{empDetails.email}</td>
+                </tr>
+                <tr>
+                  <td>Phone Number</td>
+                  <td>{empDetails.phoneNumber}</td>
+                </tr>
+              </tbody>
+            </table>
+          </Div>
         )}
-        <h1>Employee Shifts</h1>
+        <Banner>Employee Shifts</Banner>
         <ButtonContainer>
-          <Button1 onClick={UpcomingShifts}>Upcoming shifts</Button1>
-          <Button2 onClick={PastShifts}>Past Shifts</Button2>
-          <Button1 onClick={AllShifts}>All shifts</Button1>
+          <Button onClick={UpcomingShifts}>Upcoming shifts</Button>
+          <Button onClick={PastShifts}>Past Shifts</Button>
+          <Button onClick={AllShifts}>All shifts</Button>
         </ButtonContainer>
         {empShifts ? (
           <>
@@ -120,15 +120,26 @@ const EmployeeProfile = () => {
 const Wrapper = styled.div`
   display: flex;
   width: 100%;
+`;
 
+const Banner = styled.p`
+  width: 100%;
+  color: black;
+  padding: 50px 0px 50px 10px;
+  font-size: 3em;
+  font-weight: 900;
+`;
+
+const Div = styled.div`
+  display: flex;
+  justify-content: center;
   table {
-    th {
-      text-align: center;
-      border: none;
-    }
     td,
     tr {
       border: none;
+    }
+    td:nth-child(1) {
+      font-weight: 950;
     }
   }
 `;
@@ -139,17 +150,20 @@ const Container = styled.div`
 
 const ButtonContainer = styled.div`
   width: inherit;
+
+  background-color: black;
 `;
 
-const Button1 = styled.button`
-  width: 33%;
+const Button = styled.button`
   height: 40px;
-  background-color: burlywood;
-`;
-
-const Button2 = styled.button`
-  width: 33%;
-  height: 40px;
+  width: 33.33%;
+  background: transparent;
+  color: white;
+  cursor: pointer;
+  padding: 0px 20px 0px 20px;
+  &:hover {
+    background-color: gray;
+  }
 `;
 
 export default EmployeeProfile;

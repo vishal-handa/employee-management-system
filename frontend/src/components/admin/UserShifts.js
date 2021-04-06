@@ -257,15 +257,4 @@ const Button = styled.button`
   }
 `;
 
-const Button1 = styled.button`
-  width: 33%;
-  height: 40px;
-  background-color: burlywood;
-`;
-
-const Button2 = styled.button`
-  width: 33%;
-  height: 40px;
-`;
-
 export default UserShifts;
