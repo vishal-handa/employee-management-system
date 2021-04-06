@@ -33,6 +33,7 @@ const EmployeeList = () => {
       .then((res) => {
         if (res.status === 200) {
           window.location.reload();
+          window.alert(res.message);
         }
       });
   };
@@ -47,6 +48,7 @@ const EmployeeList = () => {
       .then((res) => {
         if (res.status === 200) {
           window.location.reload();
+          window.alert(res.message);
         }
       });
   };
@@ -117,13 +119,13 @@ const EmployeeList = () => {
                     <td>{elem.phoneNumber}</td>
                     <td>
                       {elem.currentStatus === "Active" ? (
-                        <button onClick={() => handleRetireStatus(elem)}>
+                        <Retire onClick={() => handleRetireStatus(elem)}>
                           Retire Employee
-                        </button>
+                        </Retire>
                       ) : elem.currentStatus === "Retired" ? (
-                        <button onClick={() => handleArchiveStatus(elem)}>
+                        <Archive onClick={() => handleArchiveStatus(elem)}>
                           Archive Employee
-                        </button>
+                        </Archive>
                       ) : null}
                     </td>
                   </tr>
@@ -191,6 +193,26 @@ const Button = styled.button`
   padding: 0px 20px 0px 20px;
   &:hover {
     background-color: gray;
+  }
+`;
+
+const Retire = styled.button`
+  background-color: #03783d;
+  cursor: pointer;
+  padding: 10px;
+  color: white;
+  &:hover {
+    background-color: #044527;
+  }
+`;
+
+const Archive = styled.button`
+  background-color: #e64f5e;
+  cursor: pointer;
+  padding: 10px;
+  color: white;
+  &:hover {
+    background-color: #800000;
   }
 `;
 

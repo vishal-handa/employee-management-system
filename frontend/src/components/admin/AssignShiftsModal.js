@@ -9,9 +9,7 @@ const AssignShiftModal = ({ showModal, setShowModal }) => {
   const [endTime, setEndTime] = useState("");
   const [shiftType, setShiftType] = useState("");
   const [timeError, setTimeError] = useState(false);
-  const empData = useSelector((state) => state.allEmployees.employees).filter(
-    (elem) => elem.currentStatus === "Active"
-  );
+  const empData = useSelector((state) => state.allShifts.users);
   // console.log(empData);
   const modalRef = useRef();
   const closeModal = (e) => {
@@ -90,8 +88,9 @@ const AssignShiftModal = ({ showModal, setShowModal }) => {
                     <option autoFocus>Select ID</option>
                     {empData.map((elem) => {
                       return (
-                        <option key={elem._id} value={elem._id}>
-                          {elem._id} - {elem.lname}, {elem.fname}
+                        <option key={elem.id} value={elem.id}>
+                          {elem.id} - {elem.userProfile.lname},{" "}
+                          {elem.userProfile.fname}
                         </option>
                       );
                     })}

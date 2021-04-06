@@ -21,6 +21,10 @@ const EmployeeProfile = () => {
       fetch(`/get-archived-user/${id}`)
         .then((res) => res.json())
         .then((res) => setTemp(res.data));
+    } else if (empDetails.currentStatus === "Retired") {
+      fetch(`/get-retired-user/${id}`)
+        .then((res) => res.json())
+        .then((res) => setTemp(res.data));
     }
   }, [empDetails]);
   console.log(empDetails, temp);
@@ -81,6 +85,7 @@ const EmployeeProfile = () => {
           </Div>
         )}
         <Banner>Employee Shifts</Banner>
+
         <ButtonContainer>
           <Button onClick={UpcomingShifts}>Upcoming shifts</Button>
           <Button onClick={PastShifts}>Past Shifts</Button>

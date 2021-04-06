@@ -380,6 +380,9 @@ const retireUser = async (req, res) => {
 
   try {
     const db = client.db("employee_system");
+    const retireEmployee = await db
+      .collection("employee_data")
+      .findOne({ _id: response._id });
     await db.collection("all_employees").updateOne(
       {
         _id: response._id,
@@ -388,22 +391,12 @@ const retireUser = async (req, res) => {
         $set: {
           currentStatus: "Retired",
         },
-      },
-      (err, result) => {
-        if (err) {
-          console.log(err);
-          res.status(500).json({ error: "User not found." });
-        } else {
-          console.log(result);
-          res.status(200).json({
-            status: 200,
-            message: "User updated.",
-            data: result,
-          });
-          client.close();
-        }
       }
     );
+    await db.collection("retired_employees").insertOne(retireEmployee);
+    await db.collection("employee_data").deleteOne({ _id: response._id });
+    res.status(200).json({ status: 200, message: "Employee Retired." });
+    client.close();
   } catch (err) {
     console.log(err.stack);
     res.status(500).json({ status: 500, message: err.message });
@@ -418,7 +411,7 @@ const archiveUser = async (req, res) => {
   try {
     const db = client.db("employee_system");
     const archiveEmployee = await db
-      .collection("employee_data")
+      .collection("retired_employees")
       .findOne({ _id: response._id });
     await db
       .collection("all_employees")
@@ -427,10 +420,10 @@ const archiveUser = async (req, res) => {
         { $set: { currentStatus: "Archived" } }
       );
     await db.collection("archived_employees").insertOne(archiveEmployee);
-    await db.collection("employee_data").deleteOne({ _id: response._id });
+    await db.collection("retired_employees").deleteOne({ _id: response._id });
 
     res.status(200).json({ status: 200, message: "Employee Archived." });
-    console.log(archiveEmployee);
+    client.close();
   } catch (err) {
     console.log(err.stack);
     res.status(500).json({ status: 500, message: err.message });
@@ -748,6 +741,30 @@ const getArchivedUsers = async (req, res) => {
   }
 };
 
+const getRetiredUser = async (req, res) => {
+  const id = req.params.id;
+  const client = await MongoClient(MONGO_URI, options);
+  await client.connect();
+  try {
+    const db = client.db("employee_system");
+    await db
+      .collection("retired_employees")
+      .findOne({ _id: id }, (err, result) => {
+        result
+          ? res.status(200).json({
+              status: 200,
+              data: result.userProfile.shifts,
+            })
+          : console.log(err);
+        // console.log(result);
+        client.close();
+      });
+  } catch (err) {
+    console.log(err.stack);
+    res.status(500).json({ status: 500, message: err.message });
+  }
+};
+
 const updateAdminPassowrd = async (req, res) => {
   const response = req.body;
   // console.log(req.body);
@@ -828,6 +845,7 @@ module.exports = {
   updatePassword,
   sendEmails,
   getArchivedUsers,
+  getRetiredUser,
   updateUserEmail,
   updateAdminPassowrd,
 };

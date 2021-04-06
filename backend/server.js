@@ -27,6 +27,7 @@ const {
   getArchivedUsers,
   updateUserEmail,
   updateAdminPassowrd,
+  getRetiredUser,
 } = require("./handlers");
 
 const PORT = 8000;
@@ -60,6 +61,7 @@ express()
   .put("/update-user-email", updateUserEmail)
   .post("/send-emails", sendEmails)
   .get("/get-archived-user/:id", getArchivedUsers)
+  .get("/get-retired-user/:id", getRetiredUser)
   .put("/update-admin-password", updateAdminPassowrd)
 
   .listen(PORT, () => console.info(`Listening on port ${PORT}`));
