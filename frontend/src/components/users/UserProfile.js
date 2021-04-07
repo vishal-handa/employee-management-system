@@ -114,6 +114,9 @@ const Button = styled.button`
   cursor: pointer;
   background: transparent;
   padding: 15px;
+  &:hover {
+    background-color: gray;
+  }
 `;
 
 const Banner = styled.p`
@@ -127,7 +130,7 @@ const Banner = styled.p`
 const ButtonContainer = styled.div`
   width: inherit;
   align-content: right;
-  background-color: #4b4b4b;
+  background-color: black;
   text-align: right;
 `;
 

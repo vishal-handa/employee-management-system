@@ -160,12 +160,6 @@ const ModalContent = styled.div`
   p {
     margin-bottom: 1rem;
   }
-  button {
-    padding: 10px 24px;
-    background: #141414;
-    color: #fff;
-    border: none;
-  }
 `;
 
 const CloseModalButton = styled(MdClose)`
@@ -224,18 +218,16 @@ const Label = styled.label`
 
 const Button = styled.button`
   height: 40px;
-  background: #4caf50;
+  background-color: #1798d1;
   border: none;
-  border-radius: 10px;
   color: #fff;
   cursor: pointer;
   letter-spacing: 0.05em;
   outline: none;
   margin-top: 20px;
   &:hover {
-    background: white;
-    color: black;
-    border: 2px solid black;
+    background-color: #0a63b0;
+    color: white;
   }
 `;
 

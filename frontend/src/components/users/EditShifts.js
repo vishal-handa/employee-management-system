@@ -89,7 +89,7 @@ const EditShifts = () => {
                     {moment(parseInt(elem.endTime)).local().format("LLLL")}
                   </td>
                   <td>
-                    <button
+                    <Cancel
                       onClick={(ev) => handleCancellingShifts(ev, elem)}
                       disabled={
                         new Date(parseInt(elem.startTime)) < Date.now()
@@ -98,10 +98,10 @@ const EditShifts = () => {
                       }
                     >
                       Cancel
-                    </button>
+                    </Cancel>
                   </td>
                   <td>
-                    <button
+                    <Swap
                       disabled={
                         new Date(parseInt(elem.startTime)) < Date.now()
                           ? true
@@ -109,7 +109,7 @@ const EditShifts = () => {
                       }
                     >
                       Swap
-                    </button>
+                    </Swap>
                   </td>
                 </tr>
               );
@@ -160,6 +160,34 @@ const Button = styled.button`
   color: white;
   &:hover {
     background-color: gray;
+  }
+`;
+
+const Cancel = styled.button`
+  background-color: #e64f5e;
+  cursor: pointer;
+  padding: 10px;
+  color: white;
+  &:hover {
+    background-color: #800000;
+  }
+  &:disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+`;
+
+const Swap = styled.button`
+  background-color: #1798d1;
+  cursor: pointer;
+  padding: 10px;
+  color: white;
+  &:hover {
+    background-color: #1798d1;
+  }
+  &:disabled {
+    pointer-events: none;
+    opacity: 0.5;
   }
 `;
 
