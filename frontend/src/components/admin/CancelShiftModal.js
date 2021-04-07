@@ -116,12 +116,6 @@ const ModalContent = styled.div`
   p {
     margin-bottom: 1rem;
   }
-  button {
-    padding: 10px 24px;
-    background: #141414;
-    color: #fff;
-    border: none;
-  }
 `;
 
 const CloseModalButton = styled(MdClose)`
@@ -148,7 +142,7 @@ const Form = styled.form`
 
 const Button = styled.button`
   height: 40px;
-  background: #4caf50;
+  background-color: #e64f5e;
   border: none;
   color: #fff;
   cursor: pointer;
@@ -156,9 +150,7 @@ const Button = styled.button`
   outline: none;
   margin-top: 20px;
   &:hover {
-    background: white;
-    color: black;
-    border: 2px solid black;
+    background-color: #800000;
   }
 `;
 

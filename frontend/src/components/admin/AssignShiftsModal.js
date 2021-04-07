@@ -158,7 +158,6 @@ const ModalWrapper = styled.div`
   color: #000;
   position: relative;
   z-index: 10;
-  border-radius: 10px;
 `;
 
 const ModalContent = styled.div`
@@ -203,7 +202,6 @@ const Button = styled.button`
   height: 40px;
   background: #4caf50;
   border: none;
-  border-radius: 10px;
   color: #fff;
   cursor: pointer;
   letter-spacing: 0.05em;

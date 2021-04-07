@@ -99,7 +99,6 @@ const ModalWrapper = styled.div`
   color: #000;
   position: relative;
   z-index: 10;
-  border-radius: 10px;
 `;
 
 const ModalContent = styled.div`
@@ -109,15 +108,7 @@ const ModalContent = styled.div`
   align-items: center;
   line-height: 1.8;
   color: #141414;
-  p {
-    margin-bottom: 1rem;
-  }
-  button {
-    padding: 10px 24px;
-    background: #141414;
-    color: #fff;
-    border: none;
-  }
+  width: 400px;
 `;
 
 const CloseModalButton = styled(MdClose)`
@@ -135,7 +126,7 @@ const Form = styled.form`
   padding: 30px;
   display: flex;
   flex-direction: column;
-  width: 400px;
+  width: 300px;
   label {
     font-size: 14px;
     padding-right: 5px;
@@ -144,24 +135,20 @@ const Form = styled.form`
 
 const Button = styled.button`
   height: 40px;
-  background: #4caf50;
+  background: black;
   border: none;
-  border-radius: 10px;
   color: #fff;
   cursor: pointer;
-  letter-spacing: 0.05em;
   outline: none;
   margin-top: 20px;
   &:hover {
-    background: white;
-    color: black;
-    border: 2px solid black;
+    background: gray;
   }
 `;
 
 const H1 = styled.h1`
   margin-bottom: 10px;
-  padding: 10px;
+  padding: 20px;
   font-size: 1.7em;
   text-align: center;
   border-bottom: 1px solid gray;
@@ -171,30 +158,6 @@ const Label = styled.label`
   color: black;
   font-size: 1em;
   padding: 10px 10px 0px 10px;
-`;
-
-const Input = styled.input`
-  margin: 10px;
-  height: 25px;
-  display: inline-block;
-  border: none;
-  border-bottom: 1px solid #ccc;
-  outline: none;
-  box-sizing: border-box;
-  text-align: left;
-  &.showError {
-    border: 2px solid red;
-  }
-`;
-
-const ErrorMessage = styled.h3`
-  margin-bottom: 0rem;
-  text-align: center;
-  display: none;
-  &.showError {
-    display: block;
-    color: red;
-  }
 `;
 
 export default DeleteShiftModal;

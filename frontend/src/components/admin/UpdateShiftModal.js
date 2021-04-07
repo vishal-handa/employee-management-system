@@ -169,7 +169,6 @@ const ModalWrapper = styled.div`
   color: #000;
   position: relative;
   z-index: 10;
-  border-radius: 10px;
 `;
 
 const ModalContent = styled.div`
@@ -179,12 +178,6 @@ const ModalContent = styled.div`
   align-items: center;
   line-height: 1.8;
   color: #141414;
-  button {
-    padding: 10px 24px;
-    background: #141414;
-    color: #fff;
-    border: none;
-  }
 `;
 
 const Notice = styled.p`
@@ -218,18 +211,15 @@ const Form = styled.form`
 
 const Button = styled.button`
   height: 40px;
-  background: #4caf50;
+  background-color: #03783d;
   border: none;
-  border-radius: 10px;
   color: #fff;
   cursor: pointer;
   letter-spacing: 0.05em;
   outline: none;
   margin-top: 20px;
   &:hover {
-    background: white;
-    color: black;
-    border: 2px solid black;
+    background-color: #044527;
   }
 `;
 

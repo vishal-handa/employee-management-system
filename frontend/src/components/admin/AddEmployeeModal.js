@@ -239,6 +239,7 @@ const Input = styled.input`
   outline: none;
   box-sizing: border-box;
   text-align: left;
+  width: 200px;
   &.showError {
     border: 2px solid red;
   }
@@ -249,7 +250,6 @@ const SubmitButton = styled.button`
   height: 40px;
   background: #4caf50;
   border: none;
-  border-radius: 10px;
   color: #fff;
   cursor: pointer;
   letter-spacing: 0.05em;

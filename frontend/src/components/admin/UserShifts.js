@@ -219,24 +219,45 @@ const Banner = styled.p`
 `;
 
 const Update = styled.button`
-  /* display: block;
-  &.hideUpdate {
-    display: none;
-  } */
+  background-color: #03783d;
+  cursor: pointer;
+  padding: 10px;
+  color: white;
+  &:hover {
+    background-color: #044527;
+  }
+  &:disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
 `;
 
 const Cancel = styled.button`
-  /* display: none;
-  &.updateTime {
-    display: block;
-  } */
+  background-color: #e64f5e;
+  cursor: pointer;
+  padding: 10px;
+  color: white;
+  &:hover {
+    background-color: #800000;
+  }
+  &:disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
 `;
 
 const Delete = styled.button`
-  /* display: block;
-  &.hideUpdate {
-    display: none;
-  } */
+  background-color: black;
+  cursor: pointer;
+  padding: 10px;
+  color: white;
+  &:hover {
+    background-color: gray;
+  }
+  &:disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
 `;
 
 const ButtonContainer = styled.div`
