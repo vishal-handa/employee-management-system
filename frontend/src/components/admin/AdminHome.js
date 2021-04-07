@@ -22,6 +22,7 @@ const AdminHome = () => {
   };
 
   useEffect(() => {
+    // getting all the shifts from the database and setting the redux state.
     fetch("/get-all-shifts")
       .then((res) => res.json())
       .then((res) => {
@@ -29,10 +30,13 @@ const AdminHome = () => {
           dispatch(receieveAllShifts(res.data));
         }
       });
+
+    // getting all the employee list from the database and setting the redux state
     fetch("/employee-list")
       .then((res) => res.json())
       .then((res) => dispatch(receieveEmployeeList(res.data)));
 
+    // getting all the cancelled shifts from the database and setting the redux state
     fetch("/get-cancelled-shifts")
       .then((res) => res.json())
       .then((res) => {

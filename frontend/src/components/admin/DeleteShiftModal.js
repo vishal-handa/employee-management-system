@@ -6,6 +6,8 @@ import moment from "moment";
 const DeleteShiftModal = ({ showModal, setShowModal, deleteData }) => {
   const [serverError, setServerError] = useState(false);
   const modalRef = useRef();
+
+  // function to set all the states to initial state when any part outside the modal is clicked
   const closeModal = (e) => {
     if (modalRef.current === e.target) {
       setShowModal(false);
@@ -13,6 +15,7 @@ const DeleteShiftModal = ({ showModal, setShowModal, deleteData }) => {
     }
   };
 
+  //function to set all the states to initial state when escape key is pressed.
   const keyPress = useCallback(
     (e) => {
       if (e.key === "Escape" && showModal) {
@@ -23,11 +26,13 @@ const DeleteShiftModal = ({ showModal, setShowModal, deleteData }) => {
     [setShowModal, showModal]
   );
 
+  //event handler for pressing the escape key
   useEffect(() => {
     document.addEventListener("keydown", keyPress);
     return () => document.removeEventListener("keydown", keyPress);
   }, [keyPress]);
 
+  // function to send the request to the server with delete shift data
   const handleDeleteShift = (ev) => {
     ev.preventDefault();
     fetch("/delete-user-shift", {

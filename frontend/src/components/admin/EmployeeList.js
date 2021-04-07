@@ -12,17 +12,22 @@ const EmployeeList = () => {
   const [list, setList] = useState([]);
   const history = useHistory();
   const dispatch = useDispatch();
+
+  //receive the employee list.
   useEffect(() => {
     fetch("/employee-list")
       .then((res) => res.json())
       .then((res) => dispatch(receieveEmployeeList(res.data)));
   }, []);
+
+  //getting the list of employees from the state.
   const temp = useSelector((state) => state.allEmployees.employees);
   // console.log(list);
   const openModal = () => {
     setShowModal((prev) => !prev);
   };
 
+  //function to archive the user in the database
   const handleArchiveStatus = (user) => {
     fetch("/archive-user", {
       method: "PUT",
@@ -38,6 +43,7 @@ const EmployeeList = () => {
       });
   };
 
+  //function to retire an employee in the database.
   const handleRetireStatus = (user) => {
     fetch("/retire-user", {
       method: "PUT",
@@ -53,22 +59,27 @@ const EmployeeList = () => {
       });
   };
 
+  //array methods to sort all users by their current status.
   const activeUsers = temp.filter((el) => el.currentStatus === "Active");
   const retiredUsers = temp.filter((el) => el.currentStatus === "Retired");
   const archivedUsers = temp.filter((el) => el.currentStatus === "Archived");
 
+  //function to go to the employee page
   const handleRowClick = (id) => {
     history.push(`/employee/${id}`);
   };
 
+  //function to set the list state by active users.
   const handleActive = () => {
     return setList(activeUsers);
   };
 
+  //function to set the list state by retired users.
   const handleRetired = () => {
     return setList(retiredUsers);
   };
 
+  //function to set the list state by archived users.
   const handleArchive = () => {
     return setList(archivedUsers);
   };

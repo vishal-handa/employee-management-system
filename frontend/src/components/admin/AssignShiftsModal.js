@@ -12,12 +12,15 @@ const AssignShiftModal = ({ showModal, setShowModal }) => {
   const empData = useSelector((state) => state.allShifts.users);
   // console.log(empData);
   const modalRef = useRef();
+
+  // function to set all the states to initial state when any part outside the modal is clicked
   const closeModal = (e) => {
     if (modalRef.current === e.target) {
       setShowModal(false);
     }
   };
 
+  //function to set all the states to initial state when escape key is pressed.
   const keyPress = useCallback(
     (e) => {
       if (e.key === "Escape" && showModal) {
@@ -27,6 +30,7 @@ const AssignShiftModal = ({ showModal, setShowModal }) => {
     [setShowModal, showModal]
   );
 
+  //event handler for pressing the escape key
   useEffect(() => {
     document.addEventListener("keydown", keyPress);
     return () => document.removeEventListener("keydown", keyPress);
@@ -34,6 +38,7 @@ const AssignShiftModal = ({ showModal, setShowModal }) => {
 
   const handleSubmit = (ev) => {
     ev.preventDefault();
+    //conditionally checking if entered time is appropriate or now. If it is, then use the fetch endpoint to update database.
     if (new Date(endTime).getTime() - new Date(startTime).getTime() <= 0) {
       setTimeError(true);
     } else {

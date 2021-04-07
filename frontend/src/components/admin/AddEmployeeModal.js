@@ -11,7 +11,7 @@ const AddEmployeeModal = ({ showModal, setShowModal }) => {
   const [status, setStatus] = useState();
 
   const modalRef = useRef();
-  // console.log(status);
+  // function to set all the states to initial state when any part outside the modal is clicked
   const closeModal = (e) => {
     if (modalRef.current === e.target) {
       setShowModal(false);
@@ -23,6 +23,7 @@ const AddEmployeeModal = ({ showModal, setShowModal }) => {
     }
   };
 
+  //function to set all the states to initial state when escape key is pressed.
   const keyPress = useCallback(
     (e) => {
       if (e.key === "Escape" && showModal) {
@@ -37,6 +38,7 @@ const AddEmployeeModal = ({ showModal, setShowModal }) => {
     [setShowModal, showModal]
   );
 
+  // function to send the request to the server with employee data
   const handleSubmit = (ev) => {
     ev.preventDefault();
     fetch("/add-new-employee", {
@@ -68,11 +70,12 @@ const AddEmployeeModal = ({ showModal, setShowModal }) => {
         setStatus(406);
       });
   };
-
+  //event handler for pressing the escape key
   useEffect(() => {
     document.addEventListener("keydown", keyPress);
     return () => document.removeEventListener("keydown", keyPress);
   }, [keyPress]);
+
   return (
     <>
       {showModal ? (

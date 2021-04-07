@@ -5,6 +5,7 @@ import moment from "moment";
 import Menu from "./Menu";
 
 const CancelledShiftsAdmin = () => {
+  //list of cancelled shifts from the state.
   const events = useSelector((state) => state.cancelled.shifts);
 
   return (
