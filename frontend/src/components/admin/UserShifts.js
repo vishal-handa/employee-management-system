@@ -109,7 +109,7 @@ const UserShifts = () => {
           <Button onClick={openModal}>+Add New Shifts</Button>
         </ButtonContainer>
 
-        <h1>Following are the assigned shifts </h1>
+        <H1>Following are the assigned shifts </H1>
         <table>
           <thead>
             <tr>
@@ -276,6 +276,11 @@ const Button = styled.button`
   &:hover {
     background-color: gray;
   }
+`;
+
+const H1 = styled.h1`
+  font-size: 1.5em;
+  padding: 10px;
 `;
 
 export default UserShifts;

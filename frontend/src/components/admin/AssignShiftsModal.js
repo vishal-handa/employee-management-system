@@ -200,17 +200,13 @@ const Form = styled.form`
 
 const Button = styled.button`
   height: 40px;
-  background: #4caf50;
-  border: none;
-  color: #fff;
+  background: transparent;
+  color: white;
   cursor: pointer;
-  letter-spacing: 0.05em;
-  outline: none;
+  padding: 0px 20px 0px 20px;
   margin-top: 20px;
   &:hover {
-    background: white;
-    color: black;
-    border: 2px solid black;
+    background-color: gray;
   }
 `;
 
