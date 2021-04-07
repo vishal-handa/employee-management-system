@@ -17,7 +17,7 @@ const CancelledShifts = () => {
           dispatch(receiveCancelledShifts(res.data));
         }
       });
-  }, []);
+  });
 
   const handleTakeShift = (shift) => {
     fetch("/take-cancelled-shift", {

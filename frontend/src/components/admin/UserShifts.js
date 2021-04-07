@@ -35,7 +35,7 @@ const UserShifts = () => {
           dispatch(receieveAllShifts(res.data));
         }
       });
-  }, []);
+  });
 
   const handleUpdate = (ev, theUser, theShift) => {
     setUpdateModal((prev) => !prev);

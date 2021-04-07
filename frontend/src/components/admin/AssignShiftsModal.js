@@ -65,7 +65,8 @@ const AssignShiftModal = ({ showModal, setShowModal }) => {
             setShiftType("");
             window.location.reload();
           }
-        });
+        })
+        .catch((err) => console.log(err));
     }
   };
 

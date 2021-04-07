@@ -40,7 +40,9 @@ const DeleteShiftModal = ({ showModal, setShowModal, deleteData }) => {
         if (res.status === 200) {
           setShowModal(false);
           window.location.reload();
-        } else setServerError(true);
+        } else {
+          window.alert("Server error. Please try again.");
+        }
       });
   };
 

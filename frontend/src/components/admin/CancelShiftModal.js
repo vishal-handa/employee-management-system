@@ -169,18 +169,4 @@ const Label = styled.label`
   padding: 10px 10px 0px 10px;
 `;
 
-const Input = styled.input`
-  margin: 10px;
-  height: 25px;
-  display: inline-block;
-  border: none;
-  border-bottom: 1px solid #ccc;
-  outline: none;
-  box-sizing: border-box;
-  text-align: left;
-  &.showError {
-    border: 2px solid red;
-  }
-`;
-
 export default CancelShiftModal;

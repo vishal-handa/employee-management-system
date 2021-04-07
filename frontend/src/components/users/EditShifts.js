@@ -22,9 +22,9 @@ const EditShifts = () => {
           dispatch(updateUserShifts(shifts));
         }
       });
-  }, []);
+  });
 
-  const handleCancellingShifts = (ev, object) => {
+  const handleCancellingShifts = (object) => {
     setCancelModal((prev) => !prev);
     setCancelData(object);
   };

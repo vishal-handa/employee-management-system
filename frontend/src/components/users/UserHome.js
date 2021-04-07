@@ -12,7 +12,7 @@ const UserHome = () => {
       <Container>
         <Section>
           <div>
-            <img src={emp} />
+            <img src={emp} alt="Banner" />
           </div>
           <div>
             <H1>

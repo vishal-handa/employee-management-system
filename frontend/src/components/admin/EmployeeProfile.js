@@ -26,7 +26,7 @@ const EmployeeProfile = () => {
         .then((res) => res.json())
         .then((res) => setTemp(res.data));
     }
-  }, [empDetails]);
+  }, [empDetails, id]);
   console.log(empDetails, temp);
 
   const sortFutureShifts = temp.filter(

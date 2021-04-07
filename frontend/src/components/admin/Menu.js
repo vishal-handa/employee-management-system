@@ -3,7 +3,7 @@ import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { setLogOut } from "../../actions";
 import { useDispatch } from "react-redux";
-import { BiNotepad, BiMailSend, BiUserCircle } from "react-icons/bi";
+import { BiNotepad, BiMailSend } from "react-icons/bi";
 import { IoIosPeople } from "react-icons/io";
 import { RiDashboardFill, RiLogoutCircleLine } from "react-icons/ri";
 import { CgUnavailable } from "react-icons/cg";

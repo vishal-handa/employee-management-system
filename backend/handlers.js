@@ -122,6 +122,20 @@ const AddNewEmployee = async (req, res) => {
   const _id = response._id;
   const client = await MongoClient(MONGO_URI, options);
   await client.connect();
+  let transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: EMAIL_ID,
+      pass: PASSWORD,
+    },
+  });
+  let mailOptions = {
+    from: "vishalhanda705@gmail.com",
+    to: response.email,
+    subject: "Register to your employee portal",
+    html: `<p>Hello ${response.fname},</p> <p>Your details have been added to our  system. Your employee ID is <strong>${_id}</strong>. Please go to our website, and register with your ID and the information you provided to access your employee portal.</p> <br/>
+    <p>Regards,</p><p>Vishal Handa</p><p>ACSD</p>`,
+  };
   try {
     const db = client.db("employee_system");
     const empCheck = await db.collection("all_employees").findOne({ _id });
@@ -136,10 +150,21 @@ const AddNewEmployee = async (req, res) => {
         currentStatus: "Active",
         joinDate: Date.now().toString(),
       });
-      res.status(200).json({ status: 200, Message: "Employee Added" });
+      transporter.sendMail(mailOptions, (err, data) => {
+        err
+          ? res.status(502).json({
+              status: 502,
+              data: err,
+              message: `Email not sent to ${response.email}`,
+            })
+          : res.status(200).json({
+              status: 200,
+              data,
+              message: "Employee added and email sent!",
+            });
+      });
     }
     client.close();
-    console.log(empCheck);
   } catch (err) {
     console.log(err.stack);
     res.status(500).json({ status: 500, message: err.message });
