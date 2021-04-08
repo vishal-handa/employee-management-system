@@ -8,6 +8,8 @@ const UpdateShiftModal = ({ showModal, setShowModal, updateData }) => {
   const [endTime, setEndTime] = useState(0);
   const [timeError, setTimeError] = useState(false);
   const modalRef = useRef();
+
+  // function to set all the states to initial state when any part outside the modal is clicked
   const closeModal = (e) => {
     if (modalRef.current === e.target) {
       setShowModal(false);
@@ -17,6 +19,7 @@ const UpdateShiftModal = ({ showModal, setShowModal, updateData }) => {
     }
   };
 
+  //function to set all the states to initial state when escape key is pressed.
   const keyPress = useCallback(
     (e) => {
       if (e.key === "Escape" && showModal) {
@@ -30,11 +33,13 @@ const UpdateShiftModal = ({ showModal, setShowModal, updateData }) => {
     [setShowModal, showModal]
   );
 
+  //event handler for pressing the escape key
   useEffect(() => {
     document.addEventListener("keydown", keyPress);
     return () => document.removeEventListener("keydown", keyPress);
   }, [keyPress]);
 
+  // function to send the request to the server with update shift data.
   const handleUpdate = (ev) => {
     ev.preventDefault();
     if (new Date(endTime).getTime() - new Date(startTime).getTime() <= 0) {
@@ -42,8 +47,6 @@ const UpdateShiftModal = ({ showModal, setShowModal, updateData }) => {
     } else {
       const shiftStart = new Date(startTime).getTime().toString();
       const shiftEnd = new Date(endTime).getTime().toString();
-
-      //   console.log(updateData);
 
       fetch("/update-user-shift", {
         method: "PUT",

@@ -10,7 +10,8 @@ const UpdatePasswordModal = ({ showModal, setShowModal, profile }) => {
   const [passwordError, setPasswordError] = useState(false);
   const [status, setStatus] = useState(0);
   const [error, setError] = useState("");
-  // console.log(status);
+
+  // function to set all the states to initial state when any part outside the modal is clicked
   const closeModal = (e) => {
     if (modalRef.current === e.target) {
       setShowModal(false);
@@ -23,6 +24,7 @@ const UpdatePasswordModal = ({ showModal, setShowModal, profile }) => {
     }
   };
 
+  //function to set all the states to initial state when escape key is pressed.
   const keyPress = useCallback(
     (e) => {
       if (e.key === "Escape" && showModal) {
@@ -38,6 +40,7 @@ const UpdatePasswordModal = ({ showModal, setShowModal, profile }) => {
     [setShowModal, showModal]
   );
 
+  // function to send the request to the server to update password.
   const handleSubmit = (ev) => {
     ev.preventDefault();
     if (confirmPassword !== newpassword) {
@@ -69,10 +72,12 @@ const UpdatePasswordModal = ({ showModal, setShowModal, profile }) => {
     }
   };
 
+  //event handler for pressing the escape key
   useEffect(() => {
     document.addEventListener("keydown", keyPress);
     return () => document.removeEventListener("keydown", keyPress);
   }, [keyPress]);
+
   return (
     <>
       {showModal ? (

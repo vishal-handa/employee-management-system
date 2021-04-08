@@ -11,6 +11,8 @@ const UserLogin = () => {
   const [error, setError] = useState(false);
   let history = useHistory();
   const dispatch = useDispatch();
+
+  // function to login and if login returns correct, set the appropriate redux states.
   const handleSubmit = (ev) => {
     ev.preventDefault();
     fetch("/userlogin", {

@@ -42,6 +42,7 @@ const App = () => {
           <Route path="/new-user">
             <NewUser />
           </Route>
+          {/* following routing methods depend upon private routing. If the logged in state is true,only then following components can be routed. If not, then they are redirected to the home page or landing page. */}
           {loginCheck === true ? (
             <Route path="/adminHome">
               <AdminHome />

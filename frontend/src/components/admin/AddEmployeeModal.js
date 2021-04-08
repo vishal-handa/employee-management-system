@@ -70,6 +70,7 @@ const AddEmployeeModal = ({ showModal, setShowModal }) => {
         setStatus(406);
       });
   };
+
   //event handler for pressing the escape key
   useEffect(() => {
     document.addEventListener("keydown", keyPress);

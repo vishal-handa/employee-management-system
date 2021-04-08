@@ -37,7 +37,7 @@ const UserShifts = () => {
       });
   });
 
-  const handleUpdate = (ev, theUser, theShift) => {
+  const handleUpdate = (theUser, theShift) => {
     setUpdateModal((prev) => !prev);
     setUpdateData({
       id: theUser.id,
@@ -47,16 +47,17 @@ const UserShifts = () => {
     });
   };
 
-  const handleCancel = (ev, theshift) => {
+  const handleCancel = (theshift) => {
     setCancelModal((prev) => !prev);
     setCancelData(theshift);
   };
 
-  const handleDelete = (ev, theshift) => {
+  const handleDelete = (theshift) => {
     setDeleteModal((prev) => !prev);
     setDeleteData(theshift);
   };
 
+  //functions to sort the shifts according to upcoming, past and all shifts.
   const sortFutureShifts = allUserShifts.map((elem) => {
     return {
       ...elem,
@@ -83,6 +84,7 @@ const UserShifts = () => {
 
   const sortAllShifts = useSelector((state) => state.allShifts.users);
 
+  //functions to set usersAndShift state for viewing.
   const UpcomingShifts = () => {
     return setUsersAndShifts(sortFutureShifts);
   };

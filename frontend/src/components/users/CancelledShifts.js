@@ -9,6 +9,8 @@ const CancelledShifts = () => {
   const dispatch = useDispatch();
   const events = useSelector((state) => state.cancelled.shifts);
   const ID = useSelector((state) => state.user.user.id);
+
+  //getting cancelled shifts
   useEffect(() => {
     fetch("/get-cancelled-shifts")
       .then((res) => res.json())
@@ -19,6 +21,7 @@ const CancelledShifts = () => {
       });
   });
 
+  //function to take cancelled shift by the logged in user.
   const handleTakeShift = (shift) => {
     fetch("/take-cancelled-shift", {
       method: "POST",

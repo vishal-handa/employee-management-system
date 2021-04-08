@@ -6,6 +6,8 @@ import moment from "moment";
 const CancelModal = ({ showModal, setShowModal, cancelData }) => {
   const [serverError, setServerError] = useState(false);
   const modalRef = useRef();
+
+  // function to set all the states to initial state when any part outside the modal is clicked
   const closeModal = (e) => {
     if (modalRef.current === e.target) {
       setShowModal(false);
@@ -13,6 +15,7 @@ const CancelModal = ({ showModal, setShowModal, cancelData }) => {
     }
   };
 
+  //function to set all the states to initial state when escape key is pressed.
   const keyPress = useCallback(
     (e) => {
       if (e.key === "Escape" && showModal) {
@@ -23,11 +26,13 @@ const CancelModal = ({ showModal, setShowModal, cancelData }) => {
     [setShowModal, showModal]
   );
 
+  //event handler for pressing the escape key
   useEffect(() => {
     document.addEventListener("keydown", keyPress);
     return () => document.removeEventListener("keydown", keyPress);
   }, [keyPress]);
 
+  //// function to send the request to the server with cancel shift data
   const handleCancelShift = (ev) => {
     ev.preventDefault();
     fetch("/cancel-user-shift", {

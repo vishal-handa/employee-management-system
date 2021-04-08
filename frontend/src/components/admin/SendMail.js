@@ -15,6 +15,7 @@ const SendMail = () => {
 
   const empShifts = useSelector((state) => state.allShifts.users);
 
+  //handleShiftFilter filters the user shifts between a set of dates. An offset of 1440000 is required because the date input gives GMT date. If it is converted to local time, there is a 4 hour difference. So to have the date starting at midnight of the selected local date, 4 hours are added to the "new Date()" functions.
   const handleShiftFilter = () => {
     let dateStart = new Date(
       new Date(startDate).getTime() + 14400000
@@ -39,7 +40,7 @@ const SendMail = () => {
       })
       .filter((elem) => elem.userProfile.shifts.length > 0);
 
-    // console.log(shiftFilter);
+    // this function is required to add the email of the employees to the employee profiles with their respective emails.
     const shiftsWithEmails = shiftFilter.map((elem) => {
       return {
         ...elem,
@@ -51,7 +52,7 @@ const SendMail = () => {
     });
     setFilteredShifts(shiftsWithEmails);
   };
-  // console.log(filteredShifts);
+  // Following function is used to send mass emails out to the employees on the click of the button.
   const handleEmailFunction = () => {
     console.log(filteredShifts);
     fetch("/send-emails", {

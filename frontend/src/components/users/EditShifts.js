@@ -29,6 +29,7 @@ const EditShifts = () => {
     setCancelData(object);
   };
 
+  //functions to sort user shifts by upcoming, past and all shifts.
   const sortFutureShifts = shifts.filter((elem) => {
     if (new Date(parseInt(elem.startTime)) > Date.now()) {
       return elem;

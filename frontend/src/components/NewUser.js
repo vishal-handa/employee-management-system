@@ -13,6 +13,7 @@ const NewUser = () => {
 
   let history = useHistory();
 
+  //following functions registers a new user and their profile is created in the server.
   const handleRegister = (ev) => {
     ev.preventDefault();
     fetch("/register-user", {

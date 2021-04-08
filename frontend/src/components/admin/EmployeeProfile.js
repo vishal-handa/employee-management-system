@@ -12,6 +12,8 @@ const EmployeeProfile = () => {
   const empDetails = useSelector((state) =>
     state.allEmployees.employees.find((el) => el._id === id)
   );
+
+  //following useEffect runs only when id or empDetails are updated. Based on currentStatus that the employee has, employee shifts are fetched from the server. Server action is required here to fetch the most update data.
   useEffect(() => {
     if (empDetails.currentStatus === "Active") {
       fetch(`/get-user-shifts/${id}`)
@@ -29,6 +31,7 @@ const EmployeeProfile = () => {
   }, [empDetails, id]);
   console.log(empDetails, temp);
 
+  //employee shifts are sorted here with upcoming, past and all shifts filters.
   const sortFutureShifts = temp.filter(
     (el) => new Date(parseInt(el.startTime)) > Date.now()
   );
@@ -39,6 +42,7 @@ const EmployeeProfile = () => {
 
   const sortAllShifts = temp;
 
+  //following functions set the empShifts state with appropriate filtered data
   const UpcomingShifts = () => {
     return setEmpShifts(sortFutureShifts);
   };

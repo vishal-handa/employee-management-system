@@ -16,6 +16,7 @@ const UserProfile = () => {
   const userID = useSelector((state) => state.user.user.id);
   const profile = useSelector((state) => state.userDetails.profile);
 
+  //functions to open different modals
   const openDetailsModal = () => {
     setShowDetailsModal((prev) => !prev);
   };

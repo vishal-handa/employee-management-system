@@ -9,6 +9,7 @@ const UpdateDetailsModal = ({ showModal, setShowModal, profile }) => {
   const [status, setStatus] = useState(0);
   const [error, setError] = useState("");
 
+  // function to set all the states to initial state when any part outside the modal is clicked
   const closeModal = (e) => {
     if (modalRef.current === e.target) {
       setShowModal(false);
@@ -19,6 +20,7 @@ const UpdateDetailsModal = ({ showModal, setShowModal, profile }) => {
     }
   };
 
+  //function to set all the states to initial state when escape key is pressed.
   const keyPress = useCallback(
     (e) => {
       if (e.key === "Escape" && showModal) {
@@ -32,11 +34,13 @@ const UpdateDetailsModal = ({ showModal, setShowModal, profile }) => {
     [setShowModal, showModal]
   );
 
+  //event handler for pressing the escape key
   useEffect(() => {
     document.addEventListener("keydown", keyPress);
     return () => document.removeEventListener("keydown", keyPress);
   }, [keyPress]);
 
+  // function to send the request to the server to update phone number.
   const handleSubmit = (ev) => {
     ev.preventDefault();
     fetch("/update-contact-info", {
