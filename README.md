@@ -80,7 +80,7 @@ With these steps your application will run smoothly! Congratulations!
 ### Employee portal
 
 <img src="images/userhome.png">
-<img src="images/usercalendar.jpg">
+<img src="images/usercalendar.png">
 <img src="images/usershifts.png">
 <img src="images/userprofile.png">
 
