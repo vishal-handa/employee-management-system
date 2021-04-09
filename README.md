@@ -76,3 +76,17 @@ With these steps your application will run smoothly! Congratulations!
    6. Putting in Retire and archive dates in the employee data.
 
 ## Images
+
+### Employee portal
+
+<img src="images/userhome.png">
+<img src="images/usercalendar.jpg">
+<img src="images/usershifts.png">
+<img src="images/userprofile.png">
+
+### Admin portal
+
+<img src="images/adminhome.png">
+<img src="images/adminemployess.png">
+<img src="images/adminoneemployee.png">
+<img src="images/adminemails.png">
