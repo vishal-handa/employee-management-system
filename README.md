@@ -28,4 +28,9 @@ Environment variables are required in the backend directory to make sure that ad
 1. **Mongo URI**- You need a mongodb URI to connect to your database to ensure the proper functioning of your application.
 2. **Email ID and password of your email account**-This is needed to make the email feature run properly.
 
-## Running of the application.
+## Running of the application
+
+1. Do yarn install in both <code>frontend</code> and <code>backend</code> folders.
+2. In the package.json file of <code>frontend</code> folder, add <code>"start": "react-scripts start"</code>
+3. In the package.json file of <code>backend</code> folder, add <code>"dev": "nodemon server.js"</code>
+4. Go to the <code>frontend</code> and <code>backend</code> directories in two separate terminals and run <code>yarn start</code> to run the frontend server, and <code>yarn dev</code> to run the backend server.
