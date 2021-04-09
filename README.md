@@ -7,11 +7,11 @@ Employee management system is a multi-user react app that is used to manage the 
 ## Packages used
 
 1. **Employee**
-   1.1) react-redux
-   1.2) moment
-   1.3) react-big-calendar
-   1.4) react-icons
-   1.5) react-tooltip
+   1a) react-redux
+   1b) moment
+   1c) react-big-calendar
+   1d) react-icons
+   1e) react-tooltip
 
 2. **Admin**
    2.1) bcrypt
