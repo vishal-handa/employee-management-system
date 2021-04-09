@@ -50,4 +50,26 @@ With these steps your application will run smoothly! Congratulations!
 2. **Admin**
    1. Ability to see all the employees sorted with their status.
    2. Ability to see an employee profile and their shifts.
-   3. Ability to create a new employee from which that particular employee can register
+   3. Ability to create a new employee from which that particular new employee can register.
+   4. Ability to create a new shifts for all active employees.
+   5. Ability to change the date and time for any upcoming shifts, with cancel and delete functionality.
+   6. Ability to change the current status of an employee to retired or archived.
+   7. Ability to change admin password.
+   8. Ability to send out mass emails to invigilators for their upcoming shifts within a particular date range.
+
+## Upcoming features
+
+1. **Employee**
+
+   1. Swap functionality where the users can swap their shifts among each other.
+   2. Contact form the invigilators to send emails to the admins with their queries straight from their portal.
+   3. Calculation method of number of hours worked within a selected date range.
+   4. Pagination for shifts page.
+
+2. **Admin**
+   1. Addition of different admin roles where some functionality will not be present for sub-admins.
+   2. Making new admin form to add sub admins.
+   3. Filter bar to for employee list to filter the list by name, employee ID, or date of joining.
+   4. Filter bar for employee shifts list to filter the shifts by particular dates, by name or employee IDs.
+   5. Pagination for employee shifts and employee list pages.
+   6. Putting in Retire and archive dates in the employee data.
