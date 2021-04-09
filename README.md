@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Employee management system is a multi-user react app that is used to manage the organisational tasks on-campus invigilators for both admin and employee side.
+Employee management system is a multi-user react app that is used to manage the organisational tasks of on-campus invigilators' shifts for both admin and employee side.
 
 ## Packages used
 
@@ -21,11 +21,11 @@ Employee management system is a multi-user react app that is used to manage the 
    4. mongodb
    5. nodemailer
 
-## Environment variables requirement
+## Environment variables
 
 Environment variables are required in the backend directory to make sure that admin side part of the application run properly. Two main types of environment variables that are needed are given below. For the format of the variables, please see <code>handlers.js</code> in the backend folder.
 
-1. **Mongo URI**- You need a mongodb URI to connect to your database to ensure the proper functioning of your application. For the format of the variable, please see <code>handlers.js</code> in the baclend folder.
+1. **Mongo URI**- You need a mongodb URI to connect to your database to ensure the proper functioning of your application. For the format of the variables, please see <code>handlers.js</code> in the backend folder.
 2. **Email ID and password of your email account**-This is needed to make the email feature run properly.
 
 ## Running of the application
@@ -50,7 +50,7 @@ With these steps your application will run smoothly! Congratulations!
 2. **Admin**
    1. Ability to see all the employees sorted with their status.
    2. Ability to see an employee profile and their shifts.
-   3. Ability to create a new employee from which that particular new employee can register.
+   3. Ability to create a new employee from which that particular new employee can register after receiving the email from the admin of their employee ID.
    4. Ability to create a new shifts for all active employees.
    5. Ability to change the date and time for any upcoming shifts, with cancel and delete functionality.
    6. Ability to change the current status of an employee to retired or archived.
@@ -65,6 +65,7 @@ With these steps your application will run smoothly! Congratulations!
    2. Contact form the invigilators to send emails to the admins with their queries straight from their portal.
    3. Calculation method of number of hours worked within a selected date range.
    4. Pagination for shifts page.
+   5. 48 hours of maximum time limit from the shift time to cancel the shift.
 
 2. **Admin**
    1. Addition of different admin roles where some functionality will not be present for sub-admins.
@@ -73,3 +74,5 @@ With these steps your application will run smoothly! Congratulations!
    4. Filter bar for employee shifts list to filter the shifts by particular dates, by name or employee IDs.
    5. Pagination for employee shifts and employee list pages.
    6. Putting in Retire and archive dates in the employee data.
+
+## Images
