@@ -125,7 +125,7 @@ const AdminHome = () => {
           </GridElement>
           <GridElement style={{ backgroundColor: "#63AA30" }}>
             <div>
-              <h1> TAKE CANCELLED SHIFTS</h1>
+              <h1>CANCELLED SHIFTS</h1>
               <p>
                 Clicking on the "Cancelled Shifts" menu will take you to the
                 page where you can see all the shifts that are cancelled by your
