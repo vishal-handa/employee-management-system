@@ -74,6 +74,7 @@ With these steps your application will run smoothly! Congratulations!
    4. Filter bar for employee shifts list to filter the shifts by particular dates, by name or employee IDs.
    5. Pagination for employee shifts and employee list pages.
    6. Putting in Retire and archive dates in the employee data.
+   7. Sorting shifts by date and time, and present them in calendar format.
 
 ## Images
 
