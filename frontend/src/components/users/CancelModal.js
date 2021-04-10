@@ -6,7 +6,7 @@ import moment from "moment";
 const CancelModal = ({ showModal, setShowModal, cancelData }) => {
   const [serverError, setServerError] = useState(false);
   const modalRef = useRef();
-
+  console.log(cancelData);
   // function to set all the states to initial state when any part outside the modal is clicked
   const closeModal = (e) => {
     if (modalRef.current === e.target) {

@@ -44,7 +44,7 @@ const AdminHome = () => {
           dispatch(receiveCancelledShifts(res.data));
         }
       });
-  });
+  }, []);
 
   return (
     <Wrapper>

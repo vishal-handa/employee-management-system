@@ -37,7 +37,7 @@ const UserProfile = () => {
           dispatch(receiveUserDetails(res.data));
         }
       });
-  });
+  }, []);
   return (
     <Wrapper>
       <Menu />

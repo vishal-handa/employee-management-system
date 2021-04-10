@@ -23,12 +23,12 @@ Employee management system is a multi-user react app that is used to manage the 
 
 ## Environment variables
 
-Environment variables are required in the backend directory to make sure that admin side part of the application run properly. Two main types of environment variables that are needed are given below. For the format of the variables, please see <code>handlers.js</code> in the backend folder.
+Environment variables are required in the backend directory to make sure that admin part of the application runs properly. Two main types of environment variables that are needed are given below. For the format of the variables, please see <code>handlers.js</code> in the backend folder.
 
-1. **Mongo URI**- You need a mongodb URI to connect to your database to ensure the proper functioning of your application. For the format of the variables, please see <code>handlers.js</code> in the backend folder.
+1. **Mongo URI**- You need a mongodb URI to connect to your database to ensure the proper functioning of your application.
 2. **Email ID and password of your email account**-This is needed to make the email feature run properly.
 
-## Running of the application
+## Running the application
 
 1. Do yarn install in both <code>frontend</code> and <code>backend</code> folders.
 2. In the package.json file of <code>frontend</code> folder, add <code>"start": "react-scripts start"</code>.

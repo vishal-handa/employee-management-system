@@ -22,7 +22,7 @@ const EditShifts = () => {
           dispatch(updateUserShifts(shifts));
         }
       });
-  });
+  }, []);
 
   const handleCancellingShifts = (object) => {
     setCancelModal((prev) => !prev);
@@ -91,7 +91,7 @@ const EditShifts = () => {
                   </td>
                   <td>
                     <Cancel
-                      onClick={(ev) => handleCancellingShifts(ev, elem)}
+                      onClick={() => handleCancellingShifts(elem)}
                       disabled={
                         new Date(parseInt(elem.startTime)) < Date.now()
                           ? true

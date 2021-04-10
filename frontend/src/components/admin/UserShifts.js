@@ -35,7 +35,7 @@ const UserShifts = () => {
           dispatch(receieveAllShifts(res.data));
         }
       });
-  });
+  }, []);
 
   const handleUpdate = (theUser, theShift) => {
     setUpdateModal((prev) => !prev);
@@ -140,7 +140,7 @@ const UserShifts = () => {
                       <td>{moment(parseInt(el.endTime)).format("llll")}</td>
                       <td>
                         <Update
-                          onClick={(ev) => handleUpdate(ev, elem, el)}
+                          onClick={() => handleUpdate(elem, el)}
                           disabled={
                             new Date(parseInt(el.startTime)) < Date.now()
                               ? true
@@ -152,7 +152,7 @@ const UserShifts = () => {
                       </td>
                       <td>
                         <Cancel
-                          onClick={(ev) => handleCancel(ev, el)}
+                          onClick={() => handleCancel(el)}
                           disabled={
                             new Date(parseInt(el.startTime)) < Date.now()
                               ? true
@@ -164,7 +164,7 @@ const UserShifts = () => {
                       </td>
                       <td>
                         <Delete
-                          onClick={(ev) => handleDelete(ev, el)}
+                          onClick={() => handleDelete(el)}
                           disabled={
                             new Date(parseInt(el.startTime)) < Date.now()
                               ? true

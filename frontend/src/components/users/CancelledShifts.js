@@ -19,7 +19,7 @@ const CancelledShifts = () => {
           dispatch(receiveCancelledShifts(res.data));
         }
       });
-  });
+  }, []);
 
   //function to take cancelled shift by the logged in user.
   const handleTakeShift = (shift) => {
@@ -70,7 +70,7 @@ const CancelledShifts = () => {
                       {moment(parseInt(elem.endTime)).local().format("LLLL")}
                     </td>
                     <td>
-                      <button
+                      <TakeShift
                         onClick={() => handleTakeShift(elem)}
                         disabled={
                           new Date(parseInt(elem.startTime)).getTime() <
@@ -82,7 +82,7 @@ const CancelledShifts = () => {
                         }
                       >
                         Take Shift
-                      </button>
+                      </TakeShift>
                     </td>
                   </tr>
                 );
@@ -120,6 +120,20 @@ const Banner = styled.p`
   padding: 50px 0px 50px 10px;
   font-size: 3em;
   font-weight: 900;
+`;
+
+const TakeShift = styled.button`
+  background-color: #03783d;
+  cursor: pointer;
+  padding: 10px;
+  color: white;
+  &:hover {
+    background-color: #044527;
+  }
+  &:disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
 `;
 
 export default CancelledShifts;
