@@ -75,6 +75,7 @@ With these steps your application will run smoothly! Congratulations!
    5. Pagination for employee shifts and employee list pages.
    6. Putting in retire and archive dates in the employee data.
    7. Sorting shifts by date and time, and present them in calendar format.
+   8. Password recovery.
 
 ## Images
 
