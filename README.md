@@ -41,7 +41,7 @@ With these steps your application will run smoothly! Congratulations!
 
 1. **Employee**
 
-   1. Ability to see shifts in a calendar format
+   1. Ability to see shifts in a calendar format.
    2. Ability to see shifts in tabular and sorted format with additional features of cancelling the shift.
    3. Ability to take cancelled shifts from the list of cancelled shifts.
    4. Ability to see your personal profile, and change contact details and password.
@@ -62,18 +62,18 @@ With these steps your application will run smoothly! Congratulations!
 1. **Employee**
 
    1. Swap functionality where the users can swap their shifts among each other.
-   2. Contact form the invigilators to send emails to the admins with their queries straight from their portal.
+   2. Contact form for the invigilators to send emails to the admins with their queries straight from their portal.
    3. Calculation method of number of hours worked within a selected date range.
    4. Pagination for shifts page.
    5. 48 hours of maximum time limit from the shift time to cancel the shift.
 
 2. **Admin**
    1. Addition of different admin roles where some functionality will not be present for sub-admins.
-   2. Making new admin form to add sub admins.
-   3. Filter bar to for employee list to filter the list by name, employee ID, or date of joining.
+   2. Making new admin form to add sub-admins.
+   3. Filter bar for employee list to filter the list by name, employee ID, or date of joining.
    4. Filter bar for employee shifts list to filter the shifts by particular dates, by name or employee IDs.
    5. Pagination for employee shifts and employee list pages.
-   6. Putting in Retire and archive dates in the employee data.
+   6. Putting in retire and archive dates in the employee data.
    7. Sorting shifts by date and time, and present them in calendar format.
 
 ## Images
