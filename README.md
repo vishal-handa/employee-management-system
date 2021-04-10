@@ -68,6 +68,7 @@ With these steps your application will run smoothly! Congratulations!
    5. 48 hours of maximum time limit from the shift time to cancel the shift.
 
 2. **Admin**
+
    1. Addition of different admin roles where some functionality will not be present for sub-admins.
    2. Making new admin form to add sub-admins.
    3. Filter bar for employee list to filter the list by name, employee ID, or date of joining.
@@ -76,6 +77,10 @@ With these steps your application will run smoothly! Congratulations!
    6. Putting in retire and archive dates in the employee data.
    7. Sorting shifts by date and time, and present them in calendar format.
    8. Password recovery.
+
+3. **General**
+   1. Make the app responsive.
+   2. Have support for multiple languages.
 
 ## Images
 
