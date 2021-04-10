@@ -76,10 +76,6 @@ With these steps your application will run smoothly! Congratulations!
    6. Putting in retire and archive dates in the employee data.
    7. Sorting shifts by date and time, and present them in calendar format.
 
-## Video
-
-Youtube:- https://www.youtube.com/watch?v=8Rj6cC7cLfg
-
 ## Images
 
 ### Employee portal
